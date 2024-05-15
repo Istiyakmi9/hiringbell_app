@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hiringbell/pages/findFriends/findFriends_page.dart';
-import 'package:hiringbell/pages/home/widgets/home_indexpage.dart';
+import 'package:hiringbell/pages/home/home_page.dart';
 import 'package:hiringbell/pages/profile/profile_page.dart';
 
-class ScreenManager extends StatelessWidget {
+class PageManager extends StatelessWidget {
   int index;
-  ScreenManager({super.key, required this.index});
+  PageManager({super.key, required this.index});
 
   Widget getScreen() {
     Widget widget;
@@ -17,7 +17,7 @@ class ScreenManager extends StatelessWidget {
         widget = const ProfilePage();
         break;
       default:
-        widget = const HomeIndexPage();
+        widget = const HomePage();
         break;
     }
 
