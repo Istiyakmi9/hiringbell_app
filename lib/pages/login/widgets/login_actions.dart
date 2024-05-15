@@ -32,25 +32,25 @@ class LoginActions extends StatelessWidget {
         onPressed: () {
           login.onSubmitted();
         },
-        label: !login.isSubmitted.value
+        label: login.isSubmitted.value
             ? const Text(
-                "Sign in",
+                "Please wait...",
                 style: TextStyle(color: Colors.white),
               )
             : const Text(
-                "Please wait...",
+                "Sign in",
                 style: TextStyle(color: Colors.white),
               ),
-        icon: !login.isSubmitted.value
-            ? const Icon(
-                Icons.rocket_launch_rounded,
-                color: Colors.white,
-              )
-            : SizedBox.fromSize(
+        icon: login.isSubmitted.value
+            ? SizedBox.fromSize(
                 size: const Size(20, 20),
                 child: const CircularProgressIndicator(
                   color: Colors.white,
                 ),
+              )
+            : const Icon(
+                Icons.rocket_launch_rounded,
+                color: Colors.white,
               ),
       ),
     );

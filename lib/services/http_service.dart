@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/api_response.dart';
 import 'package:hiringbell/models/user.dart';
@@ -52,6 +53,7 @@ class HttpService extends GetConnect {
 
   Future<dynamic> httpGet(String url) async {
     var apiUrl = Uri.parse(getBaseUrl + url);
+    debugPrint("Page url: $apiUrl");
     final response = await get('$apiUrl', headers: header());
     if (response.status.isOk) {
       var body = ApiResponse.fromJson(response.body);
@@ -77,11 +79,11 @@ class HttpService extends GetConnect {
       var body = ApiResponse.fromJson(response.body);
       User? user = User.fromJson(body.responseBody["UserDetail"]);
 
-      if(user.email == null) {
+      if (user.email == null) {
         return "fail";
       } else {
         setToken = user.token!;
-        Util util = Util.util;
+        Util util = Util.getInstance();
         util.setUserDetail(body.responseBody["UserDetail"]);
       }
 

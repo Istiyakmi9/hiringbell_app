@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:hiringbell/pages/login/login_controller.dart';
-import 'package:hiringbell/pages/login/widgets/login_actions.dart';
 import 'package:hiringbell/pages/login/widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

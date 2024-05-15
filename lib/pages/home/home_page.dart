@@ -1,12 +1,13 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/models/navigate.dart';
 import 'package:hiringbell/pages/home/home_controller.dart';
-import 'package:hiringbell/pages/home/widgets/home_indexpage.dart';
-import 'package:hiringbell/pages/home/widgets/screen_manager.dart';
+import 'package:hiringbell/pages/home/widgets/home_cards.dart';
+import 'package:hiringbell/utilities/Util.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,50 +15,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var home = Get.put(HomeController());
+  Util util = Util.getInstance();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    debugPrint("Home page loaded...");
+    super.initState();
+    home.onRefresh();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(home.user.firstName),
-            const Text("center"),
-            IconButton(
-              onPressed: () {
-                Get.offAllNamed(Navigate.login);
-              },
-              icon: const Icon(Icons.power_settings_new_outlined),
-            )
-          ],
-        ),
-      ),
-      body: RefreshIndicator(
+    var home = Get.put(HomeController());
+
+    return Obx(
+      () => RefreshIndicator(
         onRefresh: home.onRefresh,
-        child: Obx(
-          () => ScreenManager(index: home.selectedIndex.value),
-        ),
-      ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_alt_outlined),
-              label: 'Friends',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.portrait_sharp),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: home.selectedIndex.value,
-          selectedItemColor: Colors.amber[800],
-          onTap: (index) => {home.onItemTapped(index)},
+        child: Container(
+          color: Colors.black12,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              home.isHomepageReady.value
+                  ? home.posts.value.isNotEmpty
+                      ? HomeCards()
+                      : const Center(
+                          child: Text("No record found"),
+                        )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    )
+            ],
+          ),
         ),
       ),
     );

@@ -60,7 +60,6 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   controller: login.usernameController,
-                  autofocus: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     filled: true,

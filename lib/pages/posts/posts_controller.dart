@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/models/files.dart';
-import 'package:hiringbell/models/posts.dart';
-import 'package:hiringbell/models/user.dart';
-import 'package:hiringbell/services/http_service.dart';
-import 'package:hiringbell/utilities/Util.dart';
+import 'package:hiringbell/models/navigate.dart';
+import 'package:hiringbell/pages/job_post/job_post_page.dart';
 
-class HomeController extends GetxController {
+import '../../models/files.dart';
+import '../../models/posts.dart';
+import '../../models/user.dart';
+import '../../services/http_service.dart';
+import '../../utilities/Util.dart';
+
+class PostsController extends GetxController {
   var count = 0.obs;
   var selectedIndex = 0.obs;
   var isHomepageReady = false.obs;
@@ -126,6 +128,10 @@ class HomeController extends GetxController {
     }
 
     return color;
+  }
+
+  loadJobPostPage() {
+    Get.to(const JobPostPage());
   }
 
   @override

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Util {
   static const userDetail = "user";
 
-  static final Util util = Util._internal();
   static SharedPreferences? _prefs;
 
   static Future<void> init(SharedPreferences sharedPreferences) async {
@@ -23,7 +23,7 @@ class Util {
   }
 
   static Util getInstance() {
-    return util;
+    return Util._internal();
   }
 
   void setUserDetail(dynamic user) {
@@ -43,9 +43,49 @@ class Util {
       var user = _prefs!.get(userDetail) as String;
       dynamic result = jsonDecode(user);
       return User.fromJson(result);
-    } catch(e) {
+    } catch (e) {
       return User();
     }
+  }
+
+  ImageProvider<Object> getImageProvider(String imageUrl) {
+    Image image = getImage(imageUrl);
+    return image.image;
+  }
+
+  Widget getImageWidget(String imageUrl) {
+    return getImage(imageUrl);
+  }
+
+  Image getImage(String imageUrl) {
+    Image image = Image.asset("assets/user.png");
+    if (imageUrl.isEmpty) {
+      return image;
+    }
+
+    try {
+      image = Image.network(
+        imageUrl,
+        fit: BoxFit.fill,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      image = Image.asset("assets/.svg");
+      debugPrint('Fail to load image');
+    }
+
+    return image;
   }
 
   Util._internal();

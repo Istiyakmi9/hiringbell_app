@@ -18,7 +18,6 @@ class LoginController extends GetxController {
   User user = User();
 
   onSubmitted() {
-    debugPrint("Calling api");
     isSubmitted(true);
 
     if (formKey.currentState!.validate()) {
@@ -29,24 +28,22 @@ class LoginController extends GetxController {
           "Mobile": null
         }).then((userData) {
           if (userData == "success") {
+            isSubmitted(false);
             Fluttertoast.showToast(msg: "Logged in successfully");
-            Get.offAllNamed(Navigate.home,
-                predicate: (route) => Get.currentRoute == Navigate.home);
+            Get.offAllNamed(Navigate.homeLayout,
+                predicate: (route) => Get.currentRoute == Navigate.homeLayout);
             debugPrint("Success");
           } else {
             Fluttertoast.showToast(
                 msg: "Fail to login. Please check your detail.");
             debugPrint("Fail");
+            isSubmitted(false);
           }
-
-          isSubmitted(false);
         });
       } catch (e) {
         isSubmitted(false);
       }
     }
-
-    isSubmitted(false);
   }
 
   validateUserName(String? username) {
@@ -70,7 +67,7 @@ class LoginController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     isSubmitted = false.obs;
-    Util util = Util.util;
+    Util util = Util.getInstance();
     user = util.getUserDetail();
 
     usernameController.text = "istiyaq.4game@gmail.com";

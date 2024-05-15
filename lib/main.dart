@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:hiringbell/models/navigate.dart';
 import 'package:hiringbell/pages/findFriends/findFriends_page.dart';
 import 'package:hiringbell/pages/home/home_page.dart';
+import 'package:hiringbell/pages/job_post/job_post_page.dart';
 import 'package:hiringbell/pages/login/login_page.dart';
+import 'package:hiringbell/pages/page_layout/page_layout_controller.dart';
+import 'package:hiringbell/pages/page_layout/page_layout_index.dart';
 import 'package:hiringbell/pages/posts/posts_page.dart';
 import 'package:hiringbell/pages/profile/profile_page.dart';
 import 'package:hiringbell/pages/settings/settings_page.dart';
@@ -55,12 +58,14 @@ class MainApp extends StatelessWidget {
         GetPage(name: Navigate.home, page: () => const HomePage()),
         GetPage(name: Navigate.settings, page: () => const SettingPage()),
         GetPage(name: Navigate.post, page: () => const PostsPage()),
+        GetPage(name: Navigate.jobPost, page: () => const JobPostPage()),
+        GetPage(name: Navigate.homeLayout, page: () => PageLayoutIndex()),
         GetPage(
             name: Navigate.findFriends, page: () => const FindFriendsPage()),
         GetPage(name: Navigate.login, page: () => const LoginPage()),
       ],
-
-      unknownRoute: GetPage(name: Navigate.login, page: () => const LoginPage()),
+      unknownRoute:
+          GetPage(name: Navigate.login, page: () => const LoginPage()),
       theme: ThemeData(
         colorScheme: colorScheme,
       ),
