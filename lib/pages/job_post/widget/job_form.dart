@@ -27,6 +27,7 @@ class _JobFormState extends State<JobForm> {
         key: controller.formKey,
         child: Column(
           children: [
+            const Text("Basic detail"),
             BasicDetail(),
           ],
         ),

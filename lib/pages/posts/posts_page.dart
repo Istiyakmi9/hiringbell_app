@@ -49,8 +49,8 @@ class _PostsPageState extends State<PostsPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               PostHeaderCard(),
-                              // const RecentPostTitle(),
-                              // HomeCards(),
+                              const RecentPostTitle(),
+                              HomeCards(),
                             ],
                           ),
                         )

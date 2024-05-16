@@ -76,7 +76,7 @@ class PostHeaderCard extends StatelessWidget {
                     controller.loadJobPostPage();
                   },
                   label: const Text(
-                    "Post a job",
+                    "Create a job",
                     style: TextStyle(color: Colors.white),
                   ),
                   icon: const Icon(
