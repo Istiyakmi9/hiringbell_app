@@ -7,7 +7,7 @@ import 'package:hiringbell/services/http_service.dart';
 class ImageCarousel extends StatelessWidget {
   ImageCarousel({super.key, required this.images});
 
-  List<Files> images = [];
+  List<FileDetail> images = [];
   var controller = Get.put(CarouselController());
   HttpService http = HttpService.getInstance();
 
@@ -44,15 +44,19 @@ class ImageCarousel extends StatelessWidget {
               itemBuilder: (context, position) {
                 return Container(
                   margin: const EdgeInsets.all(10.0),
-                  child: Image.network("${http.getImageBaseUrl}${images[position].filePath!}"),
+                  child: Image.network(
+                    "${http.getImageBaseUrl}${images[position].filePath!}",
+                    errorBuilder: (context, _, stack) {
+                      return Image.asset("assets/user.png");
+                    },
+                  ),
                 );
               }),
         ),
         Obx(
           () => Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: indicators(
-                images.length, controller.activePage.value),
+            children: indicators(images.length, controller.activePage.value),
           ),
         )
       ],

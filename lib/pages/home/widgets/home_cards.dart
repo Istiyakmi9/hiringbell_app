@@ -123,10 +123,7 @@ class HomeCards extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(
                           vertical: 20,
                         ),
-                        child: Image(
-                          image: home.getImage(home.posts.value[index].files),
-                          fit: BoxFit.cover,
-                        ),
+                        child: util.getImage(home.getImageUrl(home.posts.value[index].files)),
                       ),
                     )
                   else

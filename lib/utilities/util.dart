@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,6 +66,9 @@ class Util {
       image = Image.network(
         imageUrl,
         fit: BoxFit.fill,
+        errorBuilder: (context, _, stack) {
+          return Image.asset("assets/user.png");
+        },
         loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent? loadingProgress) {
           if (loadingProgress == null) return child;
@@ -81,7 +83,7 @@ class Util {
         },
       );
     } catch (e) {
-      image = Image.asset("assets/.svg");
+      image = Image.asset("assets/user.png");
       debugPrint('Fail to load image');
     }
 

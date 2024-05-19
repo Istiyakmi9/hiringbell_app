@@ -19,7 +19,8 @@ class HttpService extends GetConnect {
   }
 
   static HttpService getInstance() {
-    ajax.setBaseUrl("https://www.hiringbell.com/hb/api/");
+    // ajax.setBaseUrl("https://www.hiringbell.com/hb/api/");
+    ajax.setBaseUrl("http://192.168.1.3:8090/hb/api/");
     return ajax;
   }
 

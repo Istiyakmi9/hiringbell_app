@@ -1,14 +1,14 @@
-class Files {
+class FileDetail {
   int? fileDetailId;
   String? filePath;
 
-  Files({
+  FileDetail({
     this.fileDetailId,
     this.filePath
   });
 
-  factory Files.fromJson(dynamic file) {
-    return Files(
+  factory FileDetail.fromJson(dynamic file) {
+    return FileDetail(
       fileDetailId: file["FileDetailId"],
       filePath: file["FilePath"],
     );

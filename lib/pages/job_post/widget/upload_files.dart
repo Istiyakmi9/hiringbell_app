@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/models/key_value_items.dart';
-import 'package:hiringbell/pages/common/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/job_post/job_post_controller.dart';
 
-class BasicDetail extends GetView<JobPostController> {
-  const BasicDetail({super.key});
+class UploadFiles extends GetView<JobPostController> {
+  const UploadFiles({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,7 +21,7 @@ class BasicDetail extends GetView<JobPostController> {
             left: 4,
           ),
           child: Text(
-            "Post Basic Information",
+            "Experience & Work Information",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -78,10 +78,7 @@ class BasicDetail extends GetView<JobPostController> {
                           hintText: "Enter email or mobile no#",
                         ),
                         textInputAction: TextInputAction.next,
-                        controller: controller.jobTitle,
                         validator: (value) {
-                          debugPrint(value);
-                          controller.jobPost.shortDescription = value;
                           return null;
                         },
                       ),
@@ -96,13 +93,15 @@ class BasicDetail extends GetView<JobPostController> {
                       const Text("Description"),
                       TextFormField(
                         maxLines: null,
-                        minLines: 4,
+                        minLines: 6,
                         keyboardType: TextInputType.multiline,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           filled: true,
                           fillColor: Colors.white,
-                          contentPadding: EdgeInsets.all(10.0),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 2,
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.grey,
@@ -117,10 +116,7 @@ class BasicDetail extends GetView<JobPostController> {
                           ),
                           hintText: "Enter password",
                         ),
-                        controller: controller.jobDescription,
                         validator: (value) {
-                          debugPrint(value);
-                          controller.jobPost.completeDescription = value;
                           return null;
                         },
                       ),
@@ -130,43 +126,48 @@ class BasicDetail extends GetView<JobPostController> {
                 const SizedBox(
                   height: 10,
                 ),
-                ListTile(
-                  title: const Text(
-                    'Category Type',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  trailing: SizedBox(
-                    width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
-                      items: controller.categories,
-                      hintText: "Select category",
-                      onChanged: (category) {
-                        controller.jobPost.categoryTypeId = category.value;
-                      },
-                      decoration: IMultiSelectDropdownDecoration(
-                          closedFillColor: Colors.grey.shade50
+                Row(
+                  children: [
+                    DropdownButton<String>(
+                      value: controller.dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
                       ),
+                      onChanged: (String? value) {},
+                      items: controller.list
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                  ),
-                ),
-                ListTile(
-                  title: const Text(
-                    'Country',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  trailing: SizedBox(
-                    width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
-                      items: controller.countries,
-                      onChanged: (country) {
-                        controller.jobPost.countryId = country.value;
-                      },
-                      hintText: "Select country",
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade50
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    DropdownButton<String>(
+                      value: controller.dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
                       ),
+                      onChanged: (String? value) {},
+                      items: controller.list
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,

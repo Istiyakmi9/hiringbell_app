@@ -100,7 +100,7 @@ class PostsController extends GetxController {
     }
   }
 
-  ImageProvider<Object> getImage(List<Files> files) {
+  ImageProvider<Object> getImage(List<FileDetail> files) {
     ImageProvider<Object> object;
     object = NetworkImage("${http.getImageBaseUrl}${files.first.filePath}");
 

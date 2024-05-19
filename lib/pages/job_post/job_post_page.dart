@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hiringbell/pages/job_post/job_post_controller.dart';
 import 'package:hiringbell/pages/job_post/widget/job_form.dart';
 
 class JobPostPage extends StatefulWidget {
@@ -9,13 +11,7 @@ class JobPostPage extends StatefulWidget {
 }
 
 class _JobPostPageState extends State<JobPostPage> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    debugPrint("Loading Job post page");
-  }
+  var controller = Get.put(JobPostController());
 
   @override
   Widget build(BuildContext context) {

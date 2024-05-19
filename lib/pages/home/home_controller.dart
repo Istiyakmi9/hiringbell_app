@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hiringbell/models/files.dart';
 import 'package:hiringbell/models/posts.dart';
 import 'package:hiringbell/models/user.dart';
+import 'package:hiringbell/pages/home/widgets/image_carousel.dart';
 import 'package:hiringbell/services/http_service.dart';
 import 'package:hiringbell/utilities/Util.dart';
 
@@ -98,11 +99,8 @@ class HomeController extends GetxController {
     }
   }
 
-  ImageProvider<Object> getImage(List<Files> files) {
-    ImageProvider<Object> object;
-    object = NetworkImage("${http.getImageBaseUrl}${files.first.filePath}");
-
-    return object;
+  String getImageUrl(List<FileDetail> files) {
+    return "${http.getImageBaseUrl}${files.first.filePath}";
   }
 
   getBackgroundColor(String letter) {

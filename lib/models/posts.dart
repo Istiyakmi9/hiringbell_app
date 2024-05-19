@@ -7,7 +7,7 @@ class Posts {
   String? shortDescription;
   String? completeDescription;
   String? fullName;
-  List<Files> files = [];
+  List<FileDetail> files = [];
   String? profileImage;
 
   Posts({
@@ -18,11 +18,15 @@ class Posts {
     required this.files,
   });
 
-  static List<Files> convertToList(dynamic jsonFiles) {
+  static List<FileDetail> convertToList(dynamic jsonFiles) {
+    if(jsonFiles == null){
+      return [];
+    }
+
     List<dynamic> dFiles = jsonFiles;
-    List<Files> files = [];
+    List<FileDetail> files = [];
     for (var i = 0; i < dFiles.length; i++) {
-      files.add(Files.fromJson(dFiles[i]));
+      files.add(FileDetail.fromJson(dFiles[i]));
     }
 
     return files;
