@@ -23,9 +23,9 @@ class LoginController extends GetxController {
     if (formKey.currentState!.validate()) {
       try {
         http.login("oauth/authenticate", {
-          "Password": passwordController.text,
-          "Email": usernameController.text,
-          "Mobile": null
+          "password": passwordController.text,
+          "email": usernameController.text,
+          "mobile": null,
         }).then((userData) {
           if (userData == "success") {
             isSubmitted(false);

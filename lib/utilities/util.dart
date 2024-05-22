@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,9 +58,40 @@ class Util {
     return getImage(imageUrl);
   }
 
-  Image getImage(String imageUrl) {
+  void showToast(String message, {String type = Constants.success}) {
+    Color color;
+    Color textColor;
+    switch (type) {
+      case Constants.fail:
+        color = Colors.red;
+        textColor = Colors.white;
+        break;
+      case Constants.warning:
+        color = Colors.yellow;
+        textColor = Colors.black;
+        break;
+      default:
+        color = Colors.green;
+        textColor = Colors.white;
+        break;
+    }
+
+    Get.snackbar(
+      type,
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: color,
+      colorText: textColor,
+      maxWidth: 350,
+      margin: const EdgeInsets.only(
+        bottom: 10,
+      ),
+    );
+  }
+
+  Image getImage(String? imageUrl) {
     Image image = Image.asset("assets/user.png");
-    if (imageUrl.isEmpty) {
+    if (imageUrl == null || imageUrl == "") {
       return image;
     }
 

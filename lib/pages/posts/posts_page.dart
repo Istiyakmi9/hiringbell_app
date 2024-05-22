@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hiringbell/pages/job_post/job_post_page.dart';
 import 'package:hiringbell/pages/posts/posts_controller.dart';
 import 'package:hiringbell/pages/posts/widgets/post_header_card.dart';
 import 'package:hiringbell/pages/posts/widgets/recent_post_title.dart';
+import 'package:hiringbell/pages/posts/widgets/user_own_posts.dart';
 
 import '../../utilities/Util.dart';
 import '../home/widgets/home_cards.dart';
@@ -50,7 +52,7 @@ class _PostsPageState extends State<PostsPage> {
                             children: [
                               PostHeaderCard(),
                               const RecentPostTitle(),
-                              HomeCards(),
+                              UserOwnPosts(),
                             ],
                           ),
                         )

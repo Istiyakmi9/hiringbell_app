@@ -55,25 +55,25 @@ class User {
   }
 
   factory User.fromJson(dynamic json) {
-    instance.address = json["Address"];
-    instance.city = json["City"];
-    instance.createdOn = toDateTime(json["CreatedOn"]);
-    instance.email = json["Email"];
-    instance.firstName = json["FirstName"];
-    instance.lastName = json["LastName"];
-    instance.mobile = json["Mobile"] ?? "";
-    instance.jobCategoryId = json["JobCategoryId"];
-    instance.state = json["State"] ?? "";
-    instance.userId = json["UserId"];
+    instance.address = json["address"];
+    instance.city = json["city"];
+    instance.createdOn = toDateTime(json["createdOn"]);
+    instance.email = json["email"];
+    instance.firstName = json["firstName"];
+    instance.lastName = json["lastName"];
+    instance.mobile = json["mobile"] ?? "";
+    instance.jobCategoryId = json["jobCategoryId"];
+    instance.state = json["state"] ?? "";
+    instance.userId = json["userId"];
 
-    List<int> categoryIds = (jsonDecode(json["CategoryTypeIds"]) as List<dynamic>).cast<int>();
+    List<int> categoryIds = (jsonDecode(json["categoryTypeIds"]) as List<dynamic>).cast<int>();
     instance.categoryTypeIds = categoryIds ?? [];
 
-    var locationIds = (jsonDecode(json["JobLocationIds"]) as List<dynamic>).cast<int>();
+    var locationIds = (jsonDecode(json["jobLocationIds"]) as List<dynamic>).cast<int>();
     instance.jobLocationIds = locationIds ?? [];
 
-    instance.isActive = json["IsActive"];
-    instance.token = json["Token"];
+    instance.isActive = json["isActive"];
+    instance.token = json["token"];
     return instance;
   }
 }

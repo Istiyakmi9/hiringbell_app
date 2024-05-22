@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hiringbell/pages/job_post/job_post_controller.dart';
 
 class UploadFiles extends GetView<JobPostController> {
@@ -8,7 +11,6 @@ class UploadFiles extends GetView<JobPostController> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,7 +23,7 @@ class UploadFiles extends GetView<JobPostController> {
             left: 4,
           ),
           child: Text(
-            "Experience & Work Information",
+            "Post Basic Information",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -39,144 +41,110 @@ class UploadFiles extends GetView<JobPostController> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Job Title"),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 2,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.person_outline_rounded,
-                            color: Colors.blueAccent,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: "Enter email or mobile no#",
-                        ),
-                        textInputAction: TextInputAction.next,
-                        validator: (value) {
-                          return null;
-                        },
-                      ),
-                    ],
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Description"),
-                      TextFormField(
-                        maxLines: null,
-                        minLines: 6,
-                        keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 2,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: "Enter password",
-                        ),
-                        validator: (value) {
-                          return null;
-                        },
+                  controller.isImagePicked.value
+                      ? controller.isFileReady.value
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 20,
+                              ),
+                              child: Text(
+                                "No image uploaded, click upload button to upload at least 1 image.",
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : Obx(
+                              () => Wrap(
+                                children: List.generate(
+                                  controller.pickedImages.value.length,
+                                  (index) {
+                                    return Stack(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(4.0),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 10,
+                                            ),
+                                            width: 100,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Image.file(
+                                              File(controller.pickedImages
+                                                  .value[index].path),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: InkWell(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: const Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.black,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              controller.removeImage(controller
+                                                  .pickedImages
+                                                  .value[index]
+                                                  .name);
+                                              Fluttertoast.showToast(
+                                                  msg: "Image removed");
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                      : const CircularProgressIndicator(),
+                  ElevatedButton(
+                    onPressed: controller.pickImages,
+                    child: const Text(
+                      "Pick Image from Gallery",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    DropdownButton<String>(
-                      value: controller.dropdownValue,
-                      icon: const Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {},
-                      items: controller.list
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    DropdownButton<String>(
-                      value: controller.dropdownValue,
-                      icon: const Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {},
-                      items: controller.list
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text("All field are mandatory in this section"),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text("All field are mandatory in this section"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

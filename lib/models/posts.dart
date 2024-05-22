@@ -34,10 +34,10 @@ class Posts {
 
   factory Posts.fromJson(dynamic json) {
     return Posts(
-        shortDescription: json["ShortDescription"] ?? Constants.empty,
-        completeDescription: json["CompleteDescription"] ?? Constants.empty,
-        fullName: json["FullName"] ?? Constants.empty,
+        shortDescription: json["shortDescription"] ?? Constants.empty,
+        completeDescription: json["completeDescription"] ?? Constants.empty,
+        fullName: json["fullName"] ?? Constants.empty,
         profileImage: Constants.empty,
-        files: convertToList(json["Files"]));
+        files: convertToList(json["files"]));
   }
 }

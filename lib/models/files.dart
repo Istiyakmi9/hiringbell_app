@@ -7,10 +7,17 @@ class FileDetail {
     this.filePath
   });
 
+  static Map<String, dynamic> toJson(FileDetail fileDetail) {
+    return {
+      'fileDetailId': fileDetail.fileDetailId,
+      'filePath': fileDetail.filePath,
+    };
+  }
+
   factory FileDetail.fromJson(dynamic file) {
     return FileDetail(
-      fileDetailId: file["FileDetailId"],
-      filePath: file["FilePath"],
+      fileDetailId: file["fileDetailId"],
+      filePath: file["filePath"],
     );
   }
 }

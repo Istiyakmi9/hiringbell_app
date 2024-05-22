@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/key_value_items.dart';
-import 'package:hiringbell/pages/common/imulti_select_dropdown.dart';
+import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/job_post/job_post_controller.dart';
 
 class BasicDetail extends GetView<JobPostController> {

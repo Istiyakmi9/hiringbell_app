@@ -20,7 +20,7 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   var hasMore = true.obs;
 
-  var controller = ScrollController();
+  var scrollController = ScrollController();
 
   HttpService http = HttpService.getInstance();
 

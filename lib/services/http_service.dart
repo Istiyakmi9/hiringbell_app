@@ -1,16 +1,25 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:hiringbell/models/api_response.dart';
+import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/utilities/Util.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class HttpService extends GetConnect {
-  static final HttpService ajax = HttpService._internal();
-
-  HttpService._internal();
-
-  String _baseUrl = "";
+  static HttpService? ajax;
+  String _baseUrl = Constants.empty;
+  String _resourceBaseUrl = Constants.empty;
   String? _token;
+
+  HttpService._internal() {
+    _initialized(true);
+  }
 
   String get token => _token ?? "";
 
@@ -18,14 +27,28 @@ class HttpService extends GetConnect {
     _token = value;
   }
 
-  static HttpService getInstance() {
-    // ajax.setBaseUrl("https://www.hiringbell.com/hb/api/");
-    ajax.setBaseUrl("http://192.168.1.3:8090/hb/api/");
-    return ajax;
+  void _initialized(bool flag) {
+    if (flag) {
+      setBaseUrl(
+        baseUrl: "https://www.hiringbell.com/hb/api/",
+        resourceBaseUrl: "https://www.hiringbell.com/resources/",
+      );
+    } else {
+      setBaseUrl(
+        baseUrl: "http://192.168.1.3:8090/hb/api/",
+        resourceBaseUrl: "http://192.168.1.3:8090/resources/",
+      );
+    }
   }
 
-  void setBaseUrl(String baseUrl) {
+  static HttpService getInstance() {
+    // ajax.setUpBaseUrl(true);
+    return ajax ??= HttpService._internal();
+  }
+
+  void setBaseUrl({required String baseUrl, required String resourceBaseUrl}) {
     _baseUrl = baseUrl;
+    _resourceBaseUrl = resourceBaseUrl;
   }
 
   String get getBaseUrl {
@@ -33,7 +56,7 @@ class HttpService extends GetConnect {
   }
 
   String get getImageBaseUrl {
-    return "https://www.hiringbell.com/resources/";
+    return _resourceBaseUrl;
   }
 
   Map<String, String> header() {
@@ -80,17 +103,13 @@ class HttpService extends GetConnect {
       var body = ApiResponse.fromJson(response.body);
       User? user = User.fromJson(body.responseBody["UserDetail"]);
 
-      if (user.email == null) {
-        return "fail";
-      } else {
-        setToken = user.token!;
-        Util util = Util.getInstance();
-        util.setUserDetail(body.responseBody["UserDetail"]);
-      }
+      setToken = user.token!;
+      Util util = Util.getInstance();
+      util.setUserDetail(body.responseBody["UserDetail"]);
 
       return "success";
     } else {
-      throw Exception('Request failed with status: ${response.statusCode}');
+      return "Fail";
     }
   }
 
@@ -101,6 +120,93 @@ class HttpService extends GetConnect {
           body: response.body as T, statusCode: response.statusCode);
     } else {
       throw Exception('Request failed with status: ${response.statusCode}');
+    }
+  }
+
+  Future<void> uploadDataWithImage(
+      String url, dynamic data, List<XFile> files) async {
+    try {
+      var formData = FormData({"userPost": data});
+
+      for (var file in files) {
+        formData.files.add(
+          MapEntry(
+            "postImages",
+            MultipartFile(
+              await file.readAsBytes(),
+              filename:
+                  "${DateTime.now().microsecondsSinceEpoch}.${file.path.split('.').last}",
+            ),
+          ),
+        );
+      }
+
+      final response = await GetConnect().post(
+        getBaseUrl + url,
+        formData,
+        headers: imageHeader(),
+      );
+
+      if (response.statusCode == 200) {
+        // Handle successful upload
+        debugPrint('Data uploaded successfully!');
+      } else {
+        // Handle upload error
+        debugPrint('Upload failed with status code: ${response.statusCode}');
+      }
+    } on GetHttpException catch (e) {
+      // Handle HTTP errors
+      debugPrint('Error uploading data: $e');
+    } catch (e) {
+      // Handle other errors
+      debugPrint('Error uploading data: $e');
+    }
+  }
+
+  dynamic getResponseResult(dynamic data) {
+    dynamic response = {};
+    try {
+      if (data == null) {
+        throw Exception("User authentication is invalid");
+      }
+
+      response = data["ResponseBody"];
+      if (response == null) {
+        throw Exception("User authentication is invalid");
+      }
+      // ignore: empty_catches
+    } on Exception catch (e) {
+      rethrow;
+    }
+
+    return response;
+  }
+
+  Future<dynamic> upload(String url, List<XFile> files, dynamic data) async {
+    var uri = Uri.parse("$_baseUrl$url");
+    var request = http.MultipartRequest('POST', uri);
+    request.headers.addAll(imageHeader());
+
+    request.fields['userPost'] = json.encode(data);
+    if (files.isNotEmpty) {
+      for (var image in files) {
+        request.files.add(
+          http.MultipartFile.fromBytes('postImages', await image.readAsBytes(),
+              filename: image.path),
+        );
+      }
+    } else {
+      request.fields['postImages'] = jsonEncode(List.empty());
+    }
+
+    var response = await request.send();
+    final respStr = await response.stream.bytesToString();
+    var result = jsonDecode(respStr);
+
+    if (result["HttpStatusCode"] == 200) {
+      return result["ResponseBody"];
+    } else {
+      return null;
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/models/navigate.dart';
 import 'package:hiringbell/pages/job_post/job_post_page.dart';
 
 import '../../models/files.dart';
@@ -16,7 +15,9 @@ class PostsController extends GetxController {
   var isHomepageReady = false.obs;
   var posts = RxList<Posts>();
   var pageIndex = 0.obs;
+  Util? util;
   User user = User();
+  var scrollController = ScrollController();
 
   var isLoading = true.obs;
   var hasMore = true.obs;
@@ -48,15 +49,15 @@ class PostsController extends GetxController {
     pageIndex(0);
     isLoading(true);
     hasMore(true);
-    posts = RxList<Posts>();
     loadHomePage();
   }
 
   Future<void> loadHomePage() async {
     isHomepageReady(false);
 
+    posts = RxList<Posts>();
     try {
-      http.httpGet("core/userposts/getHomePage/${++pageIndex}").then((value) {
+      http.httpGet("core/userposts/getOwnPosts/${++pageIndex}").then((value) {
         if (value != null) {
           List<dynamic> items = value;
           for (var i = 0; i < items.length; i++) {
@@ -79,7 +80,7 @@ class PostsController extends GetxController {
     isLoading(true);
 
     try {
-      http.httpGet("core/userposts/getHomePage/${++pageIndex}").then((value) {
+      http.httpGet("core/userposts/getOwnPosts/${++pageIndex.value}").then((value) {
         if (value != null) {
           List<dynamic> items = value;
           if (items.isNotEmpty) {
@@ -130,15 +131,19 @@ class PostsController extends GetxController {
     return color;
   }
 
-  loadJobPostPage() {
-    Get.to(const JobPostPage());
+  loadJobPostPage() async {
+    var result = await Get.to(const JobPostPage());
+    if(result != null ) {
+      util = Util.getInstance();
+      util!.showToast(result);
+    }
   }
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    Util util = Util.getInstance();
-    user = util.getUserDetail();
+    util = Util.getInstance();
+    user = util!.getUserDetail();
   }
 }

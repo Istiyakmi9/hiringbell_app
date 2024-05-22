@@ -1,21 +1,18 @@
-// ignore_for_file: invalid_use_of_protected_member
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/common/index_card/index_page_card.dart';
-import 'package:hiringbell/pages/home/home_controller.dart';
+import 'package:hiringbell/pages/posts/posts_controller.dart';
 import 'package:hiringbell/utilities/Util.dart';
 
-class HomeCards extends StatelessWidget {
-  HomeCards({super.key});
+class UserOwnPosts extends GetView<PostsController> {
+  UserOwnPosts({super.key});
 
-  var controller = Get.put(HomeController());
   Util util = Util.getInstance();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Expanded(
+          () => Expanded(
         child: ListView.builder(
           controller: controller.scrollController,
           itemCount: controller.hasMore.value

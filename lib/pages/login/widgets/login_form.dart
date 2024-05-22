@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/pages/login/login_controller.dart';
 import 'package:hiringbell/pages/login/widgets/login_actions.dart';
-import 'package:hiringbell/utilities/Util.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});

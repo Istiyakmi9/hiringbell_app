@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hiringbell/models/files.dart';
 
 class JobPost {
@@ -6,7 +8,7 @@ class JobPost {
   int categoryTypeId = 0;
   int postedBy = 0;
   DateTime? postedOn;
-  FileDetail? fileDetail;
+  String? fileDetail;
   List<FileDetail>? files = [];
   int jobCategoryId = 1;
   int jobRequirementId = 0;
@@ -24,10 +26,10 @@ class JobPost {
   bool? isFoodAllowance = false;
   double? foodAllowanceAmount = 0.0;
   bool? isForeignReturnCompulsory = false;
-  int minimunDaysRequired = 0;
+  int minimumDaysRequired = 0;
   int? certificateRequiredId = 0;
-  double minimunCTC = 0;
-  double maximunCTC = 0;
+  double minimumCTC = 0;
+  double maximumCTC = 0;
   bool isOTIncluded = false;
   int? maxOTHours = 0;
   double? bonus = 0.0;
@@ -54,7 +56,7 @@ class JobPost {
   bool? isSat;
   bool? isSun;
 
-  JobPost.withoutParam();
+  JobPost.noArg();
 
   JobPost({
     required this.userPostId,
@@ -62,7 +64,7 @@ class JobPost {
     required this.categoryTypeId,
     required this.postedBy,
     this.postedOn,
-    this.fileDetail,
+    required this.fileDetail,
     this.files,
     required this.jobCategoryId,
     required this.jobRequirementId,
@@ -80,10 +82,10 @@ class JobPost {
     this.isFoodAllowance,
     this.foodAllowanceAmount,
     this.isForeignReturnCompulsory,
-    required this.minimunDaysRequired,
+    required this.minimumDaysRequired,
     this.certificateRequiredId,
-    required this.minimunCTC,
-    required this.maximunCTC,
+    required this.minimumCTC,
+    required this.maximumCTC,
     required this.isOTIncluded,
     this.maxOTHours,
     this.bonus,
@@ -121,6 +123,75 @@ class JobPost {
     return files;
   }
 
+  static List<Map<String, dynamic>> getJsonList(List<FileDetail> fileDetail) {
+    List<Map<String, dynamic>> map = [];
+
+    if (fileDetail.isEmpty) return map;
+
+    for (var file in fileDetail) {
+      map.add(FileDetail.toJson(file));
+    }
+
+    return map;
+  }
+
+  static Map<String, dynamic> toJson(JobPost data) {
+    return {
+      'userPostId': data.userPostId,
+      'shortDescription': data.shortDescription,
+      'categoryTypeId': data.categoryTypeId,
+      'postedBy': data.postedBy,
+      'postedOn': data.postedOn,
+      'fileDetail': data.fileDetail,
+      'files': data.files == null ? [] : getJsonList(data.files!),
+      'jobCategoryId': data.jobCategoryId,
+      'jobRequirementId': data.jobRequirementId,
+      'requiredShortDesc': data.requiredShortDesc,
+      'completeDescription': data.completeDescription,
+      'jobTypeId': data.jobTypeId,
+      'clientId': data.clientId,
+      'agentId': data.agentId,
+      'partnerId': data.partnerId,
+      'shiftId': data.shiftId,
+      'isHRAAllowance': data.isHRAAllowance,
+      'hraAllowanceAmount': data.hraAllowanceAmount,
+      'isTravelAllowance': data.isTravelAllowance,
+      'travelAllowanceAmount': data.travelAllowanceAmount,
+      'isFoodAllowance': data.isFoodAllowance,
+      'foodAllowanceAmount': data.foodAllowanceAmount,
+      'isForeignReturnCompulsory': data.isForeignReturnCompulsory,
+      'minimumDaysRequired': data.minimumDaysRequired,
+      'certificateRequiredId': data.certificateRequiredId,
+      'minimumCTC': data.minimumCTC,
+      'maximumCTC': data.maximumCTC,
+      'isOTIncluded': data.isOTIncluded,
+      'maxOTHours': data.maxOTHours,
+      'bonus': data.bonus,
+      'countryId': data.countryId,
+      'minAgeLimit': data.minAgeLimit,
+      'maxAgeLimit': data.maxAgeLimit,
+      'noOfPosts': data.noOfPosts,
+      'salaryCurrency': data.salaryCurrency,
+      'contractPeriodInMonths': data.contractPeriodInMonths,
+      'createdBy': data.createdBy,
+      'updatedBy': data.updatedBy,
+      'createdOn': data.createdOn,
+      'updatedOn': data.updatedOn,
+      'dailyWorkingHours': data.dailyWorkingHours,
+      'visaType': data.visaType,
+      'isMedicalInsuranceProvide': data.isMedicalInsuranceProvide,
+      'overseasExperience': data.overseasExperience,
+      'localExperience': data.localExperience,
+      'isMon': data.isMon,
+      'isTue': data.isTue,
+      'isThu': data.isThu,
+      'isWed': data.isWed,
+      'isFri': data.isFri,
+      'isSat': data.isSat,
+      'isSun': data.isSun,
+    };
+  }
+
   factory JobPost.fromJson(dynamic json) {
     return JobPost(
       userPostId: json['userPostId'],
@@ -146,10 +217,10 @@ class JobPost {
       isFoodAllowance: json['isFoodAllowance'],
       foodAllowanceAmount: json['foodAllowanceAmount'],
       isForeignReturnCompulsory: json['isForeignReturnCompulsory'],
-      minimunDaysRequired: json['minimunDaysRequired'],
+      minimumDaysRequired: json['minimumDaysRequired'],
       certificateRequiredId: json['certificateRequiredId'],
-      minimunCTC: json['minimunCTC'],
-      maximunCTC: json['maximunCTC'],
+      minimumCTC: json['minimumCTC'],
+      maximumCTC: json['maximumCTC'],
       isOTIncluded: json['isOTIncluded'],
       maxOTHours: json['maxOTHours'],
       bonus: json['bonus'],
