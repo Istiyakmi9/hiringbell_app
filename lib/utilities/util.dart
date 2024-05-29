@@ -7,6 +7,7 @@ import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../models/auth.dart';
 
@@ -32,7 +33,7 @@ class Util {
   }
 
   static Util getInstance() {
-    if(_util == null){
+    if (_util == null) {
       _util = Util._internal();
       _util!.setUpSharedPreferences();
     } else {
@@ -86,7 +87,10 @@ class Util {
       dynamic result = jsonDecode(authenticationDetail);
       return Auth.fromJson(result);
     } catch (e) {
-      return Auth(email: Constants.empty, password: Constants.empty, mobile: Constants.empty);
+      return Auth(
+          email: Constants.empty,
+          password: Constants.empty,
+          mobile: Constants.empty);
     }
   }
 
@@ -133,8 +137,18 @@ class Util {
   Widget getCachedImage(String? imageUrl) {
     return CachedNetworkImage(
       imageUrl: imageUrl!,
-      placeholder: (context, url) => const Center(
-        child: CircularProgressIndicator(),
+      placeholder: (context, url) => Center(
+        // child: CircularProgressIndicator(
+        //   color: Colors.red,
+        // ),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.white),
+        ),
       ),
       imageBuilder: (context, imageProvider) => Container(
         width: 150.0,

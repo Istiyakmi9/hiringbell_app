@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "532816585614",
+    "project_id": "hiringbell-38272",
+    "storage_bucket": "hiringbell-38272.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532816585614:android:a4cafa2a3acb9f6e61fadf",
+        "android_client_info": {
+          "package_name": "com.bottomhalf.hiringbell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532816585614-335gusa42uce2jedsg6hffvqr8kb630n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bottomhalf.hiringbell",
+            "certificate_hash": "bd90c31f176b386f7c9906d7827d67913246f81c"
+          }
+        },
+        {
+          "client_id": "532816585614-obufcd1fkqkn167a8c058eo7k857l84g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqL2ZosK_WcX4JyzVmtwT8soSrLrnx_ho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532816585614-obufcd1fkqkn167a8c058eo7k857l84g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "532816585614-f64h2icad5kpfi45r4c8h9frrnht3up7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bottomhalf.hiringbell"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
