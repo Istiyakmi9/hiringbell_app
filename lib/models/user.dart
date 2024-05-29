@@ -11,7 +11,7 @@ class User {
   String email = Constants.empty;
   int userId = 0;
   String firstName = Constants.empty;
-  String lastName = Constants.empty;
+  String? lastName = Constants.empty;
   String mobile = Constants.empty;
   String? password = Constants.empty;
   String? state = Constants.empty;
@@ -30,21 +30,21 @@ class User {
   User._internal();
 
   User.fromUser(
-      this.address,
-      this.city,
-      this.createdOn,
-      this.email,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.jobCategoryId,
-      this.state,
-      this.userId,
-      this.categoryTypeIds,
-      this.jobLocationIds,
-      this.isActive,
-      this.token,
-      );
+    this.address,
+    this.city,
+    this.createdOn,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.jobCategoryId,
+    this.state,
+    this.userId,
+    this.categoryTypeIds,
+    this.jobLocationIds,
+    this.isActive,
+    this.token,
+  );
 
   static DateTime toDateTime(String? date) {
     if (date != null && date != "") {
@@ -60,17 +60,20 @@ class User {
     instance.createdOn = toDateTime(json["createdOn"]);
     instance.email = json["email"];
     instance.firstName = json["firstName"];
-    instance.lastName = json["lastName"];
-    instance.mobile = json["mobile"] ?? "";
+    instance.lastName = json["lastName"] ?? Constants.empty;
+    instance.mobile = json["mobile"] ?? Constants.empty;
     instance.jobCategoryId = json["jobCategoryId"];
     instance.state = json["state"] ?? "";
     instance.userId = json["userId"];
 
-    List<int> categoryIds = (jsonDecode(json["categoryTypeIds"]) as List<dynamic>).cast<int>();
-    instance.categoryTypeIds = categoryIds ?? [];
+    var categoryIds =
+        (jsonDecode(json["categoryTypeIds"] ?? []) as List<dynamic>)
+            .cast<int>();
+    instance.categoryTypeIds = categoryIds;
 
-    var locationIds = (jsonDecode(json["jobLocationIds"]) as List<dynamic>).cast<int>();
-    instance.jobLocationIds = locationIds ?? [];
+    var locationIds =
+        (jsonDecode(json["jobLocationIds"] ?? []) as List<dynamic>).cast<int>();
+    instance.jobLocationIds = locationIds;
 
     instance.isActive = json["isActive"];
     instance.token = json["token"];
