@@ -36,8 +36,8 @@ class HttpService extends GetConnect {
       );
     } else {
       setBaseUrl(
-        baseUrl: "http://192.168.1.3:8090/hb/api/",
-        resourceBaseUrl: "http://192.168.1.3:8090/resources/",
+        baseUrl: "http://192.168.1.83:8090/hb/api/",
+        resourceBaseUrl: "http://192.168.1.83:8090/resources/",
       );
     }
   }

@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '532816585614',
     projectId: 'hiringbell-38272',
     storageBucket: 'hiringbell-38272.appspot.com',
+    androidClientId: '532816585614-335gusa42uce2jedsg6hffvqr8kb630n.apps.googleusercontent.com',
+    iosClientId: '532816585614-f64h2icad5kpfi45r4c8h9frrnht3up7.apps.googleusercontent.com',
     iosBundleId: 'com.bottomhalf.hiringbell',
   );
 }
