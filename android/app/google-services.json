@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532816585614",
+    "project_id": "hiringbell-38272",
+    "storage_bucket": "hiringbell-38272.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532816585614:android:a4cafa2a3acb9f6e61fadf",
+        "android_client_info": {
+          "package_name": "com.bottomhalf.hiringbell"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqL2ZosK_WcX4JyzVmtwT8soSrLrnx_ho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
