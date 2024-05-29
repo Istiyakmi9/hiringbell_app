@@ -56,7 +56,7 @@ class ImageCarousel extends StatelessWidget {
             itemBuilder: (context, position) {
               return Container(
                 margin: const EdgeInsets.all(10.0),
-                child: util.getImage(getImagePath(images[position].filePath)),
+                child: util.getCachedImage(getImagePath(images[position].filePath)),
               );
             },
           ),

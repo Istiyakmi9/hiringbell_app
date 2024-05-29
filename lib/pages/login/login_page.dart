@@ -1,10 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+import 'package:hiringbell/pages/common/error_page/error_page.dart';
 import 'package:hiringbell/pages/login/login_controller.dart';
-import 'package:hiringbell/pages/login/widgets/login_form.dart';
+import 'package:hiringbell/pages/login/widgets/login_index_page.dart';
+import 'package:hiringbell/pages/login/widgets/waiting_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,53 +16,25 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var login = Get.put(LoginController());
 
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: login.isLoading.isTrue
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Stack(
-              fit: StackFit.expand,
-              children: [
-                ClipRRect(
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-                    child: Image.asset(
-                      "assets/bg1.jpeg",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const LoginForm(),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        child: Text(
-                          "Need help!",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                          "By continuing, you agree with our terms & condition"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Text("Version: 1.0.5"),
-                    ],
-                  ),
-                )
-              ],
-            ),
+    return FutureBuilder<SharedPreferences>(
+      future: _prefs,
+      builder:
+          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const WaitingPage();
+        } else if (snapshot.hasError) {
+          return const ErrorPage(
+            withScaffold: true,
+          );
+        } else {
+          login.checkAutoLogin();
+          return const LoginIndexPage();
+        }
+      },
     );
   }
 }

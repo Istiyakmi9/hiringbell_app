@@ -1,10 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/posts.dart';
+import 'package:hiringbell/pages/common/index_card/image_viewer.dart';
 import 'package:hiringbell/pages/home/home_controller.dart';
-import 'package:hiringbell/pages/home/widgets/image_carousel.dart';
+import 'package:hiringbell/pages/view_post/view_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
+import 'package:photo_view/photo_view.dart';
+
+import '../../home/widgets/image_carousel.dart';
 
 class IndexPageCard extends StatelessWidget {
   final Posts posts;
@@ -13,6 +18,22 @@ class IndexPageCard extends StatelessWidget {
 
   final Util util = Util.getInstance();
   final controller = Get.put(HomeController());
+
+  _showImageOverlay(String imageUrl) {
+    Navigator.of(Get.context!).push(
+      ImageViewerContainer(
+        child: SizedBox(
+          height: MediaQuery.of(Get.context!).size.height * .30,
+          width: MediaQuery.of(Get.context!).size.width,
+          child: PhotoView(
+            imageProvider: CachedNetworkImageProvider(
+              imageUrl,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,19 +114,35 @@ class IndexPageCard extends StatelessWidget {
               ],
             ),
           ),
+          // LoadingPlaceholder(child: const Placeholder(),),
           if (posts.files.length == 1)
             Center(
               child: Container(
                 margin: const EdgeInsets.symmetric(
                   vertical: 20,
                 ),
-                child: util.getImage(controller.getImageUrl(posts.files)),
+                child: InkWell(
+                  onTap: () {
+                    _showImageOverlay(controller.getImageUrl(posts.files));
+                  },
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * .30,
+                    width: MediaQuery.of(context).size.width,
+                    child: util
+                        .getCachedImage(controller.getImageUrl(posts.files)),
+                  ),
+                ),
               ),
             )
           else
-            Center(
-              child: ImageCarousel(
-                images: posts.files,
+            InkWell(
+              onTap: () {
+                _showImageOverlay(controller.getImageUrl(posts.files));
+              },
+              child: Center(
+                child: ImageCarousel(
+                  images: posts.files,
+                ),
               ),
             ),
           Container(
@@ -117,14 +154,14 @@ class IndexPageCard extends StatelessWidget {
               height: 1,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(
+          Padding(
+            padding: const EdgeInsets.symmetric(
               horizontal: 25,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
+                const IconButton(
                   onPressed: null,
                   icon: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +182,7 @@ class IndexPageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton(
+                const IconButton(
                   onPressed: null,
                   icon: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -166,7 +203,7 @@ class IndexPageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton(
+                const IconButton(
                   onPressed: null,
                   icon: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -188,8 +225,10 @@ class IndexPageCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: null,
-                  icon: Column(
+                  onPressed: () {
+                    Get.to(ViewPostDetail(postId: 1));
+                  },
+                  icon: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(

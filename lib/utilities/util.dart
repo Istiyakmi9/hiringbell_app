@@ -1,14 +1,18 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
+import 'package:hiringbell/utilities/Util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Util {
-  static const userDetail = "user";
+import '../models/auth.dart';
 
+class Util {
   static SharedPreferences? _prefs;
+  static Util? _util;
 
   static Future<void> init(SharedPreferences sharedPreferences) async {
     // ignore: unnecessary_null_comparison
@@ -23,13 +27,24 @@ class Util {
     return _prefs!;
   }
 
+  Future setUpSharedPreferences() async {
+    _prefs ??= await SharedPreferences.getInstance();
+  }
+
   static Util getInstance() {
-    return Util._internal();
+    if(_util == null){
+      _util = Util._internal();
+      _util!.setUpSharedPreferences();
+    } else {
+      debugPrint("Fail to initialize the Util service");
+    }
+
+    return _util!;
   }
 
   void setUserDetail(dynamic user) {
     String result = jsonEncode(user);
-    _prefs!.setString(userDetail, result);
+    _prefs!.setString(Constants.userDetail, result);
   }
 
   static void cleanAll() {
@@ -41,11 +56,37 @@ class Util {
 
   User getUserDetail() {
     try {
-      var user = _prefs!.get(userDetail) as String;
+      var user = _prefs!.get(Constants.userDetail) as String;
       dynamic result = jsonDecode(user);
       return User.fromJson(result);
     } catch (e) {
       return User();
+    }
+  }
+
+  void setAuthDetail(dynamic user) {
+    String result = jsonEncode(user);
+    _prefs!.setString(Constants.auth, result);
+  }
+
+  static bool cleanAuth() {
+    bool flag = false;
+    if (_prefs!.containsKey(Constants.auth)) {
+      _prefs!.remove(Constants.auth);
+      flag = true;
+    }
+
+    return flag;
+  }
+
+  Future<Auth> getAuthDetail() async {
+    try {
+      _prefs ??= await setUpSharedPreferences();
+      var authenticationDetail = _prefs!.get(Constants.auth) as String;
+      dynamic result = jsonDecode(authenticationDetail);
+      return Auth.fromJson(result);
+    } catch (e) {
+      return Auth(email: Constants.empty, password: Constants.empty, mobile: Constants.empty);
     }
   }
 
@@ -85,6 +126,25 @@ class Util {
       maxWidth: 350,
       margin: const EdgeInsets.only(
         bottom: 10,
+      ),
+    );
+  }
+
+  Widget getCachedImage(String? imageUrl) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl!,
+      placeholder: (context, url) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      imageBuilder: (context, imageProvider) => Container(
+        width: 150.0,
+        height: 150.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

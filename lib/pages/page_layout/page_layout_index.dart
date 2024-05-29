@@ -1,17 +1,36 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/home/widgets/search_box.dart';
 import 'package:hiringbell/pages/page_layout/page_layout_controller.dart';
 import 'package:hiringbell/pages/page_layout/widget/screen_manager.dart';
+import 'package:hiringbell/pages/view_post/view_post_detail.dart';
 
 import '../../models/navigate.dart';
 
-class PageLayoutIndex extends StatelessWidget {
-  PageLayoutIndex({super.key});
+class PageLayoutIndex extends StatefulWidget {
+  const PageLayoutIndex({super.key});
 
+  @override
+  State<PageLayoutIndex> createState() => _PageLayoutIndexState();
+}
+
+class _PageLayoutIndexState extends State<PageLayoutIndex> {
   var controller = Get.put(PageLayoutController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // handle message
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if(message.notification != null) {
+        controller.onItemTapped(0);
+        var result = Get.to(ViewPostDetail(postId: 1));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

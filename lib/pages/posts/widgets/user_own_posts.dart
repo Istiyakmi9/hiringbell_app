@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/common/index_card/index_page_card.dart';
 import 'package:hiringbell/pages/posts/posts_controller.dart';
+import 'package:hiringbell/pages/posts/widgets/post_header_card.dart';
+import 'package:hiringbell/pages/posts/widgets/recent_post_title.dart';
 import 'package:hiringbell/utilities/Util.dart';
 
 class UserOwnPosts extends GetView<PostsController> {
@@ -12,7 +14,7 @@ class UserOwnPosts extends GetView<PostsController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => Expanded(
+      () => Expanded(
         child: ListView.builder(
           controller: controller.scrollController,
           itemCount: controller.hasMore.value
@@ -24,7 +26,6 @@ class UserOwnPosts extends GetView<PostsController> {
               if (!controller.isLoading.value) {
                 controller.loadNextPage();
               }
-
               return const Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 32,
@@ -32,6 +33,15 @@ class UserOwnPosts extends GetView<PostsController> {
                 child: Center(
                   child: CircularProgressIndicator(),
                 ),
+              );
+            }
+
+            if(index == 0) {
+              return Column(
+                children: [
+                  PostHeaderCard(),
+                  const RecentPostTitle(),
+                ],
               );
             }
 

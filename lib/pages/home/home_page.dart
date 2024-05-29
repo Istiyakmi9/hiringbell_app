@@ -20,8 +20,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    debugPrint("Home page loaded...");
     super.initState();
+
     home.onRefresh();
   }
 

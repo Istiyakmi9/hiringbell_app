@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/pages/job_post/job_post_controller.dart';
-import 'package:hiringbell/pages/job_post/widget/job_form.dart';
+import 'package:hiringbell/pages/create_job/job_post_controller.dart';
+import 'package:hiringbell/pages/create_job/widget/job_form.dart';
 
 class JobPostPage extends StatefulWidget {
   const JobPostPage({super.key});

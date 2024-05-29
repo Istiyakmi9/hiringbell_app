@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:hiringbell/models/api_response.dart';
+import 'package:hiringbell/models/auth.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/utilities/Util.dart';
@@ -97,15 +98,15 @@ class HttpService extends GetConnect {
     }
   }
 
-  Future<String> login(String url, Map data) async {
+  Future<String> login(String url, Map<String, dynamic> data) async {
     final response = await post(getBaseUrl + url, data, headers: header());
     if (response.status.isOk) {
       var body = ApiResponse.fromJson(response.body);
       User? user = User.fromJson(body.responseBody["UserDetail"]);
-
-      setToken = user.token!;
       Util util = Util.getInstance();
+      setToken = user.token!;
       util.setUserDetail(body.responseBody["UserDetail"]);
+      util.setAuthDetail(data);
 
       return "success";
     } else {

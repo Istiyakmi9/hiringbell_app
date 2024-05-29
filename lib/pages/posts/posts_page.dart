@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/pages/job_post/job_post_page.dart';
 import 'package:hiringbell/pages/posts/posts_controller.dart';
-import 'package:hiringbell/pages/posts/widgets/post_header_card.dart';
-import 'package:hiringbell/pages/posts/widgets/recent_post_title.dart';
 import 'package:hiringbell/pages/posts/widgets/user_own_posts.dart';
 
 import '../../utilities/Util.dart';
-import '../home/widgets/home_cards.dart';
 
 class PostsPage extends StatefulWidget {
   const PostsPage({super.key});
@@ -47,14 +43,7 @@ class _PostsPageState extends State<PostsPage> {
               controller.isHomepageReady.value
                   ? controller.posts.value.isNotEmpty
                       ? Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              PostHeaderCard(),
-                              const RecentPostTitle(),
-                              UserOwnPosts(),
-                            ],
-                          ),
+                          child: UserOwnPosts(),
                         )
                       : const Center(
                           child: Text("No record found"),

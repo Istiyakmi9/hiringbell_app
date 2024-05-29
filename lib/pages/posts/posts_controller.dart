@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hiringbell/pages/job_post/job_post_page.dart';
+import 'package:hiringbell/pages/create_job/job_post_page.dart';
 
 import '../../models/files.dart';
 import '../../models/posts.dart';

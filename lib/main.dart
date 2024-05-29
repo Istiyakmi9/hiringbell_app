@@ -1,15 +1,20 @@
+import 'dart:convert';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hiringbell/firebase_options.dart';
 import 'package:hiringbell/models/navigate.dart';
+import 'package:hiringbell/pages/create_job/job_post_page.dart';
 import 'package:hiringbell/pages/findFriends/findFriends_page.dart';
 import 'package:hiringbell/pages/home/home_page.dart';
-import 'package:hiringbell/pages/job_post/job_post_page.dart';
 import 'package:hiringbell/pages/login/login_page.dart';
-import 'package:hiringbell/pages/page_layout/page_layout_controller.dart';
 import 'package:hiringbell/pages/page_layout/page_layout_index.dart';
 import 'package:hiringbell/pages/posts/posts_page.dart';
 import 'package:hiringbell/pages/profile/profile_page.dart';
 import 'package:hiringbell/pages/settings/settings_page.dart';
+import 'package:hiringbell/push_notification.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,9 +25,46 @@ void main() {
   runApp(const MainApp());
 }
 
-Future<void> preConfigure() async {
+Future _firebaseBackgroundMessage(RemoteMessage message) async {
+  if (message.notification != null) {
+    debugPrint("Notification received");
+    debugPrint("Handling a background message: ${message.messageId}");
+    debugPrint('Message data: ${message.data}');
+    debugPrint('Message notification: ${message.notification?.title}');
+    debugPrint('Message notification: ${message.notification?.body}');
+  }
+}
+
+Future<void> checkAutoLogin() async {
   var pref = await SharedPreferences.getInstance();
   Util.init(pref);
+}
+
+Future<void> preConfigure() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // init push notification
+  PushNotifications.init();
+
+  // init local notification
+  PushNotifications.localNotificationInit();
+
+  // Listen to background notification
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+
+/*  // handle message
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    if(message.notification != null) {
+      Get.toNamed(Navigate.homeLayout,
+          arguments: message.data
+      );
+    }
+  });*/
+
+  // check auto login
+  await checkAutoLogin();
 }
 
 class MainApp extends StatelessWidget {
@@ -59,7 +101,7 @@ class MainApp extends StatelessWidget {
         GetPage(name: Navigate.settings, page: () => const SettingPage()),
         GetPage(name: Navigate.post, page: () => const PostsPage()),
         GetPage(name: Navigate.jobPost, page: () => const JobPostPage()),
-        GetPage(name: Navigate.homeLayout, page: () => PageLayoutIndex()),
+        GetPage(name: Navigate.homeLayout, page: () => const PageLayoutIndex()),
         GetPage(
             name: Navigate.findFriends, page: () => const FindFriendsPage()),
         GetPage(name: Navigate.login, page: () => const LoginPage()),

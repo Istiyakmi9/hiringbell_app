@@ -1,13 +1,8 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
-import 'package:hiringbell/pages/job_post/job_post_controller.dart';
+import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
 class SalaryDetail extends GetView<JobPostController> {
   const SalaryDetail({super.key});

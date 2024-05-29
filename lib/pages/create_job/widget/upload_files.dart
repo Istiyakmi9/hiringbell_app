@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:hiringbell/pages/job_post/job_post_controller.dart';
+import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
 class UploadFiles extends GetView<JobPostController> {
   const UploadFiles({super.key});
