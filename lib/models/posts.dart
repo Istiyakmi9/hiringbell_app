@@ -45,7 +45,7 @@ class Posts {
         completeDescription: json["completeDescription"] ?? Constants.empty,
         fullName: json["fullName"] ?? Constants.empty,
         profileImage: Constants.empty,
-        files: convertToList(json["Files"] ?? []),
+        files: convertToList(json["files"] ?? []),
         isLiked: json["isLiked"] ?? false,
         isApplied: json["isApplied"] ?? false,
         postedBy: json["postedBy"] ?? 0);
