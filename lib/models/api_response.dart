@@ -19,4 +19,8 @@ class ApiResponse {
       httpStatusMessage: json['HttpStatusMessage'],
     );
   }
+
+  bool get isSuccess {
+    return (httpStatusCode ~/ 100) == 2;
+  }
 }

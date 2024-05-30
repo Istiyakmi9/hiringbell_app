@@ -152,6 +152,11 @@ class _LoginFormState extends State<LoginForm> {
                 width: 150,
                 child: LoginActions(),
               ),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    login.signInWithGoogle();
+                  },
+                  label: const Text('Login with Google'))
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hiringbell/models/navigate.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/services/http_service.dart';
@@ -59,6 +60,56 @@ class LoginController extends GetxController {
     }
   }
 
+  Future<bool> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // // Create a new credential
+    // final credential = firebase_auth.GoogleAuthProvider.credential(
+    //   accessToken: googleAuth?.accessToken,
+    //   idToken: googleAuth?.idToken,
+    // );
+
+    // // Once signed in, return the UserCredential
+    // var res = await firebase_auth.FirebaseAuth.instance
+    //     .signInWithCredential(credential);
+
+    // print(res.user?.displayName);
+    // print(res.user?.email);
+
+    onGoogleSignIn(googleAuth?.accessToken);
+
+    return true;
+  }
+
+  onGoogleSignIn(String? accessToken) {
+    if (accessToken != null && accessToken.isNotEmpty) {
+      try {
+        http.login("oauth/googlemobilelogin", {"token": accessToken}).then(
+            (userData) {
+          if (userData == "success") {
+            isSubmitted(false);
+            Fluttertoast.showToast(msg: "Logged in successfully");
+            Get.offAllNamed(Navigate.homeLayout,
+                predicate: (route) => Get.currentRoute == Navigate.homeLayout);
+          } else {
+            Fluttertoast.showToast(
+                msg: "Fail to Google login. Please check your detail.");
+            // isSubmitted(false);
+          }
+        });
+      } catch (e) {
+        Fluttertoast.showToast(
+            msg: "Fail to Google login due to unexpected error occured.");
+        // isSubmitted(false);
+      }
+    }
+  }
+
   validateUserName(String? username) {
     if (username == null || username.isEmpty) {
       return "Invalid username";
@@ -82,7 +133,11 @@ class LoginController extends GetxController {
     isSubmitted = false.obs;
     user = util.getUserDetail();
 
-    usernameController.text = "istiyaq.4game@gmail.com";
-    passwordController.text = "Hiring_Bell@bot@9100@bottomHalf";
+    // usernameController.text = "istiyaq.4game@gmail.com";
+    // passwordController.text = "Hiring_Bell@bot@9100@bottomHalf";
+    usernameController.text = "test2@gmail.com";
+    passwordController.text = "123456";
+    // usernameController.text = "bottomhalf.dev@gmail.com";
+    // passwordController.text = "Hiring_Bell@bot@9100@bottomHalf";
   }
 }
