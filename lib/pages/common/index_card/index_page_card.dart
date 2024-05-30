@@ -8,7 +8,6 @@ import 'package:hiringbell/pages/home/home_controller.dart';
 import 'package:hiringbell/pages/view_post/view_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:photo_view/photo_view.dart';
-
 import '../../home/widgets/image_carousel.dart';
 
 class IndexPageCard extends StatelessWidget {

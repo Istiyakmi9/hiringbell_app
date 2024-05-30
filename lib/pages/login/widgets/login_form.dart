@@ -45,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.white,
                   padding: const EdgeInsets.all(10),
                   child: Image.asset(
-                    "assets/logo.jpeg",
+                    "assets/logo.png",
                     width: 100,
                   ),
                 ),
@@ -86,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     var msg = login.validateUserName(value);
-                    if(msg != null) {
+                    if (msg != null) {
                       Fluttertoast.showToast(msg: msg);
                     }
 
@@ -127,7 +127,7 @@ class _LoginFormState extends State<LoginForm> {
                   controller: login.passwordController,
                   validator: (value) {
                     var msg = login.validatePassword(value);
-                    if(msg != null) {
+                    if (msg != null) {
                       Fluttertoast.showToast(msg: msg);
                     }
 
@@ -153,10 +153,12 @@ class _LoginFormState extends State<LoginForm> {
                 child: LoginActions(),
               ),
               ElevatedButton.icon(
-                  onPressed: () {
-                    login.signInWithGoogle();
-                  },
-                  label: const Text('Login with Google'))
+                onPressed: () {
+                  login.signInWithGoogle();
+                },
+                label: const Text('Login with Google'),
+                icon: const Icon(Icons.g_mobiledata),
+              )
             ],
           ),
         ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
-import 'package:hiringbell/utilities/Util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -36,8 +35,6 @@ class Util {
     if (_util == null) {
       _util = Util._internal();
       _util!.setUpSharedPreferences();
-    } else {
-      debugPrint("Fail to initialize the Util service");
     }
 
     return _util!;

@@ -5,6 +5,7 @@ import 'package:hiringbell/pages/home/widgets/search_box.dart';
 import 'package:hiringbell/pages/page_layout/page_layout_controller.dart';
 import 'package:hiringbell/pages/page_layout/widget/screen_manager.dart';
 import 'package:hiringbell/pages/view_post/view_post_detail.dart';
+import 'package:hiringbell/utilities/Util.dart';
 
 import '../../models/navigate.dart';
 
@@ -63,6 +64,7 @@ class _PageLayoutIndexState extends State<PageLayoutIndex> {
               flex: 1,
               child: IconButton(
                 onPressed: () {
+                  Util.cleanAll();
                   Get.offAllNamed(Navigate.login);
                 },
                 icon: const Icon(Icons.power_settings_new_outlined),
