@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:hiringbell/models/files.dart';
+import 'package:hiringbell/utilities/util.dart';
+import 'package:jiffy/jiffy.dart';
 
 class JobPost {
   int userPostId = 0;
   String? shortDescription = "test";
-  int categoryTypeId = 0;
+  // int categoryTypeId = 0;
   int postedBy = 0;
   DateTime? postedOn;
   String? fileDetail;
@@ -61,7 +61,7 @@ class JobPost {
   JobPost({
     required this.userPostId,
     this.shortDescription,
-    required this.categoryTypeId,
+    // required this.categoryTypeId,
     required this.postedBy,
     this.postedOn,
     required this.fileDetail,
@@ -135,11 +135,34 @@ class JobPost {
     return map;
   }
 
+  static double convertToDouble(dynamic value) {
+    if (value == null) {
+      return 0.0;
+    } else if (value is double) {
+      return value;
+    } else if (value is int) {
+      return value.toDouble();
+    } else {
+      throw ArgumentError('Unexpected value type: ${value.runtimeType}');
+    }
+  }
+
+  static int salaryConverter(dynamic value) {
+    if (value == null) {
+      return 1;
+    }
+    try {
+      return int.parse(value);
+    } catch (ex) {
+      return 1;
+    }
+  }
+
   static Map<String, dynamic> toJson(JobPost data) {
     return {
       'userPostId': data.userPostId,
       'shortDescription': data.shortDescription,
-      'categoryTypeId': data.categoryTypeId,
+      // 'categoryTypeId': data.categoryTypeId,
       'postedBy': data.postedBy,
       'postedOn': data.postedOn,
       'fileDetail': data.fileDetail,
@@ -196,56 +219,56 @@ class JobPost {
     return JobPost(
       userPostId: json['userPostId'],
       shortDescription: json['shortDescription'],
-      categoryTypeId: json['categoryTypeId'],
+      // categoryTypeId: json['categoryTypeId'],
       postedBy: json['postedBy'],
-      postedOn: json['postedOn'],
+      postedOn: Util.convertToDateTime(json['postedOn']),
       fileDetail: json['fileDetail'],
-      files: json['files'] ?? convertToList(json['files']),
+      files: convertToList(json['files'] ?? []),
       jobCategoryId: json['jobCategoryId'],
       jobRequirementId: json['jobRequirementId'],
       requiredShortDesc: json['requiredShortDesc'],
       completeDescription: json['completeDescription'],
       jobTypeId: json['jobTypeId'],
-      clientId: json['clientId'],
+      clientId: json['clientId'] ?? 0,
       agentId: json['agentId'],
       partnerId: json['partnerId'],
-      shiftId: json['shiftId'],
+      shiftId: json['shiftId'] ?? 0,
       isHRAAllowance: json['isHRAAllowance'],
       hraAllowanceAmount: json['hraAllowanceAmount'],
       isTravelAllowance: json['isTravelAllowance'],
-      travelAllowanceAmount: json['travelAllowanceAmount'],
+      travelAllowanceAmount: convertToDouble(json['travelAllowanceAmount']),
       isFoodAllowance: json['isFoodAllowance'],
-      foodAllowanceAmount: json['foodAllowanceAmount'],
+      foodAllowanceAmount: convertToDouble(json['foodAllowanceAmount']),
       isForeignReturnCompulsory: json['isForeignReturnCompulsory'],
       minimumDaysRequired: json['minimumDaysRequired'],
       certificateRequiredId: json['certificateRequiredId'],
-      minimumCTC: json['minimumCTC'],
-      maximumCTC: json['maximumCTC'],
-      isOTIncluded: json['isOTIncluded'],
+      minimumCTC: convertToDouble(json['minimumCTC']),
+      maximumCTC: convertToDouble(json['maximumCTC']),
+      isOTIncluded: json['isOTIncluded'] ?? false,
       maxOTHours: json['maxOTHours'],
-      bonus: json['bonus'],
+      bonus: convertToDouble(json['bonus']),
       countryId: json['countryId'],
-      minAgeLimit: json['minAgeLimit'],
-      maxAgeLimit: json['maxAgeLimit'],
-      noOfPosts: json['noOfPosts'],
-      salaryCurrency: json['salaryCurrency'],
+      minAgeLimit: int.parse(json['minAgeLimit'] ?? 0),
+      maxAgeLimit: int.parse(json['maxAgeLimit'] ?? 0),
+      noOfPosts: int.parse(json['noOfPosts'] ?? 0),
+      salaryCurrency: salaryConverter(json['salaryCurrency']),
       contractPeriodInMonths: json['contractPeriodInMonths'],
-      createdBy: json['createdBy'],
+      createdBy: json['createdBy'] ?? 0,
       updatedBy: json['updatedBy'],
-      createdOn: json['createdOn'],
-      updatedOn: json['updatedOn'],
-      dailyWorkingHours: json['dailyWorkingHours'],
-      visaType: json['visaType'],
-      isMedicalInsuranceProvide: json['isMedicalInsuranceProvide'],
+      createdOn: Util.convertToDateTime(json['createdOn']),
+      updatedOn: Util.convertToDateTime(json['updatedOn']),
+      dailyWorkingHours: json['dailyWorkingHours'] ?? 0,
+      visaType: json['visaType'] ?? 0,
+      isMedicalInsuranceProvide: json['isMedicalInsuranceProvide'] ?? false,
       overseasExperience: json['overseasExperience'],
       localExperience: json['localExperience'],
-      isMon: json['isMon'],
-      isTue: json['isTue'],
-      isThu: json['isThu'],
-      isWed: json['isWed'],
-      isFri: json['isFri'],
-      isSat: json['isSat'],
-      isSun: json['isSun'],
+      isMon: json['isMon'] ?? false,
+      isTue: json['isTue'] ?? false,
+      isThu: json['isThu'] ?? false,
+      isWed: json['isWed'] ?? false,
+      isFri: json['isFri'] ?? false,
+      isSat: json['isSat'] ?? false,
+      isSun: json['isSun'] ?? false,
     );
   }
 }

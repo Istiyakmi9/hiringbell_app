@@ -1,10 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
+import 'package:hiringbell/models/country.dart';
+import 'package:hiringbell/models/currency.dart';
 import 'package:hiringbell/models/files.dart';
+import 'package:hiringbell/models/job_type.dart';
 import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/models/post_job.dart';
 import 'package:hiringbell/utilities/Util.dart';
@@ -19,6 +20,16 @@ class JobPostController extends GetxController {
   final http = HttpService.getInstance();
   final jobTitle = TextEditingController();
   final jobDescription = TextEditingController();
+  // final jobMinimumCTC = TextEditingController();
+  // final jobMaximumCTC = TextEditingController();
+  // final jobBonus = TextEditingController();
+  // final jobSpecialAllowances = TextEditingController();
+  // final jobHRA = TextEditingController();
+  // final jobTRA = TextEditingController();
+  // final jobFoodAllowances = TextEditingController();
+
+  // final jobDailyWorkingHours = TextEditingController();
+  // final jobOverseasExperience = TextEditingController();
   final util = Util.getInstance();
   List<XFile> selectedFiles = [];
 
@@ -30,7 +41,67 @@ class JobPostController extends GetxController {
   var openFlags = [false, false, false].obs;
   var experienceFlag = false.obs;
 
+  List<JobType> listJobType = [];
+  List<Currency> listCurrency = [];
+  List<Country> listCountry = [];
+
+  List<KeyValuePair> listMedicalInsurance = [
+    KeyValuePair(text: 'By company', value: 1),
+    KeyValuePair(text: 'No insurance', value: 2),
+  ];
+
+  List<KeyValuePair> listVisaType = [
+    KeyValuePair(text: 'Tourist', value: 1),
+    KeyValuePair(text: 'Employment', value: 2),
+  ];
+
+  List<int> listMinAge = List.generate(100, (i) => i + 0);
+  List<int> listMaxAge = List.generate(100, (i) => i + 0);
+  List<int> listOverTime = List.generate(100, (i) => i + 0);
+  List<int> listDailyWorkingHours = List.generate(100, (i) => i + 0);
+  List<int> listExperience = List.generate(100, (i) => i + 0);
+  List<int> listMonths = List.generate(13, (i) => i + 0);
+
   JobPost jobPost = JobPost.noArg();
+  int? jobPostId_;
+
+  JobPostController({this.jobPostId_});
+
+  int get overseasExperienceYears => jobPost.overseasExperience ~/ 12;
+  int get overseasExperienceMonths => jobPost.overseasExperience % 12;
+
+  int get localExperienceYears => jobPost.localExperience ~/ 12;
+  int get localExperienceMonths => jobPost.localExperience % 12;
+
+  Future<void> onInitRefresh() async {
+    jobPostId_ ??= 0;
+    try {
+      isLoading(true);
+      await loadFormData(jobPostId_!);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // assignExistingPost(Posts? post) {
+  //   // post.userPostId
+  //   // update();
+  //   loadFormData(post?.userPostId ?? 0);
+  // }
+
+  refreshEditValues(JobPost post) {
+    // jobPost.shortDescription = post.job
+    // jobTitle.text = post.shortDescription ?? Constants.empty;
+    // jobDescription.text = post.completeDescription ?? Constants.empty;
+    // jobMinimumCTC.text = post.minimumCTC.toString();
+    // jobMaximumCTC.text = post.maximumCTC.toString();
+    // jobBonus.text = post.bonus.toString();
+    // // jobSpecialAllowances.text = post..toString();
+    // jobHRA.text = post.hraAllowanceAmount.toString();
+    // jobTRA.text = post.travelAllowanceAmount.toString();
+    // jobFoodAllowances.text = post.foodAllowanceAmount.toString();
+    //wasay
+  }
 
   updateIsSubmitted(bool flag) {
     isSubmitted.value = flag;
@@ -95,6 +166,35 @@ class JobPostController extends GetxController {
     KeyValuePair(text: 'Friday', value: 6),
     KeyValuePair(text: 'Saturday', value: 7),
   ];
+
+  Future<void> loadFormData(int userPostId) async {
+    try {
+      var value = await http
+          .httpGet("core/userposts/getUserPostByUserPostId/$userPostId");
+      // .then((value) {
+
+      List<dynamic> curr = value["Currencies"];
+      listCurrency = Currency.fromJsonList(curr);
+
+      List<dynamic> country = value["Countries"];
+      listCountry = Country.fromJsonList(country);
+
+      List<dynamic> jobType = value["JobTypes"];
+      listJobType = JobType.fromJsonList(jobType);
+
+      if (jobPostId_ == 0) {
+        return;
+      }
+      var userPosts = value["UserPost"][0];
+      if (userPosts != null) {
+        jobPost = JobPost.fromJson(userPosts);
+      } else {
+        util.showToast("Fail to load the data");
+      }
+    } catch (e) {
+      util.showToast("Fail to load the data");
+    }
+  }
 
   saveFormData() {
     bool flag = formKey.currentState!.validate();

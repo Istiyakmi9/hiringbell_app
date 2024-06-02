@@ -19,9 +19,9 @@ class _JobPostPageState extends State<JobPostPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
-        title: const Text("Post a new job"),
+        title: const Text("Post a job"),
       ),
-      body: const JobForm(),
+      body: JobForm(),
     );
   }
 }

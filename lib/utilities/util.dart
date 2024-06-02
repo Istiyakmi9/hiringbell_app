@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -38,6 +39,14 @@ class Util {
     }
 
     return _util!;
+  }
+
+  static DateTime convertToDateTime(String? date) {
+    if (date != null && date != "") {
+      return Jiffy.parse(date).dateTime;
+    } else {
+      return DateTime.now();
+    }
   }
 
   void setUserDetail(dynamic user) {
@@ -157,6 +166,7 @@ class Util {
           ),
         ),
       ),
+      errorWidget: (context, url, error) => Image.asset('assets/user.png'),
     );
   }
 

@@ -62,8 +62,9 @@ class WorkDetail extends GetView<JobPostController> {
                   trailing: SizedBox(
                     width: 200,
                     child: IMultiSelectDropdown<int>(
+                      initialItem: controller.jobPost.dailyWorkingHours,
                       hintText: 'Hours',
-                      items: controller.generateRandomNumber(range: 16),
+                      items: controller.listDailyWorkingHours,
                       decoration: IMultiSelectDropdownDecoration(
                         closedFillColor: Colors.grey.shade100,
                       ),
@@ -126,16 +127,22 @@ class WorkDetail extends GetView<JobPostController> {
                                   children: [
                                     Expanded(
                                       child: IMultiSelectDropdown<int>(
+                                        initialItem:
+                                            controller.overseasExperienceYears,
                                         hintText: 'Years',
-                                        items: controller.generateRandomNumber(
-                                            range: 30),
+                                        items: controller.listExperience,
                                         decoration:
                                             IMultiSelectDropdownDecoration(
                                           closedFillColor: Colors.grey.shade100,
                                         ),
-                                        onChanged: (value) {
-                                          controller.jobPost
-                                              .overseasExperience = value;
+                                        onChanged: (years) {
+                                          controller
+                                                  .jobPost.overseasExperience =
+                                              years * 12 +
+                                                  controller
+                                                      .overseasExperienceMonths;
+                                          debugPrint(
+                                              'oversease exp: ${controller.jobPost.overseasExperience}');
                                         },
                                       ),
                                     ),
@@ -144,16 +151,23 @@ class WorkDetail extends GetView<JobPostController> {
                                     ),
                                     Expanded(
                                       child: IMultiSelectDropdown<int>(
+                                        initialItem:
+                                            controller.overseasExperienceMonths,
                                         hintText: 'Months',
-                                        items: controller.generateRandomNumber(
-                                            range: 12),
+                                        items: controller.listMonths,
                                         decoration:
                                             IMultiSelectDropdownDecoration(
                                           closedFillColor: Colors.grey.shade100,
                                         ),
-                                        onChanged: (value) {
-                                          controller.jobPost
-                                              .overseasExperience = value;
+                                        onChanged: (months) {
+                                          controller
+                                                  .jobPost.overseasExperience =
+                                              months +
+                                                  controller
+                                                          .overseasExperienceYears *
+                                                      12;
+                                          debugPrint(
+                                              'oversease exp: ${controller.jobPost.overseasExperience}');
                                         },
                                       ),
                                     ),
@@ -176,16 +190,21 @@ class WorkDetail extends GetView<JobPostController> {
                                   children: [
                                     Expanded(
                                       child: IMultiSelectDropdown<int>(
-                                        hintText: 'Year',
-                                        items: controller.generateRandomNumber(
-                                            range: 30),
+                                        initialItem:
+                                            controller.localExperienceYears,
+                                        hintText: 'Years',
+                                        items: controller.listExperience,
                                         decoration:
                                             IMultiSelectDropdownDecoration(
                                           closedFillColor: Colors.grey.shade100,
                                         ),
-                                        onChanged: (value) {
+                                        onChanged: (years) {
                                           controller.jobPost.localExperience =
-                                              value;
+                                              years * 12 +
+                                                  controller
+                                                      .localExperienceMonths;
+                                          debugPrint(
+                                              'local exp: ${controller.jobPost.localExperience}');
                                         },
                                       ),
                                     ),
@@ -194,16 +213,22 @@ class WorkDetail extends GetView<JobPostController> {
                                     ),
                                     Expanded(
                                       child: IMultiSelectDropdown<int>(
-                                        hintText: 'Month',
-                                        items: controller.generateRandomNumber(
-                                            range: 12),
+                                        initialItem:
+                                            controller.localExperienceMonths,
+                                        hintText: 'Months',
+                                        items: controller.listMonths,
                                         decoration:
                                             IMultiSelectDropdownDecoration(
                                           closedFillColor: Colors.grey.shade100,
                                         ),
-                                        onChanged: (value) {
+                                        onChanged: (months) {
                                           controller.jobPost.localExperience =
-                                              value;
+                                              months +
+                                                  controller
+                                                          .localExperienceYears *
+                                                      12;
+                                          debugPrint(
+                                              'local exp: ${controller.jobPost.localExperience}');
                                         },
                                       ),
                                     ),

@@ -80,7 +80,9 @@ class PostsController extends GetxController {
     isLoading(true);
 
     try {
-      http.httpGet("core/userposts/getOwnPosts/${++pageIndex.value}").then((value) {
+      http
+          .httpGet("core/userposts/getOwnPosts/${++pageIndex.value}")
+          .then((value) {
         if (value != null) {
           List<dynamic> items = value;
           if (items.isNotEmpty) {
@@ -133,7 +135,7 @@ class PostsController extends GetxController {
 
   loadJobPostPage() async {
     var result = await Get.to(const JobPostPage());
-    if(result != null ) {
+    if (result != null) {
       util = Util.getInstance();
       util!.showToast(result);
     }

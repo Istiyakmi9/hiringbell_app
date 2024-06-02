@@ -63,10 +63,9 @@ class OtherDetail extends GetView<JobPostController> {
                     width: 200,
                     child: IMultiSelectDropdown<KeyValuePair>(
                       hintText: 'Select medical insurance',
-                      items: <KeyValuePair>[
-                        KeyValuePair(text: 'By company', value: 1),
-                        KeyValuePair(text: 'No insurance', value: 2),
-                      ],
+                      items: controller.listMedicalInsurance,
+                      initialItem: controller.listMedicalInsurance
+                          .firstWhereOrNull((c) => c.value == 1),
                       decoration: IMultiSelectDropdownDecoration(
                         closedFillColor: Colors.grey.shade100,
                       ),
@@ -86,10 +85,9 @@ class OtherDetail extends GetView<JobPostController> {
                     width: 200,
                     child: IMultiSelectDropdown<KeyValuePair>(
                       hintText: 'Select visa type',
-                      items: <KeyValuePair>[
-                        KeyValuePair(text: 'Tourist', value: 1),
-                        KeyValuePair(text: 'Employment', value: 2),
-                      ],
+                      items: controller.listVisaType,
+                      initialItem: controller.listVisaType.firstWhereOrNull(
+                          (c) => c.value == controller.jobPost.visaType),
                       decoration: IMultiSelectDropdownDecoration(
                         closedFillColor: Colors.grey.shade100,
                       ),
@@ -99,31 +97,31 @@ class OtherDetail extends GetView<JobPostController> {
                     ),
                   ),
                 ),
-                ListTile(
-                  title: const Text(
-                    'Job Type',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  trailing: SizedBox(
-                    width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
-                      hintText: 'Select job type',
-                      items: <KeyValuePair>[
-                        KeyValuePair(text: 'Contractual', value: 1),
-                        KeyValuePair(text: 'Permanent', value: 2),
-                      ],
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
-                      onChanged: (value) {
-                        controller.jobPost.jobTypeId = value.value;
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                // ListTile(
+                //   title: const Text(
+                //     'Job Type',
+                //     style: TextStyle(fontWeight: FontWeight.w500),
+                //   ),
+                //   trailing: SizedBox(
+                //     width: 200,
+                //     child: IMultiSelectDropdown<KeyValuePair>(
+                //       hintText: 'Select job type',
+                //       items: <KeyValuePair>[
+                //         KeyValuePair(text: 'Contractual', value: 1),
+                //         KeyValuePair(text: 'Permanent', value: 2),
+                //       ],
+                //       decoration: IMultiSelectDropdownDecoration(
+                //         closedFillColor: Colors.grey.shade100,
+                //       ),
+                //       onChanged: (value) {
+                //         controller.jobPost.jobTypeId = value.value;
+                //       },
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -142,7 +140,9 @@ class OtherDetail extends GetView<JobPostController> {
                         width: 200,
                         child: IMultiSelectDropdown<int>(
                           hintText: 'Minimum age',
-                          items: List.generate(30, (i) => i + 1),
+                          items: controller.listMinAge,
+                          initialItem: controller.listMinAge.firstWhereOrNull(
+                              (c) => c == controller.jobPost.minAgeLimit),
                           decoration: IMultiSelectDropdownDecoration(
                             closedFillColor: Colors.grey.shade100,
                           ),
@@ -161,7 +161,9 @@ class OtherDetail extends GetView<JobPostController> {
                         width: 200,
                         child: IMultiSelectDropdown<int>(
                           hintText: 'Maximum age',
-                          items: List.generate(80, (i) => i + 1),
+                          items: controller.listMinAge,
+                          initialItem: controller.listMinAge.firstWhereOrNull(
+                              (c) => c == controller.jobPost.maxAgeLimit),
                           decoration: IMultiSelectDropdownDecoration(
                             closedFillColor: Colors.grey.shade100,
                           ),
@@ -216,8 +218,10 @@ class OtherDetail extends GetView<JobPostController> {
                               width: 250,
                               child: IMultiSelectDropdown<int>(
                                 hintText: 'Overtime hours',
-                                items:
-                                    controller.generateRandomNumber(range: 6),
+                                items: controller.listOverTime,
+                                initialItem: controller.listMinAge
+                                    .firstWhereOrNull((c) =>
+                                        c == controller.jobPost.maxOTHours),
                                 decoration: IMultiSelectDropdownDecoration(
                                   closedFillColor: Colors.grey.shade100,
                                 ),

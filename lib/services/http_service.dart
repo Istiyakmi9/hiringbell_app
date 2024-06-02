@@ -19,7 +19,7 @@ class HttpService extends GetConnect {
   String? _token;
 
   HttpService._internal() {
-    _initialized(true);
+    _initialized(false);
   }
 
   String get token => _token ?? "";
@@ -64,7 +64,7 @@ class HttpService extends GetConnect {
     return {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': token ?? ""
+      'Authorization': token
     };
   }
 
@@ -72,7 +72,7 @@ class HttpService extends GetConnect {
     return {
       'Content-type': 'multipart/form-data',
       'Accept': 'application/json',
-      'Authorization': token ?? ""
+      'Authorization': token
     };
   }
 
