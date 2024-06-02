@@ -20,7 +20,7 @@ class JobPost {
   int? partnerId = 0;
   int shiftId = 0;
   bool? isHRAAllowance = false;
-  double? hraAllowanceAmount = 0.0;
+  double? hRAAllowanceAmount = 0.0;
   bool? isTravelAllowance = false;
   double? travelAllowanceAmount = 0.0;
   bool? isFoodAllowance = false;
@@ -76,7 +76,7 @@ class JobPost {
     this.partnerId,
     required this.shiftId,
     this.isHRAAllowance,
-    this.hraAllowanceAmount,
+    this.hRAAllowanceAmount,
     this.isTravelAllowance,
     this.travelAllowanceAmount,
     this.isFoodAllowance,
@@ -177,7 +177,7 @@ class JobPost {
       'partnerId': data.partnerId,
       'shiftId': data.shiftId,
       'isHRAAllowance': data.isHRAAllowance,
-      'hraAllowanceAmount': data.hraAllowanceAmount,
+      'hRAAllowanceAmount': data.hRAAllowanceAmount,
       'isTravelAllowance': data.isTravelAllowance,
       'travelAllowanceAmount': data.travelAllowanceAmount,
       'isFoodAllowance': data.isFoodAllowance,
@@ -234,7 +234,7 @@ class JobPost {
       partnerId: json['partnerId'],
       shiftId: json['shiftId'] ?? 0,
       isHRAAllowance: json['isHRAAllowance'],
-      hraAllowanceAmount: json['hraAllowanceAmount'],
+      hRAAllowanceAmount: convertToDouble(json['hRAAllowanceAmount']),
       isTravelAllowance: json['isTravelAllowance'],
       travelAllowanceAmount: convertToDouble(json['travelAllowanceAmount']),
       isFoodAllowance: json['isFoodAllowance'],

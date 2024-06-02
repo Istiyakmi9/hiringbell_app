@@ -8,13 +8,15 @@ import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 class DaysCard extends StatefulWidget {
   final String label;
   final int index;
-  bool flag;
+  bool initialValue;
+  final void Function(bool)? onChanged;
 
   DaysCard({
     super.key,
     required this.label,
     required this.index,
-    required this.flag,
+    required this.initialValue,
+    required this.onChanged,
   });
 
   @override
@@ -22,16 +24,16 @@ class DaysCard extends StatefulWidget {
 }
 
 class _DaysCardState extends State<DaysCard> {
-  var controller = Get.put(JobPostController());
+  // var controller = Get.put(JobPostController());
 
   updateCard(bool f) {
     setState(() {
-      widget.flag = f;
+      widget.initialValue = f;
     });
   }
 
   Color getBorderColors() {
-    if (widget.flag) {
+    if (widget.initialValue) {
       return Colors.green;
     }
 
@@ -41,7 +43,7 @@ class _DaysCardState extends State<DaysCard> {
   @override
   Widget build(BuildContext context) {
     return FancyCard(
-      color: widget.flag ? Colors.green : Colors.red,
+      color: widget.initialValue ? Colors.green : Colors.red,
       borderColor: Colors.grey.shade300,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -51,7 +53,7 @@ class _DaysCardState extends State<DaysCard> {
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                widget.flag
+                widget.initialValue
                     ? const Icon(
                         Icons.workspace_premium_outlined,
                         color: Colors.orange,
@@ -73,7 +75,7 @@ class _DaysCardState extends State<DaysCard> {
                 const SizedBox(
                   width: 10,
                 ),
-                widget.flag
+                widget.initialValue
                     ? const Text(
                         "(Working day)",
                         style: TextStyle(
@@ -94,12 +96,13 @@ class _DaysCardState extends State<DaysCard> {
             ),
             Switch(
               // This bool value toggles the switch.
-              value: widget.flag,
+              value: widget.initialValue,
               activeColor: Colors.blueAccent,
               onChanged: (bool value) {
                 debugPrint("$value");
-                controller.updateWeekdaysStatus(widget.index);
+                // controller.updateWeekdaysStatusUI(widget.index, value);
                 updateCard(value);
+                widget.onChanged;
               },
             ),
           ],

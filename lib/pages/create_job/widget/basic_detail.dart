@@ -7,6 +7,8 @@ import 'package:hiringbell/pages/common/bt_text_form_field/bt_text_form_field.da
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
+import '../../common/bt_single_select/bt_single_select.dart';
+
 class BasicDetail extends GetView<JobPostController> {
   const BasicDetail({super.key});
   @override
@@ -92,17 +94,25 @@ class BasicDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<JobType>(
-                      initialItem: controller.listJobType.firstWhereOrNull(
-                          (c) => c.jobTypeId == controller.jobPost.jobTypeId),
-                      items: controller.listJobType,
-                      hintText: "Select Job Type",
-                      onChanged: (category) {
-                        controller.jobPost.jobTypeId = category.jobTypeId;
-                      },
-                      decoration: IMultiSelectDropdownDecoration(
-                          closedFillColor: Colors.grey.shade50),
-                    ),
+                    // child: IMultiSelectDropdown<JobType>(
+                    //   initialItem: controller.listJobType.firstWhereOrNull(
+                    //       (c) => c.jobTypeId == controller.jobPost.jobTypeId),
+                    //   items: controller.listJobType,
+                    //   hintText: "Select Job Type",
+                    //   onChanged: (category) {
+                    //     controller.jobPost.jobTypeId = category.jobTypeId;
+                    //   },
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //       closedFillColor: Colors.grey.shade50),
+                    // ),
+                    child: BTSingleSelect(
+                        hintText: "Select Job Type",
+                        items: controller.listJobType,
+                        initSelectionCriteria: (c) =>
+                            c.jobTypeId == controller.jobPost.jobTypeId,
+                        onChanged: (jobType) {
+                          controller.jobPost.jobTypeId = jobType.jobTypeId;
+                        }),
                   ),
                 ),
                 ListTile(
@@ -112,16 +122,25 @@ class BasicDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<Country>(
-                      initialItem: controller.listCountry.firstWhereOrNull(
-                          (c) => c.id == controller.jobPost.countryId),
+                    // child: IMultiSelectDropdown<Country>(
+                    //   initialItem: controller.listCountry.firstWhereOrNull(
+                    //       (c) => c.id == controller.jobPost.countryId),
+                    //   items: controller.listCountry,
+                    //   onChanged: (country) {
+                    //     controller.jobPost.countryId = country.id;
+                    //   },
+                    //   hintText: "Select country",
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //       closedFillColor: Colors.grey.shade50),
+                    // ),
+                    child: BTSingleSelect(
+                      hintText: "Select country",
                       items: controller.listCountry,
+                      initSelectionCriteria: (c) =>
+                          c.id == controller.jobPost.countryId,
                       onChanged: (country) {
                         controller.jobPost.countryId = country.id;
                       },
-                      hintText: "Select country",
-                      decoration: IMultiSelectDropdownDecoration(
-                          closedFillColor: Colors.grey.shade50),
                     ),
                   ),
                 ),

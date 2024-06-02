@@ -81,6 +81,7 @@ class ActionCard extends GetView<JobPostController> {
               onPressed: () => {
                 controller.updateIsSubmitted(true),
                 controller.saveFormData(),
+                controller.updateIsSubmitted(false),
               },
             ),
           ),

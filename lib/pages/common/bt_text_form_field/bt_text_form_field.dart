@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../bt_single_select/form_util.dart';
+
 class BTTextFormField extends StatelessWidget {
   final String? hintText;
   String? initialValue;
@@ -51,7 +53,7 @@ class BTTextFormField extends StatelessWidget {
         hintText: hintText,
       ),
       textInputAction: TextInputAction.next,
-      initialValue: initialValue,
+      initialValue: FormUtil.isEdit ? initialValue : null,
       onChanged: onChanged,
       validator: validator,
       minLines: minLines,

@@ -5,6 +5,7 @@ import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
+import '../../common/bt_single_select/bt_single_select.dart';
 import '../../common/bt_text_form_field/bt_text_form_field.dart';
 
 class SalaryDetail extends GetView<JobPostController> {
@@ -212,11 +213,11 @@ class SalaryDetail extends GetView<JobPostController> {
                                   prefixIcon: Icons.currency_rupee,
                                   hintText: "0.0",
                                   initialValue: controller
-                                      .jobPost.hraAllowanceAmount
+                                      .jobPost.hRAAllowanceAmount
                                       .toString(),
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
-                                      controller.jobPost.hraAllowanceAmount =
+                                      controller.jobPost.hRAAllowanceAmount =
                                           double.parse(value);
                                       controller.jobPost.isHRAAllowance = true;
                                     }
@@ -361,14 +362,23 @@ class SalaryDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<Currency>(
-                      initialItem: controller.listCurrency.firstWhereOrNull(
-                          (c) => c.id == controller.jobPost.salaryCurrency),
+                    // child: IMultiSelectDropdown<Currency>(
+                    //   initialItem: controller.listCurrency.firstWhereOrNull(
+                    //       (c) => c.id == controller.jobPost.salaryCurrency),
+                    //   hintText: 'Select currency',
+                    //   items: controller.listCurrency,
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //     closedFillColor: Colors.grey.shade100,
+                    //   ),
+                    //   onChanged: (value) {
+                    //     controller.jobPost.salaryCurrency = value.id;
+                    //   },
+                    // ),
+                    child: BTSingleSelect(
                       hintText: 'Select currency',
                       items: controller.listCurrency,
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
+                      initSelectionCriteria: (c) =>
+                          c.id == controller.jobPost.salaryCurrency,
                       onChanged: (value) {
                         controller.jobPost.salaryCurrency = value.id;
                       },

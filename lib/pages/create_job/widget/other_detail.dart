@@ -4,6 +4,8 @@ import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
+import '../../common/bt_single_select/bt_single_select.dart';
+
 class OtherDetail extends GetView<JobPostController> {
   const OtherDetail({super.key});
 
@@ -61,17 +63,26 @@ class OtherDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
+                    // child: IMultiSelectDropdown<KeyValuePair>(
+                    //   hintText: 'Select medical insurance',
+                    //   items: controller.listMedicalInsurance,
+                    //   initialItem: controller.listMedicalInsurance
+                    //       .firstWhereOrNull((c) => c.value == 1),
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //     closedFillColor: Colors.grey.shade100,
+                    //   ),
+                    //   onChanged: (value) {
+                    //     controller.jobPost.isMedicalInsuranceProvide =
+                    //         value.value == 1 ? true : false;
+                    //   },
+                    // ),
+                    child: BTSingleSelect(
                       hintText: 'Select medical insurance',
                       items: controller.listMedicalInsurance,
-                      initialItem: controller.listMedicalInsurance
-                          .firstWhereOrNull((c) => c.value == 1),
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
+                      initSelectionCriteria: (c) => c.value == 1,
                       onChanged: (value) {
                         controller.jobPost.isMedicalInsuranceProvide =
-                            value.value == 1 ? true : false;
+                            value.value == 1;
                       },
                     ),
                   ),
@@ -83,14 +94,23 @@ class OtherDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
+                    // child: IMultiSelectDropdown<KeyValuePair>(
+                    //   hintText: 'Select visa type',
+                    //   items: controller.listVisaType,
+                    //   initialItem: controller.listVisaType.firstWhereOrNull(
+                    //       (c) => c.value == controller.jobPost.visaType),
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //     closedFillColor: Colors.grey.shade100,
+                    //   ),
+                    //   onChanged: (value) {
+                    //     controller.jobPost.visaType = value.value;
+                    //   },
+                    // ),
+                    child: BTSingleSelect(
                       hintText: 'Select visa type',
                       items: controller.listVisaType,
-                      initialItem: controller.listVisaType.firstWhereOrNull(
-                          (c) => c.value == controller.jobPost.visaType),
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
+                      initSelectionCriteria: (c) =>
+                          c.value == controller.jobPost.visaType,
                       onChanged: (value) {
                         controller.jobPost.visaType = value.value;
                       },
@@ -138,14 +158,23 @@ class OtherDetail extends GetView<JobPostController> {
                       ),
                       trailing: SizedBox(
                         width: 200,
-                        child: IMultiSelectDropdown<int>(
+                        // child: IMultiSelectDropdown<int>(
+                        //   hintText: 'Minimum age',
+                        //   items: controller.listMinAge,
+                        //   initialItem: controller.listMinAge.firstWhereOrNull(
+                        //       (c) => c == controller.jobPost.minAgeLimit),
+                        //   decoration: IMultiSelectDropdownDecoration(
+                        //     closedFillColor: Colors.grey.shade100,
+                        //   ),
+                        //   onChanged: (value) {
+                        //     controller.jobPost.minAgeLimit = value;
+                        //   },
+                        // ),
+                        child: BTSingleSelect(
                           hintText: 'Minimum age',
                           items: controller.listMinAge,
-                          initialItem: controller.listMinAge.firstWhereOrNull(
-                              (c) => c == controller.jobPost.minAgeLimit),
-                          decoration: IMultiSelectDropdownDecoration(
-                            closedFillColor: Colors.grey.shade100,
-                          ),
+                          initSelectionCriteria: (c) =>
+                              c == controller.jobPost.minAgeLimit,
                           onChanged: (value) {
                             controller.jobPost.minAgeLimit = value;
                           },
@@ -159,14 +188,23 @@ class OtherDetail extends GetView<JobPostController> {
                       ),
                       trailing: SizedBox(
                         width: 200,
-                        child: IMultiSelectDropdown<int>(
+                        // child: IMultiSelectDropdown<int>(
+                        //   hintText: 'Maximum age',
+                        //   items: controller.listMinAge,
+                        //   initialItem: controller.listMinAge.firstWhereOrNull(
+                        //       (c) => c == controller.jobPost.maxAgeLimit),
+                        //   decoration: IMultiSelectDropdownDecoration(
+                        //     closedFillColor: Colors.grey.shade100,
+                        //   ),
+                        //   onChanged: (value) {
+                        //     controller.jobPost.maxAgeLimit = value;
+                        //   },
+                        // ),
+                        child: BTSingleSelect(
                           hintText: 'Maximum age',
                           items: controller.listMinAge,
-                          initialItem: controller.listMinAge.firstWhereOrNull(
-                              (c) => c == controller.jobPost.maxAgeLimit),
-                          decoration: IMultiSelectDropdownDecoration(
-                            closedFillColor: Colors.grey.shade100,
-                          ),
+                          initSelectionCriteria: (c) =>
+                              c == controller.jobPost.maxAgeLimit,
                           onChanged: (value) {
                             controller.jobPost.maxAgeLimit = value;
                           },
@@ -216,15 +254,24 @@ class OtherDetail extends GetView<JobPostController> {
                             ),
                             child: SizedBox(
                               width: 250,
-                              child: IMultiSelectDropdown<int>(
+                              // child: IMultiSelectDropdown<int>(
+                              //   hintText: 'Overtime hours',
+                              //   items: controller.listOverTime,
+                              //   initialItem: controller.listMinAge
+                              //       .firstWhereOrNull((c) =>
+                              //           c == controller.jobPost.maxOTHours),
+                              //   decoration: IMultiSelectDropdownDecoration(
+                              //     closedFillColor: Colors.grey.shade100,
+                              //   ),
+                              //   onChanged: (value) {
+                              //     controller.jobPost.maxOTHours = value;
+                              //   },
+                              // ),
+                              child: BTSingleSelect(
                                 hintText: 'Overtime hours',
                                 items: controller.listOverTime,
-                                initialItem: controller.listMinAge
-                                    .firstWhereOrNull((c) =>
-                                        c == controller.jobPost.maxOTHours),
-                                decoration: IMultiSelectDropdownDecoration(
-                                  closedFillColor: Colors.grey.shade100,
-                                ),
+                                initSelectionCriteria: (c) =>
+                                    c == controller.jobPost.maxOTHours,
                                 onChanged: (value) {
                                   controller.jobPost.maxOTHours = value;
                                 },

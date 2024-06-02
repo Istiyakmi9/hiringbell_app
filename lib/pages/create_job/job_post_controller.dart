@@ -8,6 +8,7 @@ import 'package:hiringbell/models/files.dart';
 import 'package:hiringbell/models/job_type.dart';
 import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/models/post_job.dart';
+import 'package:hiringbell/pages/common/bt_single_select/form_util.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -75,6 +76,7 @@ class JobPostController extends GetxController {
 
   Future<void> onInitRefresh() async {
     jobPostId_ ??= 0;
+    FormUtil.isEdit = (jobPostId_! > 0);
     try {
       isLoading(true);
       await loadFormData(jobPostId_!);
@@ -157,6 +159,26 @@ class JobPostController extends GetxController {
     }
   }
 
+  updateWeekdaysStatusUI(int i, bool status) {
+    switch (i) {
+      case 1:
+        jobPost.isMon = status;
+      case 2:
+        jobPost.isTue = status;
+      case 3:
+        jobPost.isWed = status;
+      case 4:
+        jobPost.isThu = status;
+      case 5:
+        jobPost.isFri = status;
+      case 6:
+        jobPost.isSat = status;
+      case 7:
+        jobPost.isSun = status;
+    }
+    debugPrint('days $i :=> $status');
+  }
+
   var days = <KeyValuePair>[
     KeyValuePair(text: 'Sunday', value: 1),
     KeyValuePair(text: 'Monday', value: 2),
@@ -182,9 +204,7 @@ class JobPostController extends GetxController {
       List<dynamic> jobType = value["JobTypes"];
       listJobType = JobType.fromJsonList(jobType);
 
-      if (jobPostId_ == 0) {
-        return;
-      }
+      if (!FormUtil.isEdit) return;
       var userPosts = value["UserPost"][0];
       if (userPosts != null) {
         jobPost = JobPost.fromJson(userPosts);
@@ -198,39 +218,65 @@ class JobPostController extends GetxController {
 
   saveFormData() {
     bool flag = formKey.currentState!.validate();
-    if (flag) {
-      int i = 0;
-      jobPost.files = [];
-      var files = <FileDetail>[];
-      for (var element in selectedFiles) {
-        files.add(
-          FileDetail(
-            fileDetailId: ++i,
-            filePath: element.path,
-          ),
-        );
-      }
-
-      // jobPost.fileDetail = jsonEncode(JobPost.getJsonList(files));
-      jobPost.fileDetail = "[]";
-      http
-          .upload("core/userposts/uploadUserPostsMobile", pickedImages.value,
-              JobPost.toJson(jobPost))
-          .then((value) => {
-                if (value != null || value == "success")
-                  {
-                    Get.back(result: "Post published successfully"),
-                  }
-                else
-                  {
-                    updateIsSubmitted(false),
-                    util.showToast("Fail to post. Please contact admin.",
-                        type: Constants.fail),
-                  }
-              });
-    } else {
+    if (!flag) {
       util.showToast("Invalid form", type: Constants.fail);
     }
+
+    if (FormUtil.isEdit) {
+      updateFormData();
+      return;
+    }
+    int i = 0;
+    jobPost.files = [];
+    var files = <FileDetail>[];
+    for (var element in selectedFiles) {
+      files.add(
+        FileDetail(
+          fileDetailId: ++i,
+          filePath: element.path,
+        ),
+      );
+    }
+
+    // jobPost.fileDetail = jsonEncode(JobPost.getJsonList(files));
+    jobPost.fileDetail = "[]";
+    http
+        .upload("core/userposts/uploadUserPostsMobile", pickedImages.value,
+            JobPost.toJson(jobPost))
+        .then((value) => {
+              if (value != null || value == "success")
+                {
+                  Get.back(result: "Post published successfully"),
+                }
+              else
+                {
+                  updateIsSubmitted(false),
+                  util.showToast("Fail to post. Please contact admin.",
+                      type: Constants.fail),
+                }
+            });
+  }
+
+  updateFormData() {
+    jobPost.files = [];
+    //Todo filesaved
+
+    jobPost.fileDetail = "[]";
+    http
+        .upload("core/userposts/updateUserPosts", pickedImages.value,
+            JobPost.toJson(jobPost))
+        .then((value) => {
+              if (value != null || value == "success")
+                {
+                  Get.back(result: "Post published successfully"),
+                }
+              else
+                {
+                  updateIsSubmitted(false),
+                  util.showToast("Fail to post. Please contact admin.",
+                      type: Constants.fail),
+                }
+            });
   }
 
   List<KeyValuePair> categories = <KeyValuePair>[
