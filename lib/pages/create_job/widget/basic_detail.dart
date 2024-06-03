@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hiringbell/models/country.dart';
+import 'package:hiringbell/models/job_type.dart';
 import 'package:hiringbell/models/key_value_items.dart';
+import 'package:hiringbell/pages/common/bt_text_form_field/bt_text_form_field.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
+import '../../common/bt_single_select/bt_single_select.dart';
+
 class BasicDetail extends GetView<JobPostController> {
   const BasicDetail({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,39 +54,11 @@ class BasicDetail extends GetView<JobPostController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Job Title"),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 2,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.person_outline_rounded,
-                            color: Colors.blueAccent,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: "Enter email or mobile no#",
-                        ),
-                        textInputAction: TextInputAction.next,
-                        controller: controller.jobTitle,
-                        validator: (value) {
-                          debugPrint(value);
+                      BTTextFormField(
+                        hintText: "Enter email or mobile no#",
+                        initialValue: controller.jobPost.shortDescription,
+                        onChanged: (value) {
                           controller.jobPost.shortDescription = value;
-                          return null;
                         },
                       ),
                     ],
@@ -94,34 +70,14 @@ class BasicDetail extends GetView<JobPostController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Description"),
-                      TextFormField(
+                      BTTextFormField(
                         maxLines: null,
                         minLines: 4,
                         keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.all(10.0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          hintText: "Enter password",
-                        ),
-                        controller: controller.jobDescription,
-                        validator: (value) {
-                          debugPrint(value);
+                        hintText: "Enter Description",
+                        initialValue: controller.jobPost.completeDescription,
+                        onChanged: (value) {
                           controller.jobPost.completeDescription = value;
-                          return null;
                         },
                       ),
                     ],
@@ -132,21 +88,31 @@ class BasicDetail extends GetView<JobPostController> {
                 ),
                 ListTile(
                   title: const Text(
-                    'Category Type',
+                    // 'Category Type',
+                    'Job Type',
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
-                      items: controller.categories,
-                      hintText: "Select category",
-                      onChanged: (category) {
-                        controller.jobPost.categoryTypeId = category.value;
-                      },
-                      decoration: IMultiSelectDropdownDecoration(
-                          closedFillColor: Colors.grey.shade50
-                      ),
-                    ),
+                    // child: IMultiSelectDropdown<JobType>(
+                    //   initialItem: controller.listJobType.firstWhereOrNull(
+                    //       (c) => c.jobTypeId == controller.jobPost.jobTypeId),
+                    //   items: controller.listJobType,
+                    //   hintText: "Select Job Type",
+                    //   onChanged: (category) {
+                    //     controller.jobPost.jobTypeId = category.jobTypeId;
+                    //   },
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //       closedFillColor: Colors.grey.shade50),
+                    // ),
+                    child: BTSingleSelect(
+                        hintText: "Select Job Type",
+                        items: controller.listJobType,
+                        initSelectionCriteria: (c) =>
+                            c.jobTypeId == controller.jobPost.jobTypeId,
+                        onChanged: (jobType) {
+                          controller.jobPost.jobTypeId = jobType.jobTypeId;
+                        }),
                   ),
                 ),
                 ListTile(
@@ -156,15 +122,25 @@ class BasicDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
-                      items: controller.countries,
-                      onChanged: (country) {
-                        controller.jobPost.countryId = country.value;
-                      },
+                    // child: IMultiSelectDropdown<Country>(
+                    //   initialItem: controller.listCountry.firstWhereOrNull(
+                    //       (c) => c.id == controller.jobPost.countryId),
+                    //   items: controller.listCountry,
+                    //   onChanged: (country) {
+                    //     controller.jobPost.countryId = country.id;
+                    //   },
+                    //   hintText: "Select country",
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //       closedFillColor: Colors.grey.shade50),
+                    // ),
+                    child: BTSingleSelect(
                       hintText: "Select country",
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade50
-                      ),
+                      items: controller.listCountry,
+                      initSelectionCriteria: (c) =>
+                          c.id == controller.jobPost.countryId,
+                      onChanged: (country) {
+                        controller.jobPost.countryId = country.id;
+                      },
                     ),
                   ),
                 ),

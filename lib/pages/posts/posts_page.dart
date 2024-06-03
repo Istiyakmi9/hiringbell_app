@@ -42,9 +42,7 @@ class _PostsPageState extends State<PostsPage> {
             children: [
               controller.isHomepageReady.value
                   ? controller.posts.value.isNotEmpty
-                      ? Expanded(
-                          child: UserOwnPosts(),
-                        )
+                      ? UserOwnPosts()
                       : const Center(
                           child: Text("No record found"),
                         )

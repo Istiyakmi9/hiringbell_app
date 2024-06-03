@@ -19,7 +19,7 @@ class HttpService extends GetConnect {
   String? _token;
 
   HttpService._internal() {
-    _initialized(true);
+    _initialized(false);
   }
 
   String get token => _token ?? "";
@@ -28,18 +28,14 @@ class HttpService extends GetConnect {
     _token = value;
   }
 
-  void _initialized(bool flag) {
-    if (flag) {
-      setBaseUrl(
-        baseUrl: "https://www.hiringbell.com/hb/api/",
-        resourceBaseUrl: "https://www.hiringbell.com/resources/",
-      );
-    } else {
-      setBaseUrl(
-        baseUrl: "http://192.168.1.83:8090/hb/api/",
-        resourceBaseUrl: "http://192.168.1.83:8090/resources/",
-      );
-    }
+  void _initialized(bool isServer) {
+    String url =
+        isServer ? "https://www.hiringbell.com/" : "http://192.168.1.100:8090/";
+
+    setBaseUrl(
+      baseUrl: "${url}hb/api/",
+      resourceBaseUrl: "${url}resources/",
+    );
   }
 
   static HttpService getInstance() {
@@ -64,7 +60,7 @@ class HttpService extends GetConnect {
     return {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': token ?? ""
+      'Authorization': token
     };
   }
 
@@ -72,7 +68,7 @@ class HttpService extends GetConnect {
     return {
       'Content-type': 'multipart/form-data',
       'Accept': 'application/json',
-      'Authorization': token ?? ""
+      'Authorization': token
     };
   }
 
@@ -108,9 +104,9 @@ class HttpService extends GetConnect {
       util.setUserDetail(body.responseBody["UserDetail"]);
       util.setAuthDetail(data);
 
-      return "success";
+      return Constants.success;
     } else {
-      return "Fail";
+      return Constants.fail;
     }
   }
 
@@ -188,7 +184,14 @@ class HttpService extends GetConnect {
     var request = http.MultipartRequest('POST', uri);
     request.headers.addAll(imageHeader());
 
-    request.fields['userPost'] = json.encode(data);
+    try {
+      var jsonEncoded = json.encode(data);
+      request.fields['userPost'] = jsonEncoded;
+    } on Exception catch (e) {
+      debugPrint('some error occured');
+      print('Error encoding JSON: $e');
+    }
+
     if (files.isNotEmpty) {
       for (var image in files) {
         request.files.add(

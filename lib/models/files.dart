@@ -2,10 +2,7 @@ class FileDetail {
   int? fileDetailId;
   String? filePath;
 
-  FileDetail({
-    this.fileDetailId,
-    this.filePath
-  });
+  FileDetail({this.fileDetailId, this.filePath});
 
   static Map<String, dynamic> toJson(FileDetail fileDetail) {
     return {
@@ -19,5 +16,8 @@ class FileDetail {
       fileDetailId: file["fileDetailId"],
       filePath: file["filePath"],
     );
+  }
+  static List<FileDetail> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => FileDetail.fromJson(json)).toList();
   }
 }

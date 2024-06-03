@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hiringbell/models/posts.dart';
 import 'package:hiringbell/pages/create_job/widget/job_form.dart';
 
-class JobPostPage extends StatefulWidget {
-  const JobPostPage({super.key});
+class JobPostEditPage extends StatelessWidget {
+  final Posts? existingPost;
+  const JobPostEditPage({super.key, this.existingPost});
 
-  @override
-  State<JobPostPage> createState() => _JobPostPageState();
-}
-
-class _JobPostPageState extends State<JobPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
-        title: const Text("Post a job"),
+        title: const Text("Edit a job"),
       ),
-      body: JobForm(),
+      body: JobForm(existingPost: existingPost),
     );
   }
 }

@@ -36,16 +36,15 @@ class UserOwnPosts extends GetView<PostsController> {
               );
             }
 
-            if(index == 0) {
-              return Column(
-                children: [
+            return Column(
+              children: [
+                if (index == 0) ...[
                   PostHeaderCard(),
                   const RecentPostTitle(),
                 ],
-              );
-            }
-
-            return IndexPageCard(posts: controller.posts.value[index]);
+                IndexPageCard(posts: controller.posts.value[index]),
+              ],
+            );
           },
         ),
       ),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hiringbell/models/currency.dart';
 import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
+
+import '../../common/bt_single_select/bt_single_select.dart';
+import '../../common/bt_text_form_field/bt_text_form_field.dart';
 
 class SalaryDetail extends GetView<JobPostController> {
   const SalaryDetail({super.key});
@@ -64,16 +68,16 @@ class SalaryDetail extends GetView<JobPostController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Min salary"),
-                            TextFormField(
+                            BTTextFormField(
                               keyboardType: TextInputType.number,
-                              decoration:
-                                  controller.getFiledInputDecoration("0.00"),
-                              textInputAction: TextInputAction.next,
+                              prefixIcon: Icons.currency_rupee,
+                              hintText: "0.0",
+                              initialValue:
+                                  controller.jobPost.minimumCTC.toString(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Minimum salary is required";
                                 }
-
                                 controller.jobPost.minimumCTC =
                                     double.parse(value);
                                 return null;
@@ -90,16 +94,16 @@ class SalaryDetail extends GetView<JobPostController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Max salary"),
-                            TextFormField(
+                            BTTextFormField(
                               keyboardType: TextInputType.number,
-                              decoration:
-                                  controller.getFiledInputDecoration("0.00"),
-                              textInputAction: TextInputAction.next,
+                              prefixIcon: Icons.currency_rupee,
+                              hintText: "0.0",
+                              initialValue:
+                                  controller.jobPost.maximumCTC.toString(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Maximum salary is required";
                                 }
-
                                 controller.jobPost.maximumCTC =
                                     double.parse(value);
                                 return null;
@@ -121,18 +125,13 @@ class SalaryDetail extends GetView<JobPostController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Bonus"),
-                            TextFormField(
+                            BTTextFormField(
                               keyboardType: TextInputType.number,
-                              decoration:
-                                  controller.getFiledInputDecoration("0.00"),
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                if (value != null && value.isNotEmpty) {
-                                  controller.jobPost.bonus =
-                                      double.parse(value);
-                                }
-
-                                return null;
+                              prefixIcon: Icons.currency_rupee,
+                              hintText: "0.0",
+                              initialValue: controller.jobPost.bonus.toString(),
+                              onChanged: (value) {
+                                controller.jobPost.bonus = double.parse(value);
                               },
                             ),
                           ],
@@ -146,13 +145,13 @@ class SalaryDetail extends GetView<JobPostController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Special Allowance"),
-                            TextFormField(
+                            BTTextFormField(
                               keyboardType: TextInputType.number,
-                              decoration:
-                                  controller.getFiledInputDecoration("0.00"),
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                return null;
+                              prefixIcon: Icons.currency_rupee,
+                              hintText: "0.0",
+                              // initialValue: controller.jobPost.s.toString(),
+                              onChanged: (value) {
+                                // controller.jobPost. = double.parse(value);
                               },
                             ),
                           ],
@@ -209,19 +208,19 @@ class SalaryDetail extends GetView<JobPostController> {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                TextFormField(
+                                BTTextFormField(
                                   keyboardType: TextInputType.number,
-                                  decoration:
-                                      controller.getFiledInputDecoration("0.00",
-                                          iconSize: 16),
-                                  textInputAction: TextInputAction.next,
+                                  prefixIcon: Icons.currency_rupee,
+                                  hintText: "0.0",
+                                  initialValue: controller
+                                      .jobPost.hRAAllowanceAmount
+                                      .toString(),
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
-                                      controller.jobPost.hraAllowanceAmount =
+                                      controller.jobPost.hRAAllowanceAmount =
                                           double.parse(value);
                                       controller.jobPost.isHRAAllowance = true;
                                     }
-
                                     return null;
                                   },
                                 ),
@@ -267,12 +266,13 @@ class SalaryDetail extends GetView<JobPostController> {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                TextFormField(
+                                BTTextFormField(
                                   keyboardType: TextInputType.number,
-                                  decoration:
-                                      controller.getFiledInputDecoration("0.00",
-                                          iconSize: 16),
-                                  textInputAction: TextInputAction.next,
+                                  prefixIcon: Icons.currency_rupee,
+                                  hintText: "0.0",
+                                  initialValue: controller
+                                      .jobPost.travelAllowanceAmount
+                                      .toString(),
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       controller.jobPost.travelAllowanceAmount =
@@ -280,7 +280,6 @@ class SalaryDetail extends GetView<JobPostController> {
                                       controller.jobPost.isTravelAllowance =
                                           true;
                                     }
-
                                     return null;
                                   },
                                 ),
@@ -326,19 +325,19 @@ class SalaryDetail extends GetView<JobPostController> {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                TextFormField(
+                                BTTextFormField(
                                   keyboardType: TextInputType.number,
-                                  decoration:
-                                      controller.getFiledInputDecoration("0.00",
-                                          iconSize: 16),
-                                  textInputAction: TextInputAction.next,
+                                  prefixIcon: Icons.currency_rupee,
+                                  hintText: "0.0",
+                                  initialValue: controller
+                                      .jobPost.foodAllowanceAmount
+                                      .toString(),
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       controller.jobPost.foodAllowanceAmount =
                                           double.parse(value);
                                       controller.jobPost.isFoodAllowance = true;
                                     }
-
                                     return null;
                                   },
                                 ),
@@ -363,23 +362,25 @@ class SalaryDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<KeyValuePair>(
+                    // child: IMultiSelectDropdown<Currency>(
+                    //   initialItem: controller.listCurrency.firstWhereOrNull(
+                    //       (c) => c.id == controller.jobPost.salaryCurrency),
+                    //   hintText: 'Select currency',
+                    //   items: controller.listCurrency,
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //     closedFillColor: Colors.grey.shade100,
+                    //   ),
+                    //   onChanged: (value) {
+                    //     controller.jobPost.salaryCurrency = value.id;
+                    //   },
+                    // ),
+                    child: BTSingleSelect(
                       hintText: 'Select currency',
-                      items: <KeyValuePair>[
-                        KeyValuePair(text: 'Ut. Arab Emir. Dirham', value: 1),
-                        KeyValuePair(text: 'Bahraini dinar', value: 2),
-                        KeyValuePair(text: 'Iraqi Dinar', value: 3),
-                        KeyValuePair(text: 'Iranian Rial', value: 4),
-                        KeyValuePair(text: 'Omani Rial', value: 5),
-                        KeyValuePair(text: 'Saudi Riyal', value: 6),
-                        KeyValuePair(text: 'Qatari Rial', value: 7),
-                        KeyValuePair(text: 'Kuwaiti Dinar', value: 8),
-                      ],
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
+                      items: controller.listCurrency,
+                      initSelectionCriteria: (c) =>
+                          c.id == controller.jobPost.salaryCurrency,
                       onChanged: (value) {
-                        controller.jobPost.salaryCurrency = value.value;
+                        controller.jobPost.salaryCurrency = value.id;
                       },
                     ),
                   ),

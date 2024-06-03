@@ -4,6 +4,8 @@ import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dar
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 import 'package:hiringbell/pages/create_job/widget/days_card.dart';
 
+import '../../common/bt_single_select/bt_single_select.dart';
+
 class WorkDetail extends GetView<JobPostController> {
   const WorkDetail({super.key});
 
@@ -61,12 +63,22 @@ class WorkDetail extends GetView<JobPostController> {
                   ),
                   trailing: SizedBox(
                     width: 200,
-                    child: IMultiSelectDropdown<int>(
+                    // child: IMultiSelectDropdown<int>(
+                    //   initialItem: controller.jobPost.dailyWorkingHours,
+                    //   hintText: 'Hours',
+                    //   items: controller.listDailyWorkingHours,
+                    //   decoration: IMultiSelectDropdownDecoration(
+                    //     closedFillColor: Colors.grey.shade100,
+                    //   ),
+                    //   onChanged: (value) {
+                    //     controller.jobPost.dailyWorkingHours = value;
+                    //   },
+                    // ),
+                    child: BTSingleSelect(
                       hintText: 'Hours',
-                      items: controller.generateRandomNumber(range: 16),
-                      decoration: IMultiSelectDropdownDecoration(
-                        closedFillColor: Colors.grey.shade100,
-                      ),
+                      items: controller.listDailyWorkingHours,
+                      initSelectionCriteria: (c) =>
+                          c == controller.jobPost.dailyWorkingHours,
                       onChanged: (value) {
                         controller.jobPost.dailyWorkingHours = value;
                       },
@@ -125,17 +137,39 @@ class WorkDetail extends GetView<JobPostController> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Expanded(
-                                      child: IMultiSelectDropdown<int>(
+                                      // child: IMultiSelectDropdown<int>(
+                                      //   initialItem:
+                                      //       controller.overseasExperienceYears,
+                                      //   hintText: 'Years',
+                                      //   items: controller.listExperience,
+                                      //   decoration:
+                                      //       IMultiSelectDropdownDecoration(
+                                      //     closedFillColor: Colors.grey.shade100,
+                                      //   ),
+                                      //   onChanged: (years) {
+                                      //     controller
+                                      //             .jobPost.overseasExperience =
+                                      //         years * 12 +
+                                      //             controller
+                                      //                 .overseasExperienceMonths;
+                                      //     debugPrint(
+                                      //         'oversease exp: ${controller.jobPost.overseasExperience}');
+                                      //   },
+                                      // ),
+                                      child: BTSingleSelect(
                                         hintText: 'Years',
-                                        items: controller.generateRandomNumber(
-                                            range: 30),
-                                        decoration:
-                                            IMultiSelectDropdownDecoration(
-                                          closedFillColor: Colors.grey.shade100,
-                                        ),
-                                        onChanged: (value) {
-                                          controller.jobPost
-                                              .overseasExperience = value;
+                                        items: controller.listExperience,
+                                        initSelectionCriteria: (c) =>
+                                            c ==
+                                            controller.overseasExperienceYears,
+                                        onChanged: (years) {
+                                          controller
+                                                  .jobPost.overseasExperience =
+                                              years * 12 +
+                                                  controller
+                                                      .overseasExperienceMonths;
+                                          debugPrint(
+                                              'overseas exp: ${controller.jobPost.overseasExperience}');
                                         },
                                       ),
                                     ),
@@ -143,17 +177,41 @@ class WorkDetail extends GetView<JobPostController> {
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: IMultiSelectDropdown<int>(
+                                      // child: IMultiSelectDropdown<int>(
+                                      //   initialItem:
+                                      //       controller.overseasExperienceMonths,
+                                      //   hintText: 'Months',
+                                      //   items: controller.listMonths,
+                                      //   decoration:
+                                      //       IMultiSelectDropdownDecoration(
+                                      //     closedFillColor: Colors.grey.shade100,
+                                      //   ),
+                                      //   onChanged: (months) {
+                                      //     controller
+                                      //             .jobPost.overseasExperience =
+                                      //         months +
+                                      //             controller
+                                      //                     .overseasExperienceYears *
+                                      //                 12;
+                                      //     debugPrint(
+                                      //         'oversease exp: ${controller.jobPost.overseasExperience}');
+                                      //   },
+                                      // ),
+                                      child: BTSingleSelect(
                                         hintText: 'Months',
-                                        items: controller.generateRandomNumber(
-                                            range: 12),
-                                        decoration:
-                                            IMultiSelectDropdownDecoration(
-                                          closedFillColor: Colors.grey.shade100,
-                                        ),
-                                        onChanged: (value) {
-                                          controller.jobPost
-                                              .overseasExperience = value;
+                                        items: controller.listMonths,
+                                        initSelectionCriteria: (c) =>
+                                            c ==
+                                            controller.overseasExperienceMonths,
+                                        onChanged: (months) {
+                                          controller
+                                                  .jobPost.overseasExperience =
+                                              months +
+                                                  controller
+                                                          .overseasExperienceYears *
+                                                      12;
+                                          debugPrint(
+                                              'overseas exp: ${controller.jobPost.overseasExperience}');
                                         },
                                       ),
                                     ),
@@ -175,17 +233,37 @@ class WorkDetail extends GetView<JobPostController> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Expanded(
-                                      child: IMultiSelectDropdown<int>(
-                                        hintText: 'Year',
-                                        items: controller.generateRandomNumber(
-                                            range: 30),
-                                        decoration:
-                                            IMultiSelectDropdownDecoration(
-                                          closedFillColor: Colors.grey.shade100,
-                                        ),
-                                        onChanged: (value) {
+                                      // child: IMultiSelectDropdown<int>(
+                                      //   initialItem:
+                                      //       controller.localExperienceYears,
+                                      //   hintText: 'Years',
+                                      //   items: controller.listExperience,
+                                      //   decoration:
+                                      //       IMultiSelectDropdownDecoration(
+                                      //     closedFillColor: Colors.grey.shade100,
+                                      //   ),
+                                      //   onChanged: (years) {
+                                      //     controller.jobPost.localExperience =
+                                      //         years * 12 +
+                                      //             controller
+                                      //                 .localExperienceMonths;
+                                      //     debugPrint(
+                                      //         'local exp: ${controller.jobPost.localExperience}');
+                                      //   },
+                                      // ),
+                                      child: BTSingleSelect(
+                                        hintText: 'Years',
+                                        items: controller.listExperience,
+                                        initSelectionCriteria: (c) =>
+                                            c ==
+                                            controller.localExperienceYears,
+                                        onChanged: (years) {
                                           controller.jobPost.localExperience =
-                                              value;
+                                              years * 12 +
+                                                  controller
+                                                      .localExperienceMonths;
+                                          debugPrint(
+                                              'local exp: ${controller.jobPost.localExperience}');
                                         },
                                       ),
                                     ),
@@ -193,17 +271,35 @@ class WorkDetail extends GetView<JobPostController> {
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: IMultiSelectDropdown<int>(
-                                        hintText: 'Month',
-                                        items: controller.generateRandomNumber(
-                                            range: 12),
-                                        decoration:
-                                            IMultiSelectDropdownDecoration(
-                                          closedFillColor: Colors.grey.shade100,
-                                        ),
-                                        onChanged: (value) {
+                                      // child: IMultiSelectDropdown<int>(
+                                      //   initialItem:
+                                      //       controller.localExperienceMonths,
+                                      //   hintText: 'Months',
+                                      //   items: controller.listMonths,
+                                      //   decoration:
+                                      //       IMultiSelectDropdownDecoration(
+                                      //     closedFillColor: Colors.grey.shade100,
+                                      //   ),
+                                      //   onChanged: (months) {
+                                      //     controller.jobPost.localExperience =
+                                      //         months +
+                                      //             controller
+                                      //                     .localExperienceYears *
+                                      //                 12;
+                                      //   },
+                                      // ),
+                                      child: BTSingleSelect(
+                                        hintText: 'Months',
+                                        items: controller.listMonths,
+                                        initSelectionCriteria: (c) =>
+                                            c ==
+                                            controller.localExperienceMonths,
+                                        onChanged: (months) {
                                           controller.jobPost.localExperience =
-                                              value;
+                                              months +
+                                                  controller
+                                                          .localExperienceYears *
+                                                      12;
                                         },
                                       ),
                                     ),
@@ -232,7 +328,9 @@ class WorkDetail extends GetView<JobPostController> {
                     return DaysCard(
                       label: controller.days[index].text,
                       index: index + 1,
-                      flag: controller.getWeekdaysStatus(index + 1),
+                      initialValue: controller.getWeekdaysStatus(index + 1),
+                      onChanged: (status) =>
+                          controller.updateWeekdaysStatusUI(index + 1, status),
                     );
                   },
                 ),

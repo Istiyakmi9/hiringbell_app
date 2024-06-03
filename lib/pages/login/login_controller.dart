@@ -10,6 +10,8 @@ import 'package:hiringbell/services/http_service.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/constants.dart';
+
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
@@ -43,7 +45,7 @@ class LoginController extends GetxController {
           "email": usernameController.text,
           "mobile": null,
         }).then((userData) {
-          if (userData == "success") {
+          if (userData == Constants.success) {
             isSubmitted(false);
             Fluttertoast.showToast(msg: "Logged in successfully");
             Get.offAllNamed(Navigate.homeLayout,

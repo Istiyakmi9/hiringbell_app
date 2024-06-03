@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../models/auth.dart';
+import '../services/http_service.dart';
 
 class Util {
   static SharedPreferences? _prefs;
   static Util? _util;
-
+  var http = HttpService.getInstance();
   static Future<void> init(SharedPreferences sharedPreferences) async {
     // ignore: unnecessary_null_comparison
     if (sharedPreferences == null) {
@@ -38,6 +40,14 @@ class Util {
     }
 
     return _util!;
+  }
+
+  static DateTime convertToDateTime(String? date) {
+    if (date != null && date != "") {
+      return Jiffy.parse(date).dateTime;
+    } else {
+      return DateTime.now();
+    }
   }
 
   void setUserDetail(dynamic user) {
@@ -131,6 +141,18 @@ class Util {
     );
   }
 
+  String? getImagePath(String? relativePath) {
+    String? absolutePath;
+    if (relativePath != null && relativePath.isNotEmpty) {
+      absolutePath = "${http.getImageBaseUrl}$relativePath";
+    }
+    return absolutePath;
+  }
+
+  Widget getCachedImageFromUrl(String? imageUrl) {
+    return getCachedImage(getImagePath(imageUrl));
+  }
+
   Widget getCachedImage(String? imageUrl) {
     return CachedNetworkImage(
       imageUrl: imageUrl!,
@@ -157,6 +179,7 @@ class Util {
           ),
         ),
       ),
+      errorWidget: (context, url, error) => Image.asset('assets/user.png'),
     );
   }
 

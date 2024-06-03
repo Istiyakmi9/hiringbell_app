@@ -8,6 +8,7 @@ import 'package:hiringbell/pages/home/home_controller.dart';
 import 'package:hiringbell/pages/view_post/view_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:photo_view/photo_view.dart';
+import '../../create_job/job_post_edit_page.dart';
 import '../../home/widgets/image_carousel.dart';
 
 class IndexPageCard extends StatelessWidget {
@@ -61,7 +62,40 @@ class IndexPageCard extends StatelessWidget {
                     backgroundImage: util.getImageProvider(Constants.empty),
                     backgroundColor: Colors.transparent,
                   ),
-            trailing: const Icon(Icons.keyboard_control_outlined),
+            // trailing: const Icon(Icons.keyboard_control_outlined),
+            trailing: PopupMenuButton<String>(
+              icon: const Icon(Icons.keyboard_control_outlined),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit),
+                      SizedBox(width: 5),
+                      Text('Edit')
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete),
+                      SizedBox(width: 5),
+                      Text('Delete')
+                    ],
+                  ),
+                ),
+              ],
+              onSelected: (String value) {
+                if (value == 'edit') {
+                  Get.to(JobPostEditPage(existingPost: posts));
+                  // Navigate to edit screen or perform in-place editing logic
+                } else if (value == 'delete') {
+                  // Implement deletion logic (confirmation dialog etc.)
+                }
+              },
+            ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
