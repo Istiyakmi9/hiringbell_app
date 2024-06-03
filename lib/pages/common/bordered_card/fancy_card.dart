@@ -8,8 +8,8 @@ class FancyCard extends StatelessWidget {
   const FancyCard({
     super.key,
     required this.child,
-    required this.color,
-    required this.borderColor,
+    this.color = Colors.black87,
+    this.borderColor = Colors.white,
   });
 
   @override

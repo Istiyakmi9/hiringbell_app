@@ -5,10 +5,11 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Notification page")
+          Image.asset("assets/cs1.png",)
         ],
       ),
     );

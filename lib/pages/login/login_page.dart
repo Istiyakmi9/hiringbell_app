@@ -27,9 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const WaitingPage();
         } else if (snapshot.hasError) {
-          return const ErrorPage(
-            withScaffold: true,
-          );
+          return const ErrorPage();
         } else {
           login.checkAutoLogin();
           return const LoginIndexPage();

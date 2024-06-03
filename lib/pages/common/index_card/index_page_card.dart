@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/posts.dart';
+import 'package:hiringbell/pages/comments/comments_page.dart';
 import 'package:hiringbell/pages/common/index_card/image_viewer.dart';
 import 'package:hiringbell/pages/home/home_controller.dart';
-import 'package:hiringbell/pages/view_post/view_post_detail.dart';
+import 'package:hiringbell/pages/view_post/view_apply_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../create_job/job_post_edit_page.dart';
 import '../../home/widgets/image_carousel.dart';
 
@@ -23,8 +25,14 @@ class IndexPageCard extends StatelessWidget {
     Navigator.of(Get.context!).push(
       ImageViewerContainer(
         child: SizedBox(
-          height: MediaQuery.of(Get.context!).size.height * .30,
-          width: MediaQuery.of(Get.context!).size.width,
+          height: MediaQuery
+              .of(Get.context!)
+              .size
+              .height * .30,
+          width: MediaQuery
+              .of(Get.context!)
+              .size
+              .width,
           child: PhotoView(
             imageProvider: CachedNetworkImageProvider(
               imageUrl,
@@ -51,21 +59,44 @@ class IndexPageCard extends StatelessWidget {
           ListTile(
             leading: posts.profileImage!.isEmpty
                 ? CircleAvatar(
-                    radius: 30.0,
-                    backgroundColor: controller.getBackgroundColor(
-                      posts.fullName![0].toUpperCase(),
-                    ),
-                    child: Text(posts.fullName![0]),
-                  )
+              radius: 30.0,
+              backgroundColor: controller.getBackgroundColor(
+                posts.fullName![0].toUpperCase(),
+              ),
+              child: Text(posts.fullName![0]),
+            )
                 : CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: util.getImageProvider(Constants.empty),
-                    backgroundColor: Colors.transparent,
-                  ),
+              radius: 30.0,
+              backgroundImage: util.getImageProvider(Constants.empty),
+              backgroundColor: Colors.transparent,
+            ),
             // trailing: const Icon(Icons.keyboard_control_outlined),
-            trailing: PopupMenuButton<String>(
-              icon: const Icon(Icons.keyboard_control_outlined),
-              itemBuilder: (context) => [
+            trailing: posts.appliedOn != null
+                ? const Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.green,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "Applied",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.green,
+                  ),
+                )
+              ],
+            )
+                : PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert),
+              itemBuilder: (context) =>
+              [
                 const PopupMenuItem(
                   value: 'edit',
                   child: Row(
@@ -76,16 +107,16 @@ class IndexPageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const PopupMenuItem(
-                  value: 'delete',
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete),
-                      SizedBox(width: 5),
-                      Text('Delete')
-                    ],
-                  ),
-                ),
+                /*const PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete),
+                            SizedBox(width: 5),
+                            Text('Delete')
+                          ],
+                        ),
+                      ),*/
               ],
               onSelected: (String value) {
                 if (value == 'edit') {
@@ -159,8 +190,14 @@ class IndexPageCard extends StatelessWidget {
                     _showImageOverlay(controller.getImageUrl(posts.files));
                   },
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * .30,
-                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * .30,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: util
                         .getCachedImage(controller.getImageUrl(posts.files)),
                   ),
@@ -194,7 +231,7 @@ class IndexPageCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const IconButton(
+                /*const IconButton(
                   onPressed: null,
                   icon: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -214,10 +251,12 @@ class IndexPageCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                const IconButton(
-                  onPressed: null,
-                  icon: Column(
+                ),*/
+                IconButton(
+                  onPressed: () async {
+                    await Share.share("https://www.hiringbell.com");
+                  },
+                  icon: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
@@ -236,9 +275,11 @@ class IndexPageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const IconButton(
-                  onPressed: null,
-                  icon: Column(
+                IconButton(
+                  onPressed: () {
+                    Get.to(const CommentsPage(), arguments: posts.userPostId);
+                  },
+                  icon: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
@@ -259,7 +300,8 @@ class IndexPageCard extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    Get.to(ViewPostDetail(postId: 1));
+                    Get.to(const ViewApplyPostDetail(),
+                        arguments: posts.userPostId);
                   },
                   icon: const Column(
                     mainAxisAlignment: MainAxisAlignment.start,

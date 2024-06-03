@@ -8,7 +8,6 @@ import 'package:hiringbell/models/navigate.dart';
 import 'package:hiringbell/models/user.dart';
 import 'package:hiringbell/services/http_service.dart';
 import 'package:hiringbell/utilities/Util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/constants.dart';
 
@@ -32,6 +31,10 @@ class LoginController extends GetxController {
       passwordController.text = auth.password;
 
       onSubmitted();
+    } else {
+      //usernameController.text = "";
+      //passwordController.text = "";
+      Util.cleanAll();
     }
   }
 
@@ -53,6 +56,7 @@ class LoginController extends GetxController {
           } else {
             Fluttertoast.showToast(
                 msg: "Fail to login. Please check your detail.");
+            Util.cleanAll();
             isSubmitted(false);
           }
         });
@@ -135,8 +139,8 @@ class LoginController extends GetxController {
     isSubmitted = false.obs;
     user = util.getUserDetail();
 
-    usernameController.text = "istiyaq.4game@gmail.com";
-    passwordController.text = "Hiring_Bell@bot@9100@bottomHalf";
+   /* usernameController.text = "istiyaq.4game@gmail.com";
+    passwordController.text = "Hiring_Bell@bot@9100@bottomHalf";*/
     /*usernameController.text = "test2@gmail.com";
     passwordController.text = "123456";*/
     // usernameController.text = "bottomhalf.dev@gmail.com";

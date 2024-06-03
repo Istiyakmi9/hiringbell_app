@@ -1,5 +1,6 @@
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/files.dart';
+import 'package:hiringbell/utilities/Util.dart';
 
 class Posts {
   int? userPostId;
@@ -9,7 +10,7 @@ class Posts {
   List<FileDetail> files = [];
   String? profileImage;
   bool isLiked = false;
-  bool isApplied = false;
+  DateTime? appliedOn;
   int postedBy;
 
   Posts({
@@ -20,7 +21,7 @@ class Posts {
     this.profileImage,
     required this.files,
     this.isLiked = false,
-    this.isApplied = false,
+    this.appliedOn,
     required this.postedBy,
   });
 
@@ -47,9 +48,10 @@ class Posts {
         profileImage: Constants.empty,
         files: convertToList(json["files"] ?? []),
         isLiked: json["isLiked"] ?? false,
-        isApplied: json["isApplied"] ?? false,
+        appliedOn: Util.toDateTime(json["appliedOn"]),
         postedBy: json["postedBy"] ?? 0);
   }
+
   Map<String, dynamic> toJson() {
     return {
       'userPostId': userPostId,
@@ -59,7 +61,7 @@ class Posts {
       'files': files.map((file) => FileDetail.toJson(file)).toList(),
       'profileImage': profileImage,
       'isLiked': isLiked,
-      'isApplied': isApplied,
+      'appliedOn': appliedOn,
       'postedBy': postedBy,
     };
   }
