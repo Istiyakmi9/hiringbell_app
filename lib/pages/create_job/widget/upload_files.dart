@@ -5,12 +5,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
+import 'package:hiringbell/utilities/util.dart';
 
 class UploadFiles extends GetView<JobPostController> {
   const UploadFiles({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Util util = Util.getInstance();
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,8 +66,8 @@ class UploadFiles extends GetView<JobPostController> {
                               ),
                             )
                           : Obx(
-                              () => Wrap(
-                                children: List.generate(
+                              () => Wrap(children: [
+                                ...List.generate(
                                   controller.pickedImages.value.length,
                                   (index) {
                                     return Stack(
@@ -124,7 +126,64 @@ class UploadFiles extends GetView<JobPostController> {
                                     );
                                   },
                                 ),
-                              ),
+                                const Spacer(),
+                                ...List.generate(
+                                  controller.serverImages.value.length,
+                                  (index) {
+                                    return Stack(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(4.0),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 10,
+                                            ),
+                                            width: 100,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: util.getCachedImageFromUrl(
+                                                controller.serverImages
+                                                    .value[index].filePath),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: InkWell(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: const Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.black,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              controller.removeServerImage(
+                                                  controller.serverImages
+                                                      .value[index].filePath);
+                                              Fluttertoast.showToast(
+                                                  msg: "Image removed");
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ]),
                             )
                       : const CircularProgressIndicator(),
                   ElevatedButton(

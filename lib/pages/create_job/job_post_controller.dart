@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -34,6 +36,7 @@ class JobPostController extends GetxController {
   final util = Util.getInstance();
   List<XFile> selectedFiles = [];
 
+  var serverImages = RxList<FileDetail>([]).obs;
   var pickedImages = RxList<XFile>([]).obs;
   var isImagePicked = true.obs;
   var isFileReady = false.obs;
@@ -208,6 +211,10 @@ class JobPostController extends GetxController {
       var userPosts = value["UserPost"][0];
       if (userPosts != null) {
         jobPost = JobPost.fromJson(userPosts);
+        if (jobPost.fileDetail == null) return;
+        List<dynamic> jsonList = jsonDecode(jobPost.fileDetail!);
+        jobPost.files = FileDetail.fromJsonList(jsonList);
+        serverImages.value.addAll(jobPost.files ?? []);
       } else {
         util.showToast("Fail to load the data");
       }
@@ -222,10 +229,6 @@ class JobPostController extends GetxController {
       util.showToast("Invalid form", type: Constants.fail);
     }
 
-    if (FormUtil.isEdit) {
-      updateFormData();
-      return;
-    }
     int i = 0;
     jobPost.files = [];
     var files = <FileDetail>[];
@@ -240,6 +243,12 @@ class JobPostController extends GetxController {
 
     // jobPost.fileDetail = jsonEncode(JobPost.getJsonList(files));
     jobPost.fileDetail = "[]";
+
+    if (FormUtil.isEdit) {
+      updateFormData();
+      return;
+    }
+
     http
         .upload("core/userposts/uploadUserPostsMobile", pickedImages.value,
             JobPost.toJson(jobPost))
@@ -258,10 +267,6 @@ class JobPostController extends GetxController {
   }
 
   updateFormData() {
-    jobPost.files = [];
-    //Todo filesaved
-
-    jobPost.fileDetail = "[]";
     http
         .upload("core/userposts/updateUserPosts", pickedImages.value,
             JobPost.toJson(jobPost))
@@ -322,6 +327,12 @@ class JobPostController extends GetxController {
     selectedFiles.removeWhere((elem) => elem.name == fileName);
     pickedImages.value.clear();
     pickedImages.value.addAll(selectedFiles);
+  }
+
+  removeServerImage(String? fileName) {
+    if (fileName == null) return;
+    serverImages.value.removeWhere((f) => f.filePath == fileName);
+    jobPost.files?.removeWhere((f) => f.filePath == fileName);
   }
 
   InputDecoration getFiledInputDecoration(String hint, {double iconSize = 20}) {
