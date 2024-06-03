@@ -1,11 +1,13 @@
+import 'dart:convert';
+
+import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/files.dart';
-import 'package:hiringbell/utilities/util.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:hiringbell/utilities/Util.dart';
 
 class JobPost {
   int userPostId = 0;
-  String? shortDescription = "test";
-  // int categoryTypeId = 0;
+  String? shortDescription = Constants.empty;
+  int categoryTypeId = 0;
   int postedBy = 0;
   DateTime? postedOn;
   String? fileDetail;
@@ -48,6 +50,7 @@ class JobPost {
   bool isMedicalInsuranceProvide = false;
   int overseasExperience = 0;
   int localExperience = 0;
+  DateTime? jobAppliedOn;
   bool? isMon;
   bool? isTue;
   bool? isThu;
@@ -55,6 +58,14 @@ class JobPost {
   bool? isFri;
   bool? isSat;
   bool? isSun;
+
+  // New fields
+  int? roleId = 1;
+  String? profileImage = Constants.empty;
+  String? fullName;
+  String? jobTypeName;
+  String? countryName;
+  String? currencyName;
 
   JobPost.noArg();
 
@@ -104,6 +115,13 @@ class JobPost {
     required this.isMedicalInsuranceProvide,
     required this.overseasExperience,
     required this.localExperience,
+    this.roleId,
+    this.profileImage,
+    this.fullName,
+    this.jobTypeName,
+    this.countryName,
+    this.currencyName,
+    this.jobAppliedOn,
     this.isMon,
     this.isTue,
     this.isThu,
@@ -262,6 +280,13 @@ class JobPost {
       isMedicalInsuranceProvide: json['isMedicalInsuranceProvide'] ?? false,
       overseasExperience: json['overseasExperience'],
       localExperience: json['localExperience'],
+      roleId: json['roleId'],
+      profileImage: json['profileImage'],
+      fullName: json['fullName'],
+      jobTypeName: json['jobTypeName'],
+      countryName: json['countryName'],
+      currencyName: json['currencyName'],
+      jobAppliedOn: Util.toDateTime(json['jobAppliedOn']),
       isMon: json['isMon'] ?? false,
       isTue: json['isTue'] ?? false,
       isThu: json['isThu'] ?? false,

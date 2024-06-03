@@ -1,7 +1,67 @@
 import 'package:get/get.dart';
+import 'package:hiringbell/models/api_response.dart';
+import 'package:hiringbell/models/post_job.dart';
+import 'package:hiringbell/models/posts.dart';
+import 'package:hiringbell/pages/view_post/widgets/post_detail.dart';
+import 'package:hiringbell/services/http_service.dart';
+import 'package:hiringbell/utilities/Util.dart';
+
+import '../../models/constants.dart';
 
 class ViewPostController extends GetxController {
-  Future<void> onRefresh() async {
+  int postId = Get.arguments as int;
+  HttpService http = HttpService.getInstance();
+  Util util = Util.getInstance();
+  JobPost? postsDetail;
 
+  var isLoading = true.obs;
+  var isApplying = false.obs;
+
+  Future<void> onRefresh() async {}
+
+  String getTitleSubDesc() {
+    String result = "";
+    var days = DateTime.now().difference(postsDetail!.postedOn!).inDays;
+    result = "$days days old post. ";
+    if (postsDetail!.isForeignReturnCompulsory != null &&
+        postsDetail!.isForeignReturnCompulsory!) {
+      result += "(Only foreign return)";
+    }
+
+    return result;
+  }
+
+  Future<void> applyForJob() async {
+    isApplying(true);
+
+    ApiResponse? response = await http.httpPost("core/userposts/addAppliedPost", {
+      "userPostId": postsDetail!.userPostId,
+    });
+
+    if (response != null && response.responseBody == "success") {
+      postsDetail!.jobAppliedOn = DateTime.now();
+      util.showToast("Job applied successfully");
+      isApplying(false);
+    } else {
+      util.showToast("Got some error. Fail to apply", type: Constants.fail);
+      isApplying(false);
+    }
+  }
+
+  Future<void> loadPostDetail() async {
+    var response = await http.httpGet("core/userposts/getPostByPostId/$postId");
+
+    if (response != null) {
+      postsDetail = JobPost.fromJson(response);
+      isLoading(false);
+    } else {
+      isLoading(false);
+    }
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
   }
 }

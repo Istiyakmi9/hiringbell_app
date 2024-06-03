@@ -25,6 +25,14 @@ class Util {
     _prefs = sharedPreferences;
   }
 
+  static DateTime? toDateTime(String? date) {
+    if (date != null && date != "") {
+      return Jiffy.parse(date).dateTime;
+    } else {
+      return null;
+    }
+  }
+
   static SharedPreferences getSharedPreferences() {
     return _prefs!;
   }

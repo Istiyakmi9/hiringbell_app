@@ -19,7 +19,7 @@ class HttpService extends GetConnect {
   String? _token;
 
   HttpService._internal() {
-    _initialized(false);
+    _initialized(isProdMode: true);
   }
 
   String get token => _token ?? "";
@@ -28,9 +28,9 @@ class HttpService extends GetConnect {
     _token = value;
   }
 
-  void _initialized(bool isServer) {
+  void _initialized({bool isProdMode = true}) {
     String url =
-        isServer ? "https://www.hiringbell.com/" : "http://192.168.1.100:8090/";
+    isProdMode ? "https://www.hiringbell.com/" : "http://192.168.1.100:8090/";
 
     setBaseUrl(
       baseUrl: "${url}hb/api/",
@@ -80,17 +80,19 @@ class HttpService extends GetConnect {
       var body = ApiResponse.fromJson(response.body);
       return body.responseBody;
     } else {
-      throw Exception('Request failed with status: ${response.statusCode}');
+      debugPrint('Request failed with status: ${response.statusCode}');
+      return null;
     }
   }
 
-  Future<ApiResponse> httpPost(String url, Map data) async {
+  Future<ApiResponse?> httpPost(String url, Map data) async {
     final response = await post(getBaseUrl + url, data, headers: header());
     if (response.status.isOk) {
       var body = ApiResponse.fromJson(response.body);
       return body;
     } else {
-      throw Exception('Request failed with status: ${response.statusCode}');
+      debugPrint('Request failed with status: ${response.statusCode}');
+      return null;
     }
   }
 
@@ -184,14 +186,7 @@ class HttpService extends GetConnect {
     var request = http.MultipartRequest('POST', uri);
     request.headers.addAll(imageHeader());
 
-    try {
-      var jsonEncoded = json.encode(data);
-      request.fields['userPost'] = jsonEncoded;
-    } on Exception catch (e) {
-      debugPrint('some error occured');
-      print('Error encoding JSON: $e');
-    }
-
+    request.fields['userPost'] = json.encode(data);
     if (files.isNotEmpty) {
       for (var image in files) {
         request.files.add(
