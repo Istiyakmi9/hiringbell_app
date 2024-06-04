@@ -40,44 +40,62 @@ class ChatMessages extends GetView<CommentsController> {
                           vertical: 6,
                           horizontal: 10,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey.shade200,
-                                    border: Border.all(
-                                      color: Colors.orange, // Border color
-                                      width: 1.0, // Border width
-                                    ),
-                                  ),
-                                  child: const CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 20,
-                                    child: Icon(
-                                      Icons.perm_identity_rounded,
-                                    ),
+                        child: Obx(
+                          () => Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey.shade200,
+                                  border: Border.all(
+                                    color: Colors.orange, // Border color
+                                    width: 1.0, // Border width
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: controller.playRecording,
-                                  icon: const Icon(Icons.play_arrow),
+                                child: const CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 20,
+                                  child: Icon(
+                                    Icons.perm_identity_rounded,
+                                  ),
                                 ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Image.asset(
-                                "assets/audio-file.gif",
-                                width: 100,
-                                height: 50,
                               ),
-                            ),
-                          ],
+                              if (controller.isRecordPlaying.value)
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                      onPressed: controller.playRecording,
+                                      icon: const Icon(Icons.pause),
+                                    ),
+                                    Image.asset(
+                                      "assets/audio-file.gif",
+                                      height: 50,
+                                    ),
+                                  ],
+                                )
+                              else
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                      onPressed: controller.playRecording,
+                                      icon: const Icon(Icons.play_arrow),
+                                    ),
+                                    const Text(
+                                      "press play button",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

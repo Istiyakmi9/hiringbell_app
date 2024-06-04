@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/common/bot_container/bt_container.dart';
-import 'package:hiringbell/pages/view_post/view_post_controller.dart';
-import 'package:hiringbell/pages/view_post/widgets/feature_detail.dart';
-import 'package:hiringbell/pages/view_post/widgets/publisher_detail.dart';
-import 'package:hiringbell/pages/view_post/widgets/save_submit_button.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_controller.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/feature_detail.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/publisher_detail.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/save_submit_button.dart';
 
 class AboutJob extends GetView<ViewPostController> {
   const AboutJob({super.key});
@@ -69,7 +69,7 @@ class AboutJob extends GetView<ViewPostController> {
                     ),
                   ),
                   Text(
-                    " - experience: ${controller.postsDetail!.minimumDaysRequired / 365} yrs",
+                    " - experience: ${(controller.postsDetail!.minimumDaysRequired / 365).toStringAsFixed(2)} yrs",
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),

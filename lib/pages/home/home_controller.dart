@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   var posts = RxList<Posts>();
   var pageIndex = 0.obs;
   User user = User();
+  bool _isAppliedExecuted = false;
 
   var isLoading = true.obs;
   var hasMore = true.obs;
@@ -23,6 +24,14 @@ class HomeController extends GetxController {
   var scrollController = ScrollController();
 
   HttpService http = HttpService.getInstance();
+
+  void setAppliedExecutedState(bool flag) {
+    _isAppliedExecuted = flag;
+  }
+
+  bool getAppliedExecutedState() {
+    return _isAppliedExecuted;
+  }
 
   incrementValue() {
     count++;
@@ -56,7 +65,7 @@ class HomeController extends GetxController {
 
     try {
       http.httpGet("core/userposts/getHomePage/${++pageIndex}").then((value) {
-        if (value != null) {
+        if (value != null && value.length > 0) {
           List<dynamic> items = value;
           for (var i = 0; i < items.length; i++) {
             posts.add(Posts.fromJson(items[i]));
@@ -64,7 +73,7 @@ class HomeController extends GetxController {
 
           isLoading(false);
         } else {
-          Fluttertoast.showToast(msg: "Fail to load the page");
+          Fluttertoast.showToast(msg: "No post found");
         }
 
         isHomepageReady(true);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hiringbell/pages/comments/widgets/comments_post_detail.dart';
-import 'package:hiringbell/pages/view_post/widgets/post_image.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/post_image.dart';
 
 class PostInfo extends StatelessWidget {
   const PostInfo({super.key});

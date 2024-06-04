@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/comments/comments_controller.dart';
-import 'package:hiringbell/pages/view_post/view_post_controller.dart';
-import 'package:hiringbell/pages/view_post/widgets/publisher_detail.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_controller.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/publisher_detail.dart';
 
 class CommentsPostDetail extends GetView<CommentsController> {
   CommentsPostDetail({super.key});

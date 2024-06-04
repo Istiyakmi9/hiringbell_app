@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
-import 'package:hiringbell/pages/view_post/view_post_controller.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_controller.dart';
 
 class PublisherDetail extends GetView<ViewPostController> {
   const PublisherDetail({super.key});

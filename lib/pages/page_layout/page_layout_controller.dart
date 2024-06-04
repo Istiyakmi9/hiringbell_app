@@ -4,7 +4,13 @@ import 'package:hiringbell/models/user.dart';
 
 class PageLayoutController extends GetxController {
   var selectedIndex = 0.obs;
-  final page = <String>[Navigate.home, Navigate.findFriends, Navigate.profile, Navigate.notification, Navigate.post];
+  final page = <String>[
+    Navigate.home,
+    /*Navigate.findFriends,
+    Navigate.profile,
+    Navigate.notification,*/
+    Navigate.post,
+  ];
 
   User user = User();
 

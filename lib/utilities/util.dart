@@ -16,6 +16,7 @@ class Util {
   static SharedPreferences? _prefs;
   static Util? _util;
   var http = HttpService.getInstance();
+
   static Future<void> init(SharedPreferences sharedPreferences) async {
     // ignore: unnecessary_null_comparison
     if (sharedPreferences == null) {
@@ -162,33 +163,37 @@ class Util {
   }
 
   Widget getCachedImage(String? imageUrl) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl!,
-      placeholder: (context, url) => Center(
-        // child: CircularProgressIndicator(
-        //   color: Colors.red,
-        // ),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.white),
-        ),
-      ),
-      imageBuilder: (context, imageProvider) => Container(
-        width: 150.0,
-        height: 150.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: BoxFit.cover,
+    try {
+      return CachedNetworkImage(
+        imageUrl: imageUrl!,
+        placeholder: (context, url) => Center(
+          // child: CircularProgressIndicator(
+          //   color: Colors.red,
+          // ),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white),
           ),
         ),
-      ),
-      errorWidget: (context, url, error) => Image.asset('assets/user.png'),
-    );
+        imageBuilder: (context, imageProvider) => Container(
+          width: 150.0,
+          height: 150.0,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        errorWidget: (context, url, error) => Image.asset('assets/user.png'),
+      );
+    } catch (e) {
+      return Image.asset('assets/user.png');
+    }
   }
 
   Image getImage(String? imageUrl) {

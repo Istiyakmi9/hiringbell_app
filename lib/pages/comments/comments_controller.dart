@@ -16,6 +16,7 @@ class CommentsController extends GetxController {
   HttpService http = HttpService.getInstance();
   Util util = Util.getInstance();
   var isLoading = false.obs;
+  var isRecordPlaying = false.obs;
   final ScrollController scrollController = ScrollController();
 
   var chatMessage = RxList<MessageDetail>([]).obs;
@@ -28,6 +29,7 @@ class CommentsController extends GetxController {
   Timer? ampTimer;
   Amplitude? amplitude;
   int recordDuration = 0;
+  var fileDuration = "00:00".obs;
 
   final TextEditingController messageController = TextEditingController();
 
@@ -45,10 +47,13 @@ class CommentsController extends GetxController {
   }
 
   Future playRecording() async {
+    isRecordPlaying.value = true;
     final player = AudioPlayer();
     await player.setVolume(1);
-    final duration = await player.setUrl(recordedFilePath);
+    Duration? duration = await player.setUrl(recordedFilePath);
+    fileDuration.value = "${duration!.inMinutes}:${duration.inMinutes}";
     await player.play();
+    isRecordPlaying.value = false;
   }
 
   void startTimer() {
@@ -67,7 +72,6 @@ class CommentsController extends GetxController {
 
   Future<void> startRecording() async {
     debugPrint("Start recording...");
-    initRecorder();
     isRecording.value = true;
 
     var tempPath = await getTemporaryDirPath();
@@ -86,8 +90,6 @@ class CommentsController extends GetxController {
   }
 
   Future initRecorder() async {
-    debugPrint("Start recording...");
-
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
       util.showToast("Microphone permission not granted", type: Constants.fail);
@@ -121,6 +123,13 @@ class CommentsController extends GetxController {
       util.showToast("Please record or type a message first");
     }
     _scrollBottom();
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    initRecorder();
   }
 }
 
