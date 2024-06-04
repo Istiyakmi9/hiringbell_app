@@ -13,7 +13,7 @@ class ScreenManager extends StatelessWidget {
   Widget getScreen() {
     Widget widget;
     switch (index) {
-      case 1:
+     /* case 1:
         widget = const FindFriendsPage();
         break;
       case 2:
@@ -21,8 +21,8 @@ class ScreenManager extends StatelessWidget {
         break;
       case 3:
         widget = const NotificationPage();
-        break;
-      case 4:
+        break;*/
+      case 1:
         widget = const PostsPage();
         break;
       default:

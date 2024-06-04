@@ -30,29 +30,53 @@ class ChatInputSection extends GetView<CommentsController> {
                   color: Colors.grey[200]!,
                 ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  //const RecordingTimer(),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: controller.messageController,
-                      readOnly: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Type a message (currently disable)',
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (text) {},
+              child: Obx(
+                () => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const SizedBox(
+                      width: 10,
                     ),
-                  ),
-                  const IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: null, //controller.sendMessage,
-                  ),
-                ],
+                    if (controller.isRecording.value)
+                      Expanded(
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Recording",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Image.asset("assets/loading.gif", width: 40,),
+                          ],
+                        ),
+                      )
+                    else
+                      Expanded(
+                        child: TextField(
+                          controller: controller.messageController,
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Type a message (currently disable)',
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (text) {},
+                        ),
+                      ),
+                    const IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: null, //controller.sendMessage,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

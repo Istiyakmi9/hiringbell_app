@@ -58,7 +58,7 @@ class PostsController extends GetxController {
     posts = RxList<Posts>();
     try {
       http.httpGet("core/userposts/getOwnPosts/${++pageIndex}").then((value) {
-        if (value != null) {
+        if (value != null && value.length > 0) {
           List<dynamic> items = value;
           for (var i = 0; i < items.length; i++) {
             posts.add(Posts.fromJson(items[i]));
@@ -66,7 +66,7 @@ class PostsController extends GetxController {
 
           isLoading(false);
         } else {
-          Fluttertoast.showToast(msg: "Fail to load the page");
+          Fluttertoast.showToast(msg: "No post found");
         }
 
         isHomepageReady(true);
@@ -136,8 +136,8 @@ class PostsController extends GetxController {
   loadJobPostPage() async {
     var result = await Get.to(const JobPostPage());
     if (result != null) {
-      util = Util.getInstance();
-      util!.showToast(result);
+      Fluttertoast.showToast(msg: "Posted successfully");
+      onRefresh();
     }
   }
 

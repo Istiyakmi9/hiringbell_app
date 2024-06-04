@@ -38,7 +38,7 @@ class HomeCards extends StatelessWidget {
               );
             }
 
-            return IndexPageCard(posts: controller.posts.value[index]);
+            return IndexPageCard(jobPost: controller.posts.value[index]);
           },
         ),
       ),

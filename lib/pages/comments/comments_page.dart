@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/comments/comments_controller.dart';
@@ -6,10 +5,11 @@ import 'package:hiringbell/pages/comments/widgets/chat_input_section.dart';
 import 'package:hiringbell/pages/comments/widgets/comments_chat.dart';
 import 'package:hiringbell/pages/comments/widgets/post_info.dart';
 import 'package:hiringbell/pages/common/error_page/error_page.dart';
-import 'package:hiringbell/pages/view_post/widgets/post_detail.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_controller.dart';
+import 'package:hiringbell/pages/view_apply_post/widgets/post_detail.dart';
 
 import '../home/home_controller.dart';
-import '../view_post/view_post_controller.dart';
+import '../view_apply_post/view_apply_post_controller.dart';
 
 class CommentsPage extends StatefulWidget {
   const CommentsPage({super.key});

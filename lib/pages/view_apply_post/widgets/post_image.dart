@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hiringbell/pages/common/index_card/image_viewer.dart';
 import 'package:hiringbell/pages/home/home_controller.dart';
 import 'package:hiringbell/pages/home/widgets/image_carousel.dart';
-import 'package:hiringbell/pages/view_post/view_post_controller.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_controller.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:photo_view/photo_view.dart';
 

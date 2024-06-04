@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hiringbell/pages/home/widgets/search_box.dart';
 import 'package:hiringbell/pages/page_layout/page_layout_controller.dart';
 import 'package:hiringbell/pages/page_layout/widget/screen_manager.dart';
-import 'package:hiringbell/pages/view_post/view_apply_post_detail.dart';
+import 'package:hiringbell/pages/view_apply_post/view_apply_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
 
 import '../../models/navigate.dart';
@@ -58,7 +58,7 @@ class _PageLayoutIndexState extends State<PageLayoutIndex> {
             ),
             const Expanded(
               flex: 9,
-              child: SearchBox(),
+              child: Text("Hiring Bell"), // SearchBox(),
             ),
             Expanded(
               flex: 1,
@@ -84,7 +84,7 @@ class _PageLayoutIndexState extends State<PageLayoutIndex> {
               icon: Icon(Icons.home),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
+           /* BottomNavigationBarItem(
               icon: Icon(Icons.people_alt_outlined),
               label: 'Friends',
             ),
@@ -95,10 +95,10 @@ class _PageLayoutIndexState extends State<PageLayoutIndex> {
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active),
               label: 'Notification',
-            ),
+            ),*/
             BottomNavigationBarItem(
               icon: Icon(Icons.workspace_premium_outlined),
-              label: 'Jobs',
+              label: 'My Posts',
             ),
           ],
           currentIndex: controller.selectedIndex.value,

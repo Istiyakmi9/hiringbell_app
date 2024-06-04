@@ -32,14 +32,14 @@ class JobForm extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             Get.put(snapshot.data!);
-            return jobFormWidget(controller: controller);
+            return JobFormWidget(controller: controller);
           }
         });
   }
 }
 
-class jobFormWidget extends StatelessWidget {
-  const jobFormWidget({
+class JobFormWidget extends StatelessWidget {
+  const JobFormWidget({
     super.key,
     required this.controller,
   });

@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hiringbell/models/api_response.dart';
 import 'package:hiringbell/models/post_job.dart';
-import 'package:hiringbell/models/posts.dart';
-import 'package:hiringbell/pages/view_post/widgets/post_detail.dart';
 import 'package:hiringbell/services/http_service.dart';
 import 'package:hiringbell/utilities/Util.dart';
 
@@ -13,6 +11,8 @@ class ViewPostController extends GetxController {
   HttpService http = HttpService.getInstance();
   Util util = Util.getInstance();
   JobPost? postsDetail;
+  bool jobStatus = false;
+  var jobStatusTrigger = false.obs;
 
   var isLoading = true.obs;
   var isApplying = false.obs;
@@ -41,6 +41,8 @@ class ViewPostController extends GetxController {
     if (response != null && response.responseBody == "success") {
       postsDetail!.jobAppliedOn = DateTime.now();
       util.showToast("Job applied successfully");
+      jobStatus = true;
+      jobStatusTrigger.value = true;
       isApplying(false);
     } else {
       util.showToast("Got some error. Fail to apply", type: Constants.fail);
@@ -53,6 +55,11 @@ class ViewPostController extends GetxController {
 
     if (response != null) {
       postsDetail = JobPost.fromJson(response);
+      var userDetail = util.getUserDetail();
+      if(postsDetail!.jobAppliedOn != null || postsDetail!.postedBy == userDetail.userId) {
+        jobStatusTrigger.value = true;
+      }
+
       isLoading(false);
     } else {
       isLoading(false);
