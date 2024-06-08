@@ -108,6 +108,30 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<bool> addLikePost(Posts myPost) async {
+    isLoading(true);
+    try {
+      http
+          .httpPost("core/userposts/addLikedPost", myPost.toJson())
+          .then((response) {
+        if (response!.isSuccess) {
+          isLoading(false);
+          myPost.isLiked = true;
+          return true;
+        } else {
+          Fluttertoast.showToast(msg: "Fail to like the current post");
+          isLoading(false);
+          return false;
+        }
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Fail to load...");
+      isLoading(false);
+      return false;
+    }
+    return false;
+  }
+
   String getImageUrl(List<FileDetail> files) {
     return "${http.getImageBaseUrl}${files.first.filePath}";
   }

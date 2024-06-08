@@ -9,7 +9,7 @@ class DaysCard extends StatefulWidget {
   final String label;
   final int index;
   bool initialValue;
-  final void Function(bool)? onChanged;
+  final void Function(bool) onChanged;
 
   DaysCard({
     super.key,
@@ -99,10 +99,10 @@ class _DaysCardState extends State<DaysCard> {
               value: widget.initialValue,
               activeColor: Colors.blueAccent,
               onChanged: (bool value) {
-                debugPrint("$value");
+                debugPrint("days $value");
                 // controller.updateWeekdaysStatusUI(widget.index, value);
+                widget.onChanged(value);
                 updateCard(value);
-                widget.onChanged;
               },
             ),
           ],

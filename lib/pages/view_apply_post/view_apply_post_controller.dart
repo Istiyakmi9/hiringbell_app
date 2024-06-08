@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/api_response.dart';
 import 'package:hiringbell/models/post_job.dart';
@@ -34,7 +35,8 @@ class ViewPostController extends GetxController {
   Future<void> applyForJob() async {
     isApplying(true);
 
-    ApiResponse? response = await http.httpPost("core/userposts/addAppliedPost", {
+    ApiResponse? response =
+        await http.httpPost("core/userposts/addAppliedPost", {
       "userPostId": postsDetail!.userPostId,
     });
 
@@ -56,9 +58,13 @@ class ViewPostController extends GetxController {
     if (response != null) {
       postsDetail = JobPost.fromJson(response);
       var userDetail = util.getUserDetail();
-      if(postsDetail!.jobAppliedOn != null || postsDetail!.postedBy == userDetail.userId) {
+      if (postsDetail!.jobAppliedOn != null ||
+          postsDetail!.postedBy == userDetail.userId) {
         jobStatusTrigger.value = true;
       }
+
+      debugPrint(
+          'job posted on: ${postsDetail!.jobAppliedOn} for short Desc: ${postsDetail?.shortDescription}');
 
       isLoading(false);
     } else {

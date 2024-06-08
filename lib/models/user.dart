@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:hiringbell/models/constants.dart';
 import 'package:jiffy/jiffy.dart';

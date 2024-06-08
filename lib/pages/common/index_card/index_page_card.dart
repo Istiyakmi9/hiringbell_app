@@ -5,18 +5,20 @@ import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/posts.dart';
 import 'package:hiringbell/pages/comments/comments_page.dart';
 import 'package:hiringbell/pages/common/index_card/image_viewer.dart';
+import 'package:hiringbell/pages/create_job/job_post_page.dart';
 import 'package:hiringbell/pages/home/home_controller.dart';
 import 'package:hiringbell/pages/view_apply_post/view_apply_post_detail.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../create_job/job_post_edit_page.dart';
 import '../../home/widgets/image_carousel.dart';
+import 'package:like_button/like_button.dart';
 
 class IndexPageCard extends StatefulWidget {
   final Posts jobPost;
   final bool isOwnPosts;
-  const IndexPageCard({super.key, required this.jobPost, this.isOwnPosts = false});
+  const IndexPageCard(
+      {super.key, required this.jobPost, this.isOwnPosts = false});
 
   @override
   State<IndexPageCard> createState() => _IndexPageCardState();
@@ -41,6 +43,22 @@ class _IndexPageCardState extends State<IndexPageCard> {
       setState(() {
         posts = posts;
       });
+    }
+  }
+
+  void editPost(String value) async {
+    if (value == 'edit') {
+      var result = await Get.to(JobPostPage(existingPost: posts));
+
+      if (result is Posts) {
+        result.isLiked = posts.isLiked;
+        result.profileImage = posts.profileImage;
+        result.appliedOn = posts.appliedOn;
+        setState(() {
+          posts = result;
+        });
+        return;
+      }
     }
   }
 
@@ -110,20 +128,22 @@ class _IndexPageCardState extends State<IndexPageCard> {
                       )
                     ],
                   )
-                : PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert),
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(
-                        value: 'edit',
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit),
-                            SizedBox(width: 5),
-                            Text('Edit')
-                          ],
-                        ),
-                      ),
-                      /*const PopupMenuItem(
+                : !widget.isOwnPosts
+                    ? const SizedBox()
+                    : PopupMenuButton<String>(
+                        icon: const Icon(Icons.more_vert),
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Row(
+                              children: [
+                                Icon(Icons.edit),
+                                SizedBox(width: 5),
+                                Text('Edit')
+                              ],
+                            ),
+                          ),
+                          /*const PopupMenuItem(
                         value: 'delete',
                         child: Row(
                           children: [
@@ -133,15 +153,9 @@ class _IndexPageCardState extends State<IndexPageCard> {
                           ],
                         ),
                       ),*/
-                    ],
-                    onSelected: (String value) {
-                      if (value == 'edit') {
-                        Get.to(
-                          JobPostEditPage(existingPost: posts),
-                        );
-                      }
-                    },
-                  ),
+                        ],
+                        onSelected: editPost,
+                      ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -261,6 +275,43 @@ class _IndexPageCardState extends State<IndexPageCard> {
                     ],
                   ),
                 ),*/
+                LikeButton(
+                  onTap: (isLiked) async {
+                    print('IsLiked button called $isLiked');
+                    if (!isLiked) {
+                      var res = await controller.addLikePost(posts);
+                      print('res of addLikedPost $res');
+                      if (res) {
+                        posts.isLiked = true;
+                        return true;
+                      }
+                    }
+                    return true;
+                  },
+                  // isLiked: home.posts.value[index].isLiked,
+                  // isLiked: postCtrl.isLiked.value,
+                  isLiked: posts.isLiked,
+                  likeCount: 0,
+                  countPostion: CountPostion.bottom,
+                  countBuilder: (likeCount, isLiked, text) {
+                    return Transform.translate(
+                      offset: const Offset(0, -5),
+                      child: Text(isLiked ? "Liked" : "Like",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54)),
+                    );
+                  },
+                  likeBuilder: (isTapped) {
+                    // print('IsLiked value: ');
+                    // print(home.posts.value[index].isLiked);
+                    return Icon(
+                      Icons.thumb_up,
+                      size: 18,
+                      color: isTapped ? Colors.blue : Colors.grey,
+                    );
+                  },
+                ),
                 IconButton(
                   onPressed: () async {
                     await Share.share("https://www.hiringbell.com");
@@ -309,7 +360,9 @@ class _IndexPageCardState extends State<IndexPageCard> {
                 ),
                 IconButton(
                   onPressed: applyForJob,
-                  icon: posts.appliedOn != null || widget.isOwnPosts
+                  icon: posts.appliedOn != null ||
+                          widget.isOwnPosts ||
+                          util.getUserDetail().userId == posts.postedBy
                       ? const Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

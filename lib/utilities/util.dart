@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/models/constants.dart';
 import 'package:hiringbell/models/user.dart';
@@ -137,17 +138,24 @@ class Util {
         break;
     }
 
-    Get.snackbar(
-      type,
-      message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: color,
-      colorText: textColor,
-      maxWidth: 350,
-      margin: const EdgeInsets.only(
-        bottom: 10,
-      ),
-    );
+    // Get.snackbar(
+    //   type,
+    //   message,
+    //   snackPosition: SnackPosition.BOTTOM,
+    //   backgroundColor: color,
+    //   colorText: textColor,
+    //   maxWidth: 350,
+    //   margin: const EdgeInsets.only(
+    //     bottom: 10,
+    //   ),
+    // );
+
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: type == Constants.success ? Colors.green : Colors.red,
+        textColor: Colors.white);
   }
 
   String? getImagePath(String? relativePath) {
@@ -156,6 +164,19 @@ class Util {
       absolutePath = "${http.getImageBaseUrl}$relativePath";
     }
     return absolutePath;
+  }
+
+  static List<int> genSequence(int from, int to) {
+    if (from > to) {
+      throw ArgumentError('From cannot be greater than to.');
+    }
+    return List<int>.generate(to - from + 1, (i) => from + i);
+  }
+
+  void removeCachedImage(String? imageUrl) {
+    var url = getImagePath(imageUrl);
+    if (url == null) return;
+    CachedNetworkImage.evictFromCache(url);
   }
 
   Widget getCachedImageFromUrl(String? imageUrl) {
@@ -189,17 +210,21 @@ class Util {
             ),
           ),
         ),
-        errorWidget: (context, url, error) => Image.asset('assets/user.png'),
+        errorWidget: (context, url, error) => errorImageWidget(),
       );
     } catch (e) {
-      return Image.asset('assets/user.png');
+      return errorImageWidget();
     }
   }
 
+  Image errorImageWidget() {
+    return Image.asset("assets/user.png");
+  }
+
   Image getImage(String? imageUrl) {
-    Image image = Image.asset("assets/user.png");
+    Image image;
     if (imageUrl == null || imageUrl == "") {
-      return image;
+      return errorImageWidget();
     }
 
     try {
@@ -207,7 +232,7 @@ class Util {
         imageUrl,
         fit: BoxFit.fill,
         errorBuilder: (context, _, stack) {
-          return Image.asset("assets/user.png");
+          return errorImageWidget();
         },
         loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent? loadingProgress) {
@@ -223,7 +248,7 @@ class Util {
         },
       );
     } catch (e) {
-      image = Image.asset("assets/user.png");
+      image = errorImageWidget();
       debugPrint('Fail to load image');
     }
 
