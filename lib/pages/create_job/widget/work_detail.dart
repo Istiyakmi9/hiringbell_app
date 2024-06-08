@@ -329,8 +329,10 @@ class WorkDetail extends GetView<JobPostController> {
                       label: controller.days[index].text,
                       index: index + 1,
                       initialValue: controller.getWeekdaysStatus(index + 1),
-                      onChanged: (status) =>
-                          controller.updateWeekdaysStatusUI(index + 1, status),
+                      onChanged: (status) {
+                        debugPrint('days updateWeekdaysStatusUI  called');
+                        controller.updateWeekdaysStatusUI(index + 1, status);
+                      },
                     );
                   },
                 ),

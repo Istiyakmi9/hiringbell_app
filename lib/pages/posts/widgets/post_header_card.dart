@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/posts/posts_controller.dart';
+import 'package:jiffy/jiffy.dart';
 
 class PostHeaderCard extends StatelessWidget {
   PostHeaderCard({super.key});
@@ -10,6 +11,7 @@ class PostHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = controller.util?.getUserDetail();
     return Container(
       color: Colors.white,
       margin: const EdgeInsets.only(
@@ -28,24 +30,25 @@ class PostHeaderCard extends StatelessWidget {
           ),
           // Profile information widgets go here
           const SizedBox(height: 10.0),
-          const Text(
-            "John Doe",
-            style: TextStyle(
+          Text(
+            "${currentUser?.firstName} ${currentUser?.lastName}",
+            style: const TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text("Software Engineer"),
+          Text(
+              "Since ${Jiffy.parse(currentUser?.createdOn.toString() ?? "").format(pattern: "dd MMM, yyyy")}"),
           const SizedBox(height: 10.0),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.location_on),
-                    Text("New York, USA"),
+                    const Icon(Icons.location_on),
+                    Text(currentUser?.address ?? "N/A"),
                   ],
                 ),
               ),
@@ -53,15 +56,15 @@ class PostHeaderCard extends StatelessWidget {
                 width: 120,
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
+                    padding: WidgetStateProperty.all<EdgeInsets>(
                       const EdgeInsets.symmetric(
                         vertical: 10,
                       ),
                     ),
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).colorScheme.primary,
                     ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15)),

@@ -56,6 +56,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   shimmer: ^3.0.0
   google_sign_in: ^6.2.1
+  like_button: ^2.0.5
   share_plus: ^9.0.0
 
 dev_dependencies:

@@ -173,7 +173,7 @@ class UploadFiles extends GetView<JobPostController> {
                                             onTap: () {
                                               controller.removeServerImage(
                                                   controller.serverImages
-                                                      .value[index].filePath);
+                                                      .value[index]);
                                               Fluttertoast.showToast(
                                                   msg: "Image removed");
                                             },

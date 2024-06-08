@@ -130,6 +130,7 @@ class SalaryDetail extends GetView<JobPostController> {
                               prefixIcon: Icons.currency_rupee,
                               hintText: "0.0",
                               initialValue: controller.jobPost.bonus.toString(),
+                              isEmptyValidation: false,
                               onChanged: (value) {
                                 controller.jobPost.bonus = double.parse(value);
                               },
@@ -149,7 +150,7 @@ class SalaryDetail extends GetView<JobPostController> {
                               keyboardType: TextInputType.number,
                               prefixIcon: Icons.currency_rupee,
                               hintText: "0.0",
-                              // initialValue: controller.jobPost.s.toString(),
+                              isEmptyValidation: false,
                               onChanged: (value) {
                                 // controller.jobPost. = double.parse(value);
                               },
@@ -215,6 +216,7 @@ class SalaryDetail extends GetView<JobPostController> {
                                   initialValue: controller
                                       .jobPost.hRAAllowanceAmount
                                       .toString(),
+                                  isEmptyValidation: false,
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       controller.jobPost.hRAAllowanceAmount =
@@ -273,6 +275,7 @@ class SalaryDetail extends GetView<JobPostController> {
                                   initialValue: controller
                                       .jobPost.travelAllowanceAmount
                                       .toString(),
+                                  isEmptyValidation: false,
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       controller.jobPost.travelAllowanceAmount =
@@ -332,6 +335,7 @@ class SalaryDetail extends GetView<JobPostController> {
                                   initialValue: controller
                                       .jobPost.foodAllowanceAmount
                                       .toString(),
+                                  isEmptyValidation: false,
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       controller.jobPost.foodAllowanceAmount =

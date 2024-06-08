@@ -30,8 +30,8 @@ class _ViewApplyPostDetailState extends State<ViewApplyPostDetail> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (canPop) async {
-        if(canPop) {
+      onPopInvokedWithResult: (canPop, result) async {
+        if (canPop) {
           home.setAppliedExecutedState(controller.jobStatus);
         }
       },
@@ -51,9 +51,7 @@ class _ViewApplyPostDetailState extends State<ViewApplyPostDetail> {
                   : Column(
                       children: [
                         Expanded(
-                          flex: controller.jobStatusTrigger.value
-                              ? 9
-                              : 10,
+                          flex: controller.jobStatusTrigger.value ? 9 : 10,
                           child: const SingleChildScrollView(
                             child: PostDetail(),
                           ),

@@ -19,7 +19,7 @@ class HttpService extends GetConnect {
   String? _token;
 
   HttpService._internal() {
-    _initialized(isProdMode: true);
+    _initialized(isProdMode: false);
   }
 
   String get token => _token ?? "";
@@ -29,8 +29,9 @@ class HttpService extends GetConnect {
   }
 
   void _initialized({bool isProdMode = true}) {
-    String url =
-    isProdMode ? "https://www.hiringbell.com/" : "http://192.168.1.100:8090/";
+    String url = isProdMode
+        ? "https://www.hiringbell.com/"
+        : "http://192.168.1.100:8090/";
 
     setBaseUrl(
       baseUrl: "${url}hb/api/",

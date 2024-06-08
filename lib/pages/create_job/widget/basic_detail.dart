@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:hiringbell/models/country.dart';
 import 'package:hiringbell/models/job_type.dart';
 import 'package:hiringbell/models/key_value_items.dart';
+import 'package:hiringbell/pages/common/bt_single_select/bt_single_select_with_title.dart';
 import 'package:hiringbell/pages/common/bt_text_form_field/bt_text_form_field.dart';
+import 'package:hiringbell/pages/common/bt_text_form_field/bt_text_form_field_with_title.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 import 'package:hiringbell/pages/create_job/job_post_controller.dart';
+import 'package:hiringbell/pages/create_job/widget/form_card.dart';
 
 import '../../common/bt_single_select/bt_single_select.dart';
 
@@ -13,6 +16,49 @@ class BasicDetail extends GetView<JobPostController> {
   const BasicDetail({super.key});
   @override
   Widget build(BuildContext context) {
+    return FormCard(
+      title: "Post Basic Information",
+      children: [
+        BTTextFormFieldWithLabel(
+          label: "Job Title",
+          hintText: "Enter Job Title",
+          initialValue: controller.jobPost.shortDescription,
+          onChanged: (value) {
+            controller.jobPost.shortDescription = value;
+          },
+        ),
+        BTTextFormFieldWithLabel(
+          label: "Description",
+          maxLines: null,
+          minLines: 4,
+          keyboardType: TextInputType.multiline,
+          hintText: "Enter Description",
+          initialValue: controller.jobPost.completeDescription,
+          onChanged: (value) {
+            controller.jobPost.completeDescription = value;
+          },
+        ),
+        BtSingleSelectWithTitle(
+          label: "Job Type",
+          hintText: "Select Job Type",
+          items: controller.listJobType,
+          initSelectionCriteria: (c) =>
+              c.jobTypeId == controller.jobPost.jobTypeId,
+          onChanged: (jobType) {
+            controller.jobPost.jobTypeId = jobType.jobTypeId;
+          },
+        ),
+        BtSingleSelectWithTitle(
+          label: "Country",
+          hintText: "Select country",
+          items: controller.listCountry,
+          initSelectionCriteria: (c) => c.id == controller.jobPost.countryId,
+          onChanged: (country) {
+            controller.jobPost.countryId = country.id;
+          },
+        ),
+      ],
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,6 +11,8 @@ class BTTextFormField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final IconData? prefixIcon;
+  final bool isEmptyValidation;
+  final String? emptyMessage;
 
   BTTextFormField({
     super.key,
@@ -22,6 +24,8 @@ class BTTextFormField extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.prefixIcon,
+    this.isEmptyValidation = true,
+    this.emptyMessage,
   });
 
   @override
@@ -55,7 +59,16 @@ class BTTextFormField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       initialValue: FormUtil.isEdit ? initialValue : null,
       onChanged: onChanged,
-      validator: validator,
+      validator: (value) {
+        if (isEmptyValidation && (value == null || value.isEmpty)) {
+          return emptyMessage ?? "Please $hintText";
+        }
+
+        if (validator != null) {
+          isEmptyValidation ? validator!(value!) : validator!(value);
+        }
+        return null;
+      },
       minLines: minLines,
       maxLines: maxLines,
     );
