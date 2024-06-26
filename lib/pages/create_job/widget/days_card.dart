@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hiringbell/pages/common/bordered_card/fancy_card.dart';
-import 'package:hiringbell/pages/create_job/job_post_controller.dart';
 
 class DaysCard extends StatefulWidget {
   final String label;

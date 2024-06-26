@@ -11,7 +11,7 @@ import 'package:hiringbell/models/job_type.dart';
 import 'package:hiringbell/models/key_value_items.dart';
 import 'package:hiringbell/models/post_job.dart';
 import 'package:hiringbell/models/posts.dart';
-import 'package:hiringbell/pages/common/bt_single_select/form_util.dart';
+import 'package:hiringbell/pages/common/bt_select/form_util.dart';
 import 'package:hiringbell/utilities/Util.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -65,8 +65,8 @@ class JobPostController extends GetxController {
   List<int> listMaxAge = Util.genSequence(18, 45);
   List<int> listOverTime = Util.genSequence(0, 10);
   List<int> listDailyWorkingHours = Util.genSequence(1, 12);
-  List<int> listExperience = Util.genSequence(0, 15);
-  List<int> listMonths = Util.genSequence(0, 13);
+  List<int> listExperience = Util.genSequence(0, 25);
+  List<int> listMonths = Util.genSequence(0, 12);
 
   JobPost jobPost = JobPost.noArg();
   int? jobPostId_;
@@ -230,6 +230,7 @@ class JobPostController extends GetxController {
     bool flag = formKey.currentState!.validate();
     if (!flag) {
       util.showToast("Invalid form", type: Constants.fail);
+      isSubmitted.value = false;
       return;
     }
 
@@ -305,16 +306,16 @@ class JobPostController extends GetxController {
 
   updateFormData() {
     Posts passingPost;
-    List<FileDetail> UpdatedFiles = [];
+    List<FileDetail> updatedFiles = [];
     http
         .upload("core/userposts/updateUserPostsMobile", pickedImages.value,
             JobPost.toJson(jobPost))
         .then((value) => {
               if (value != null)
                 {
-                  UpdatedFiles = JobPost.convertToList(value["files"]),
+                  updatedFiles = JobPost.convertToList(value["files"]),
                   passingPost = Posts(
-                    files: UpdatedFiles, postedBy: jobPost.postedBy,
+                    files: updatedFiles, postedBy: jobPost.postedBy,
                     shortDescription: jobPost.shortDescription,
                     completeDescription: jobPost.completeDescription,
                     fullName: jobPost.fullName,

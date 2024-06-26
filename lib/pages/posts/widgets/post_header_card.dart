@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hiringbell/pages/posts/posts_controller.dart';
+import 'package:hiringbell/pages/registration/client_registration_page.dart';
+import 'package:hiringbell/utilities/util.dart';
 import 'package:jiffy/jiffy.dart';
 
 class PostHeaderCard extends StatelessWidget {
@@ -90,8 +92,64 @@ class PostHeaderCard extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 10),
+          GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              mainAxisSpacing: 15,
+              crossAxisSpacing: 15,
+              childAspectRatio: 3 / 0.8,
+              children: const [
+                UserRegButton(
+                  roleName: "Client",
+                  isJobSeeker: true,
+                ),
+                UserRegButton(
+                  roleName: "Client",
+                  isJobSeeker: true,
+                  userId: 29,
+                ),
+                UserRegButton(
+                  roleName: "Agent",
+                ),
+                UserRegButton(
+                  roleName: "Agent",
+                  userId: 28,
+                ),
+              ]),
         ],
       ),
     );
+  }
+}
+
+class UserRegButton extends StatelessWidget {
+  final int userId;
+  final bool isJobSeeker;
+  final String roleName;
+  const UserRegButton({
+    super.key,
+    this.userId = 0,
+    this.isJobSeeker = false,
+    required this.roleName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(
+              userId > 0 ? Colors.amberAccent : Colors.blue),
+          foregroundColor:
+              WidgetStatePropertyAll(userId > 0 ? Colors.black : Colors.white),
+        ),
+        onPressed: () {
+          Get.to(ClientRegistrationForm(
+            userId: userId,
+            isJobSeeker: isJobSeeker,
+            label: "$roleName Registration ${userId > 0 ? "Edit" : ""}",
+          ));
+        },
+        child: Text("$roleName Reg. ${userId > 0 ? "Edit" : ""}"));
   }
 }

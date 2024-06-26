@@ -151,11 +151,12 @@ class Util {
     // );
 
     Fluttertoast.showToast(
+        timeInSecForIosWeb: 3,
         msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: type == Constants.success ? Colors.green : Colors.red,
-        textColor: Colors.white);
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: color,
+        textColor: textColor);
   }
 
   String? getImagePath(String? relativePath) {

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
 import '../imulti_select/imulti_select_dropdown.dart';
-import 'form_util.dart'; // For firstWhereOrNull
+// For firstWhereOrNull
 
-class BTSingleSelect<T> extends StatelessWidget {
+class BtMultiSelect<T> extends StatelessWidget {
   final String hintText;
   final List<T> items;
-  final void Function(T)? onChanged;
+  final void Function(List<T>)? onChanged;
   final IMultiSelectDropdownDecoration? decoration;
-  final bool Function(T)? initSelectionCriteria;
-  final String? Function(T?)? validator;
+  // final bool Function(List<T>)? initSelectionCriteria;
+  final List<T>? initialItems;
+  final String? Function(List<T>)? validator;
   final bool isEmptyValidation;
   final String? emptyMessage;
 
-  const BTSingleSelect(
+  const BtMultiSelect(
       {super.key,
       required this.hintText,
       required this.items,
       this.onChanged,
-      this.initSelectionCriteria,
+      this.initialItems,
       this.decoration,
       this.validator,
       this.isEmptyValidation = true,
@@ -27,26 +27,22 @@ class BTSingleSelect<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    T? autoInitialItem = !FormUtil.isEdit || initSelectionCriteria == null
-        ? null
-        : items.firstWhereOrNull(initSelectionCriteria!);
-
-    return IMultiSelectDropdown<T>.search(
-      initialItem: autoInitialItem,
+    return IMultiSelectDropdown<T>.multiSelectSearch(
+      initialItems: initialItems,
       hintText: hintText,
       items: items,
       decoration: decoration ??
           IMultiSelectDropdownDecoration(
             closedFillColor: Colors.grey.shade50,
           ),
-      onChanged: onChanged,
-      validator: (value) {
-        if (isEmptyValidation && value == null) {
-          return emptyMessage ?? "select $hintText";
+      onListChanged: onChanged,
+      listValidator: (value) {
+        if (isEmptyValidation && value.isEmpty) {
+          return emptyMessage ?? "select at least one $hintText";
         }
 
         if (validator != null) {
-          validator!(value);
+          return validator!(value);
         }
         return null;
       },
