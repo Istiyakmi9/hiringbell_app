@@ -28,7 +28,7 @@ class _IndexPageCardState extends State<IndexPageCard> {
   final Util util = Util.getInstance();
   late Posts posts;
   final controller = Get.put(HomeController());
-
+  int imageIndex = 0;
   @override
   initState() {
     super.initState();
@@ -216,13 +216,13 @@ class _IndexPageCardState extends State<IndexPageCard> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    _showImageOverlay(controller.getImageUrl(posts.files));
+                    _showImageOverlay(controller.getImageUrl(posts.files[0]));
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * .30,
                     width: MediaQuery.of(context).size.width,
                     child: util
-                        .getCachedImage(controller.getImageUrl(posts.files)),
+                        .getCachedImage(controller.getImageUrl(posts.files[0])),
                   ),
                 ),
               ),
@@ -230,11 +230,13 @@ class _IndexPageCardState extends State<IndexPageCard> {
           else
             InkWell(
               onTap: () {
-                _showImageOverlay(controller.getImageUrl(posts.files));
+                _showImageOverlay(
+                    controller.getImageUrl(posts.files[imageIndex]));
               },
               child: Center(
                 child: ImageCarousel(
                   images: posts.files,
+                  onChanged: (index) => imageIndex = index,
                 ),
               ),
             ),
@@ -275,43 +277,36 @@ class _IndexPageCardState extends State<IndexPageCard> {
                     ],
                   ),
                 ),*/
-                LikeButton(
-                  onTap: (isLiked) async {
-                    print('IsLiked button called $isLiked');
-                    if (!isLiked) {
-                      var res = await controller.addLikePost(posts);
-                      print('res of addLikedPost $res');
-                      if (res) {
-                        posts.isLiked = true;
-                        return true;
-                      }
-                    }
-                    return true;
-                  },
-                  // isLiked: home.posts.value[index].isLiked,
-                  // isLiked: postCtrl.isLiked.value,
-                  isLiked: posts.isLiked,
-                  likeCount: 0,
-                  countPostion: CountPostion.bottom,
-                  countBuilder: (likeCount, isLiked, text) {
-                    return Transform.translate(
-                      offset: const Offset(0, -5),
-                      child: Text(isLiked ? "Liked" : "Like",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black54)),
-                    );
-                  },
-                  likeBuilder: (isTapped) {
-                    // print('IsLiked value: ');
-                    // print(home.posts.value[index].isLiked);
-                    return Icon(
-                      Icons.thumb_up,
-                      size: 18,
-                      color: isTapped ? Colors.blue : Colors.grey,
-                    );
-                  },
-                ),
+                if (util.getUserDetail().userId != posts.postedBy)
+                  LikeButton(
+                    onTap: (isLiked) async {
+                      bool success = await (isLiked
+                          ? controller.removeLikedPost(posts)
+                          : controller.addLikePost(posts));
+                      if (!success) return !isLiked;
+                      posts.isLiked = isLiked;
+                      return isLiked;
+                    },
+                    isLiked: posts.isLiked,
+                    likeCount: 0,
+                    countPostion: CountPostion.bottom,
+                    countBuilder: (likeCount, isLiked, text) {
+                      return Transform.translate(
+                        offset: const Offset(0, -5),
+                        child: Text(isLiked ? "Liked" : "Like",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54)),
+                      );
+                    },
+                    likeBuilder: (isTapped) {
+                      return Icon(
+                        Icons.thumb_up,
+                        size: 18,
+                        color: isTapped ? Colors.blue : Colors.grey,
+                      );
+                    },
+                  ),
                 IconButton(
                   onPressed: () async {
                     await Share.share("https://www.hiringbell.com");

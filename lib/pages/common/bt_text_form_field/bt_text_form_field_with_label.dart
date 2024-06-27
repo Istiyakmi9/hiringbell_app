@@ -5,8 +5,8 @@ import 'bt_text_form_field.dart';
 class BTTextFormFieldWithLabel extends StatelessWidget {
   final String label;
   final String? hintText;
-  String? initialValue;
-  final TextInputType keyboardType;
+  final String? initialValue;
+  final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
   final int? minLines;
@@ -14,12 +14,14 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
   final IconData? prefixIcon;
   final bool isEmptyValidation;
   final String? emptyMessage;
+  final bool obscureText;
+  final TextEditingController? controller;
 
-  BTTextFormFieldWithLabel({
+  const BTTextFormFieldWithLabel({
     super.key,
     this.hintText,
     this.initialValue,
-    this.keyboardType = TextInputType.text,
+    this.keyboardType,
     this.validator,
     this.onChanged,
     this.maxLines,
@@ -28,6 +30,8 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
     this.isEmptyValidation = true,
     required this.label,
     this.emptyMessage,
+    this.obscureText = false,
+    this.controller,
   });
 
   factory BTTextFormFieldWithLabel.currency({
@@ -37,6 +41,7 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
     final bool? isEmptyValidation,
     required final String label,
     final String? emptyMessage,
+    final TextEditingController? controller,
   }) {
     return BTTextFormFieldWithLabel(
       label: label,
@@ -48,6 +53,7 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
       prefixIcon: Icons.currency_rupee,
       onChanged: onChanged,
       validator: validator,
+      controller: controller,
     );
   }
 
@@ -58,6 +64,7 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
       children: [
         Text(label),
         BTTextFormField(
+          controller: controller,
           hintText: hintText ?? "Enter $label",
           initialValue: initialValue,
           onChanged: onChanged,
@@ -68,6 +75,7 @@ class BTTextFormFieldWithLabel extends StatelessWidget {
           maxLines: maxLines,
           minLines: minLines,
           prefixIcon: prefixIcon,
+          obscureText: obscureText,
         ),
         const SizedBox(height: 2)
       ],

@@ -1,7 +1,7 @@
 import 'package:hiringbell/models/constants.dart';
 
-class KeyValuePair {
-  int value = 0;
+class KeyValuePair<T> {
+  T value;
   String text = Constants.empty;
 
   KeyValuePair({required this.value, required this.text});

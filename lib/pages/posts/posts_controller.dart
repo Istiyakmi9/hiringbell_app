@@ -55,6 +55,8 @@ class PostsController extends GetxController {
   Future<void> loadHomePage() async {
     isHomepageReady(false);
 
+    var user = util?.getUserDetail();
+    var userId = user?.userId;
     posts = RxList<Posts>();
     try {
       http.httpGet("core/userposts/getOwnPosts/${++pageIndex}").then((value) {

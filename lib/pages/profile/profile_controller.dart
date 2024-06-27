@@ -12,7 +12,6 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     Util util = Util.getInstance();
     user = util.getUserDetail();

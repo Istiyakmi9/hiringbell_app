@@ -45,7 +45,7 @@ class LoginController extends GetxController {
       try {
         http.login("oauth/authenticate", {
           "password": passwordController.text,
-          "email": usernameController.text,
+          "email": usernameController.text.trim(),
           "mobile": null,
         }).then((userData) {
           if (userData == Constants.success) {
@@ -134,7 +134,6 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     isSubmitted = false.obs;
     user = util.getUserDetail();

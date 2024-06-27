@@ -10,7 +10,7 @@ class JobPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var action = existingPost == null ? "Post" : "Edit";
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      // resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,

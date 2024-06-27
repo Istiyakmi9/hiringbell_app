@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:hiringbell/pages/common/bt_single_select/bt_single_select.dart';
+import 'package:hiringbell/pages/common/bt_select/bt_multi_select.dart';
 import 'package:hiringbell/pages/common/imulti_select/imulti_select_dropdown.dart';
 
-class BtSingleSelectWithTitle<T> extends StatelessWidget {
+class BtMultiSelectWithLabel<T> extends StatelessWidget {
   final String label;
   final String? hintText;
   final List<T> items;
-  final void Function(T)? onChanged;
+  final void Function(List<T>)? onChanged;
   final IMultiSelectDropdownDecoration? decoration;
-  final bool Function(T)? initSelectionCriteria;
-  final String? Function(T?)? validator;
+  final List<T>? initialItems;
+  final String? Function(List<T>)? validator;
   final bool isEmptyValidation;
   final String? emptyMessage;
 
-  const BtSingleSelectWithTitle({
+  const BtMultiSelectWithLabel({
     super.key,
     this.hintText,
     required this.items,
     this.onChanged,
-    this.initSelectionCriteria,
+    this.initialItems,
     this.decoration,
     this.validator,
     this.isEmptyValidation = true,
@@ -32,10 +32,10 @@ class BtSingleSelectWithTitle<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label),
-        BTSingleSelect(
+        BtMultiSelect(
           hintText: hintText ?? "Select $label",
           items: items,
-          initSelectionCriteria: initSelectionCriteria,
+          initialItems: initialItems,
           onChanged: onChanged,
           validator: validator,
           isEmptyValidation: isEmptyValidation,
