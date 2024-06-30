@@ -92,31 +92,31 @@ class PostHeaderCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 3 / 0.8,
-              children: const [
-                UserRegButton(
-                  roleName: "Client",
-                  isJobSeeker: true,
-                ),
-                UserRegButton(
-                  roleName: "Client",
-                  isJobSeeker: true,
-                  userId: 29,
-                ),
-                UserRegButton(
-                  roleName: "Agent",
-                ),
-                UserRegButton(
-                  roleName: "Agent",
-                  userId: 28,
-                ),
-              ]),
+          // const SizedBox(height: 10),
+          // GridView.count(
+          //     shrinkWrap: true,
+          //     crossAxisCount: 2,
+          //     mainAxisSpacing: 15,
+          //     crossAxisSpacing: 15,
+          //     childAspectRatio: 3 / 0.8,
+          //     children: const [
+          //       UserRegButton(
+          //         roleName: "Client",
+          //         isJobSeeker: true,
+          //       ),
+          //       UserRegButton(
+          //         roleName: "Client",
+          //         isJobSeeker: true,
+          //         userId: 29,
+          //       ),
+          //       UserRegButton(
+          //         roleName: "Agent",
+          //       ),
+          //       UserRegButton(
+          //         roleName: "Agent",
+          //         userId: 28,
+          //       ),
+          //     ]),
         ],
       ),
     );
