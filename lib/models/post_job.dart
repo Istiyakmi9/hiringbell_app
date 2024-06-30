@@ -49,6 +49,7 @@ class JobPost {
   int overseasExperience = 0;
   int localExperience = 0;
   DateTime? jobAppliedOn;
+  DateTime? jobSavedOn;
   bool? isMon;
   bool? isTue;
   bool? isThu;
@@ -120,6 +121,7 @@ class JobPost {
     this.countryName,
     this.currencyName,
     this.jobAppliedOn,
+    this.jobSavedOn,
     this.isMon,
     this.isTue,
     this.isThu,
@@ -285,6 +287,7 @@ class JobPost {
       countryName: json['countryName'],
       currencyName: json['currencyName'],
       jobAppliedOn: Util.toDateTime(json['jobAppliedOn']),
+      jobSavedOn: Util.toDateTime(json['jobSavedOn']),
       isMon: json['isMon'] ?? false,
       isTue: json['isTue'] ?? false,
       isThu: json['isThu'] ?? false,

@@ -14,9 +14,11 @@ class ViewPostController extends GetxController {
   JobPost? postsDetail;
   bool jobStatus = false;
   var jobStatusTrigger = false.obs;
+  var jobSavedStatusTrigger = false.obs;
 
   var isLoading = true.obs;
   var isApplying = false.obs;
+  var isJobSaving = false.obs;
 
   Future<void> onRefresh() async {}
 
@@ -52,6 +54,25 @@ class ViewPostController extends GetxController {
     }
   }
 
+  Future<void> saveForJob() async {
+    isJobSaving(true);
+
+    ApiResponse? response = await http.httpPost("core/userposts/addSavedPost", {
+      "userPostId": postsDetail!.userPostId,
+    });
+
+    if (response != null && response.responseBody == "success") {
+      postsDetail!.jobSavedOn = DateTime.now();
+      util.showToast("Job saved successfully");
+      // jobStatus = true;
+      jobSavedStatusTrigger.value = true;
+      isJobSaving(false);
+    } else {
+      util.showToast("Got some error. Fail to apply", type: Constants.fail);
+      isJobSaving(false);
+    }
+  }
+
   Future<void> loadPostDetail() async {
     var response = await http.httpGet("core/userposts/getPostByPostId/$postId");
 
@@ -61,6 +82,10 @@ class ViewPostController extends GetxController {
       if (postsDetail!.jobAppliedOn != null ||
           postsDetail!.postedBy == userDetail.userId) {
         jobStatusTrigger.value = true;
+      }
+
+      if (postsDetail!.jobSavedOn != null) {
+        jobSavedStatusTrigger.value = true;
       }
 
       debugPrint(
