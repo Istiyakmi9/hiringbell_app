@@ -202,8 +202,8 @@ class Util {
           ),
         ),
         imageBuilder: (context, imageProvider) => Container(
-          width: 150.0,
-          height: 150.0,
+          width: MediaQuery.of(context).size.width,
+          // height: 250.0,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: imageProvider,

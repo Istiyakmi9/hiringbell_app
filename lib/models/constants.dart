@@ -5,4 +5,5 @@ class Constants {
   static const String warning = "Warning";
   static const userDetail = "user";
   static const auth = "user";
+  static const isProduction = true;
 }
